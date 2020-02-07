@@ -5,6 +5,79 @@ output: html_notebook
 ---
 We are going to get data from 
 
+```{r}
+load("~/R/SPP/ALLHC.RData")
+```
+
 # ALLHC
+```{r}
+library(forecast)
+allhc <- ts(ALLHC[,2],
+          freq=365.25/7, start=2015+37/365.25)
+bestfit <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit <- auto.arima(allhc, xreg=fourier(allhc, K=i), seasonal=FALSE)
+  if(fit$aicc < bestfit$aicc)
+    bestfit <- fit
+  else break;
+}
+```
+
+```{r}
+plot(allhc)
+```
+
+
+
+
+```{r}
+summary(fit)
+```
+
+```{r}
+bestfit$coef
+```
+
+```{r}
+fc <- forecast(bestfit, xreg=fourier(allhc, K=1, h=200))
+plot(fc)
+```
+
+```{r}
+allhctbats <- tbats(allhc)
+fc2 <- forecast(allhctbats, h=10)
+plot(fc2, ylab="price")
+```
+
+```{r}
+plot(decompose(allhc))
+```
+
+```{r}
+Allhc<-allhc[1:262]
+P = abs(fft(Allhc)); Fr = 0:261
+plot(Fr, P, type="o", xlab="frequency", ylab="periodogram",ylim=c(0,700))
+```
+
+```{r}
+f<-abs(fft(Allhc))
+a<-which(f>20)
+b<-(a-1)*2
+b
+```
+
+```{r}
+t<-1:262
+x=y=matrix(nr=length(t),nc=25)
+x[,3]<-cos(12*pi*t/262)
+y[,3]<-sin(12*pi*t/262)
+mmm<-lm(Allhc~x[,3]+y[,3])
+plot(Allhc,type="l")
+lines(1:262,mmm$fitted.values,col="red")
+abline(h=0)
+```
+
+
 
 # FOOD
