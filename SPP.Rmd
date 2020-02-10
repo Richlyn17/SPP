@@ -6,53 +6,50 @@ output: html_notebook
 We are going to get data from 
 
 ```{r}
-load("~/R/SPP/ALLHC.RData")
+load("~/R/SPP/SPP.RData")
 ```
 
 # ALLHC
-```{r}
-library(forecast)
-allhc <- ts(ALLHC[,2],
-          freq=365.25/7, start=2015+37/365.25)
-bestfit <- list(aicc=Inf)
-for(i in 1:25)
-{
-  fit <- auto.arima(allhc, xreg=fourier(allhc, K=i), seasonal=FALSE)
-  if(fit$aicc < bestfit$aicc)
-    bestfit <- fit
-  else break;
-}
-```
 
 ```{r}
+allhc <- ts(ALLHC[,2], freq=365.25/7, start=2015+37/365.25)
 plot(allhc)
-```
-
-
-
-
-```{r}
-summary(fit)
-```
-
-```{r}
-bestfit$coef
-```
-
-```{r}
-fc <- forecast(bestfit, xreg=fourier(allhc, K=1, h=200))
-plot(fc)
-```
-
-```{r}
-allhctbats <- tbats(allhc)
-fc2 <- forecast(allhctbats, h=10)
-plot(fc2, ylab="price")
 ```
 
 ```{r}
 plot(decompose(allhc))
 ```
+
+
+```{r}
+library(forecast)
+bestfit_allhc <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_allhc <- auto.arima(allhc, xreg=fourier(allhc, K=i), seasonal=FALSE)
+  if(fit_allhc$aicc < bestfit_allhc$aicc)
+    bestfit_allhc <- fit_allhc
+  else break;
+}
+```
+
+
+```{r}
+summary(bestfit_allhc)
+```
+
+
+```{r}
+fc_allhc <- forecast(bestfit_allhc, xreg=fourier(allhc, K=1, h=200))
+plot(fc_allhc)
+```
+
+
+```{r}
+summary(fc_allhc)
+```
+
+## FSHA ALLHC
 
 ```{r}
 Allhc<-allhc[1:262]
@@ -78,9 +75,72 @@ lines(1:262,mmm$fitted.values,col="red")
 abline(h=0)
 ```
 
+# FOOD
 
 ```{r}
-summary(fc)
+food <- ts(FOOD[,2], freq=365.25/7, start=2015+37/365.25)
+plot(food)
 ```
 
-# FOOD
+```{r}
+plot(decompose(food))
+```
+
+```{r}
+bestfit_food <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_food <- auto.arima(food, xreg=fourier(food, K=i), seasonal=FALSE)
+  if(fit_food$aicc < bestfit_food$aicc)
+    bestfit_food <- fit_food
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_food)
+```
+
+```{r}
+fc_food <- forecast(bestfit_food, xreg=fourier(food, K=1, h=200))
+plot(fc_food)
+```
+
+```{r}
+summary(fc_food)
+```
+
+# SMC
+
+```{r}
+smc <- ts(SMC[,2], freq=365.25/7, start=2015+37/365.25)
+plot(smc)
+```
+
+```{r}
+plot(decompose(smc))
+```
+
+```{r}
+bestfit_smc <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_smc <- auto.arima(smc, xreg=fourier(smc, K=i), seasonal=FALSE)
+  if(fit_smc$aicc < bestfit_smc$aicc)
+    bestfit_smc <- fit_smc
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_smc)
+```
+
+```{r}
+fc_smc <- forecast(bestfit_smc, xreg=fourier(smc, K=1, h=200))
+plot(fc_smc)
+```
+
+```{r}
+summary(fc_smc)
+```
