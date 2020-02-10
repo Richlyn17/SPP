@@ -79,5 +79,8 @@ abline(h=0)
 ```
 
 
+```{r}
+summary(fc)
+```
 
 # FOOD
