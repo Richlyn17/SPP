@@ -67,9 +67,17 @@ b
 ```{r}
 t<-1:262
 x=y=matrix(nr=length(t),nc=25)
-x[,3]<-cos(12*pi*t/262)
-y[,3]<-sin(12*pi*t/262)
-mmm<-lm(Allhc~x[,3]+y[,3])
+x[,1]<-cos(2*pi*t/262)
+y[,1]<-sin(2*pi*t/262)
+x[,2]<-cos(4*pi*t/262)
+y[,2]<-sin(4*pi*t/262)
+x[,3]<-cos(6*pi*t/262)
+y[,3]<-sin(6*pi*t/262)
+x[,4]<-cos(8*pi*t/262)
+y[,4]<-sin(8*pi*t/262)
+x[,5]<-cos(12*pi*t/262)
+y[,5]<-sin(12*pi*t/262)
+mmm<-lm(Allhc~x[,1]+y[,1]+x[,2]+y[,2]+x[,3]+y[,3]+x[,4]+y[,4]+x[,5]+y[,5])
 plot(Allhc,type="l")
 lines(1:262,mmm$fitted.values,col="red")
 abline(h=0)
@@ -78,7 +86,7 @@ abline(h=0)
 # FOOD
 
 ```{r}
-food <- ts(FOOD[,2], freq=365.25/7, start=2015+37/365.25)
+food <- ts(FOOD[,2], freq=365.25/7, start=2015+44/365.25)
 plot(food)
 ```
 
@@ -113,7 +121,7 @@ summary(fc_food)
 # SMC
 
 ```{r}
-smc <- ts(SMC[,2], freq=365.25/7, start=2015+37/365.25)
+smc <- ts(SMC[,2], freq=365.25/7, start=2015+44/365.25)
 plot(smc)
 ```
 
