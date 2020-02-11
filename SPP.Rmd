@@ -49,7 +49,7 @@ plot(fc_allhc)
 summary(fc_allhc)
 ```
 
-## FSHA ALLHC
+# FSHA ALLHC
 
 ```{r}
 Allhc<-allhc[1:262]
@@ -152,3 +152,21 @@ plot(fc_smc)
 ```{r}
 summary(fc_smc)
 ```
+
+```{r}
+fit_smc5 <- auto.arima(smc, xreg=fourier(smc, K=5), seasonal=FALSE)
+```
+
+```{r}
+fc_smc5 <- forecast(fit_smc5, xreg=fourier(smc, K=5, h=200))
+plot(fc_smc5)
+```
+
+```{r}
+AIC(fit_smc5)
+```
+
+```{r}
+plot(c(AIC(fit_smc),AIC(fit_smc2),AIC(fit_smc3),AIC(fit_smc4),AIC(fit_smc5),AIC(fit_smc6),AIC(fit_smc7),AIC(fit_smc8)))
+```
+
