@@ -56,6 +56,11 @@ plot(aics)
 ```
 
 ```{r}
-fc_allhc7 <- forecast(fit_allhc7, xreg=fourier(allhc, K=7, h=200))
-plot(fc_allhc7)
+fc_allhc3 <- forecast(fit_allhc3, xreg=fourier(allhc, K=3, h=200))
+plot(fc_allhc3)
 ```
+
+```{r}
+plot(fc_allhc3)
+```
+
