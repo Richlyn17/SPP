@@ -61,11 +61,10 @@ plot(aics)
 ```
 
 ```{r}
-fc_plc7 <- forecast(fit_plc7, xreg=fourier(plc, K=7, h=200))
+fc_plc7 <- forecast(fit_plc7, xreg=fourier(plc, K=7, h=105))
 plot(fc_plc7)
 ```
 
 ```{r}
-plot(fc_allhc3)
+plot(forecast(plc))
 ```
-

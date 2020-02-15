@@ -14,6 +14,7 @@ load("~/R/SPP/SPP.RData")
 ```{r}
 allhc <- ts(ALLHC[,2], freq=365.25/7, start=2015+37/365.25)
 plot(allhc)
+acf(allhc)
 ```
 
 ```{r}
@@ -77,17 +78,75 @@ x[,4]<-cos(8*pi*t/262)
 y[,4]<-sin(8*pi*t/262)
 x[,5]<-cos(12*pi*t/262)
 y[,5]<-sin(12*pi*t/262)
-mmm<-lm(Allhc~x[,1]+y[,1]+x[,2]+y[,2]+x[,3]+y[,3]+x[,4]+y[,4]+x[,5]+y[,5])
+```
+
+```{r}
+mmm<-lm(Allhc~x[,4]+y[,4])
 plot(Allhc,type="l")
 lines(1:262,mmm$fitted.values,col="red")
-abline(h=0)
 ```
+
+```{r}
+summary(mmm)
+```
+
+
+```{r}
+allhcdummy<-allhc[150:262]
+allhcdummy<-c(allhcdummy,2*allhcdummy,3*allhcdummy,3.5*allhcdummy,4*allhcdummy,4.2*allhcdummy)
+```
+
+```{r}
+allhcdummy <- ts(allhcdummy, freq=365.25/7, start=2015+342/365.25)
+plot(allhcdummy)
+```
+
+```{r}
+library(forecast)
+bestfit_allhcd <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_allhcd <- auto.arima(allhcdummy, xreg=fourier(allhcdummy, K=i), seasonal=FALSE)
+  if(fit_allhcd$aicc < bestfit_allhcd$aicc)
+    bestfit_allhcd <- fit_allhcd
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_allhcd)
+```
+
+```{r}
+fc_allhcd <- forecast(bestfit_allhcd, xreg=fourier(allhcdummy, K=1, h=200))
+plot(fc_allhcd)
+```
+
+```{r}
+plot(decompose(allhcdummy))
+```
+
+
+```{r}
+fit_allhcd24 <- auto.arima(allhcdummy, xreg=fourier(allhcdummy, K=24), seasonal=FALSE)
+```
+
+```{r}
+fc_allhcd24 <- forecast(fit_allhcd24, xreg=fourier(allhcdummy, K=24, h=200))
+plot(fc_allhcd24)
+```
+
+```{r}
+plot(forecast(allhcdummy))
+```
+
 
 # FOOD
 
 ```{r}
-food <- ts(FOOD[,2], freq=365.25/7, start=2015+44/365.25)
+food <- ts(FOOD[,2], freq=(365.25/7), start=2015+44/365.25)
 plot(food)
+acf(food)
 ```
 
 ```{r}
@@ -110,7 +169,7 @@ summary(bestfit_food)
 ```
 
 ```{r}
-fc_food <- forecast(bestfit_food, xreg=fourier(food, K=1, h=200))
+fc_food <- forecast(bestfit_food, xreg=fourier(food, K=1, h=105))
 plot(fc_food)
 ```
 
@@ -118,11 +177,17 @@ plot(fc_food)
 summary(fc_food)
 ```
 
+```{r}
+plot(forecast(food))
+```
+
+
 # SMC
 
 ```{r}
-smc <- ts(SMC[,2], freq=365.25/7, start=2015+44/365.25)
+smc <- ts(SMC[,2], freq=(365.25/7), start=2015+44/365.25)
 plot(smc)
+acf(smc)
 ```
 
 ```{r}
@@ -154,12 +219,12 @@ summary(fc_smc)
 ```
 
 ```{r}
-fit_smc5 <- auto.arima(smc, xreg=fourier(smc, K=5), seasonal=FALSE)
+fit_smc2 <- auto.arima(smc, xreg=fourier(smc, K=2), seasonal=FALSE)
 ```
 
 ```{r}
-fc_smc5 <- forecast(fit_smc5, xreg=fourier(smc, K=5, h=200))
-plot(fc_smc5)
+fc_smc2 <- forecast(fit_smc2, xreg=fourier(smc, K=2, h=200))
+plot(fc_smc2)
 ```
 
 ```{r}
@@ -169,4 +234,40 @@ AIC(fit_smc5)
 ```{r}
 plot(c(AIC(fit_smc),AIC(fit_smc2),AIC(fit_smc3),AIC(fit_smc4),AIC(fit_smc5),AIC(fit_smc6),AIC(fit_smc7),AIC(fit_smc8)))
 ```
+
+```{r}
+plot(forecast(smc))
+```
+
+```{r}
+forecast(smc)
+```
+
+```{r}
+smc_train<-window(smc,end=2018.999)
+plot(smc_train)
+```
+
+```{r}
+smc_test<-window(smc,start=2019)
+plot(smc_test)
+```
+
+```{r}
+fc_smc_train<-forecast(smc_train,h=58)
+```
+
+```{r}
+accuracy(fc_smc_train,smc_test)
+```
+
+```{r}
+plot.ts(smc_test)
+```
+
+```{r}
+plot(fc_smc_train_mean)
+```
+
+
 
