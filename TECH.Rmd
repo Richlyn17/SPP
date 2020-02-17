@@ -1,0 +1,45 @@
+---
+title: "SPP for TECH"
+output: html_notebook
+---
+
+```{r}
+load("~/R/SPP/SPP.RData")
+library(forecast)
+library(ggplot2)
+```
+
+```{r}
+tech <- ts(TECH[,2], freq=365.25/7, start=2015+51/365.25)
+tech %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(tech))
+```
+
+```{r}
+training_tech <- subset(tech, end=length(tech)-5)
+test_tech <- subset(tech, start=length(tech)-4)
+fc_training_tech<-forecast(training_tech)
+fc_training_tech %>%
+  forecast(h=15) %>%
+  autoplot() +autolayer(test_tech)
+```
+
+```{r}
+fc_training_tech
+```
+
+```{r}
+fc_tech<-forecast(tech)
+fc_tech %>%
+forecast(h=30) %>%
+  autoplot()
+```
+
+```{r}
+fc_tech
+```
+

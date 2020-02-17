@@ -1,0 +1,45 @@
+---
+title: "SPP for FOOD"
+output: html_notebook
+---
+
+```{r}
+load("~/R/SPP/SPP.RData")
+library(forecast)
+library(ggplot2)
+```
+
+```{r}
+food <- ts(FOOD[,2], freq=365.25/7, start=2015+44/365.25)
+food %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(food))
+```
+
+```{r}
+training_food <- subset(food, end=length(food)-5)
+test_food <- subset(food, start=length(food)-4)
+fc_training_food<-forecast(training_food)
+fc_training_food %>%
+  forecast(h=15) %>%
+  autoplot() +autolayer(test_food)
+```
+
+```{r}
+fc_training_food
+```
+
+```{r}
+fc_food<-forecast(food)
+fc_food %>%
+forecast(h=10) %>%
+  autoplot()
+```
+
+```{r}
+fc_food
+```
+

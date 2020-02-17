@@ -11,7 +11,8 @@ library(ggplot2)
 
 ```{r}
 pcor <- ts(PCOR[,2], freq=365.25/7, start=2015+51/365.25)
-plot(pcor)
+pcor %>%
+  autoplot()
 ```
 
 ```{r}
@@ -19,20 +20,26 @@ plot(decompose(pcor))
 ```
 
 ```{r}
-training <- subset(pcor, end=length(pcor)-21)
-test <- subset(pcor, start=length(pcor)-20)
-fc_training<-forecast(training)
-fc_training %>%
+training_pcor <- subset(pcor, end=length(pcor)-1)
+test_pcor <- subset(pcor, start=length(pcor)-1)
+fc_training_pcor<-forecast(training_pcor)
+fc_training_pcor %>%
   forecast(h=30) %>%
-  autoplot() +autolayer(test)
+  autoplot() +autolayer(test_pcor)
 ```
 
 ```{r}
-fc_training
+fc_training_pcor
 ```
 
 ```{r}
-fc_pcor<-forecast(pcor,h=10)
-plot(fc_pcor)
+fc_pcor<-forecast(pcor)
+fc_pcor %>%
+forecast(h=30) %>%
+  autoplot()
+```
+
+```{r}
+fc_pcor
 ```
 

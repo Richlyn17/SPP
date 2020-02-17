@@ -1,0 +1,45 @@
+---
+title: "SPP for SMC"
+output: html_notebook
+---
+
+```{r}
+load("~/R/SPP/SPP.RData")
+library(forecast)
+library(ggplot2)
+```
+
+```{r}
+smc <- ts(SMC[,2], freq=365.25/7, start=2015+44/365.25)
+smc %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(smc))
+```
+
+```{r}
+training_smc <- subset(smc, end=length(smc)-3)
+test_smc <- subset(smc, start=length(smc)-2)
+fc_training_smc<-forecast(training_smc)
+fc_training_smc %>%
+  forecast(h=15) %>%
+  autoplot() +autolayer(test_smc)
+```
+
+```{r}
+fc_training_smc
+```
+
+```{r}
+fc_smc<-forecast(smc)
+fc_smc %>%
+forecast(h=30) %>%
+  autoplot()
+```
+
+```{r}
+fc_smc
+```
+

@@ -1,0 +1,118 @@
+---
+title: "SPP for ALLHC"
+output: html_notebook
+---
+
+```{r}
+load("~/R/SPP/SPP.RData")
+```
+
+# ALLHC
+
+```{r}
+allhc <- ts(ALLHC[,2], freq=(365.25/7), start=2015+37/365.25)
+plot(allhc)
+```
+
+```{r}
+plot(decompose(allhc))
+```
+
+```{r}
+library(forecast)
+bestfit_allhc <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_allhc <- auto.arima(allhc, xreg=fourier(allhc, K=i), seasonal=FALSE,lambda = "auto")
+  if(fit_allhc$aicc < bestfit_allhc$aicc)
+    bestfit_allhc <- fit_allhc
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_allhc)
+```
+
+
+```{r}
+fc_allhc <- forecast(bestfit_allhc, xreg=fourier(allhc, K=1, h=200))
+plot(fc_allhc)
+```
+
+```{r}
+fit_allhc1 <- auto.arima(allhc, xreg=fourier(allhc, K=1), seasonal=FALSE)
+fit_allhc2 <- auto.arima(allhc, xreg=fourier(allhc, K=2), seasonal=FALSE)
+fit_allhc3 <- auto.arima(allhc, xreg=fourier(allhc, K=3), seasonal=FALSE)
+fit_allhc4 <- auto.arima(allhc, xreg=fourier(allhc, K=4), seasonal=FALSE)
+fit_allhc5 <- auto.arima(allhc, xreg=fourier(allhc, K=5), seasonal=FALSE)
+fit_allhc6 <- auto.arima(allhc, xreg=fourier(allhc, K=6), seasonal=FALSE)
+fit_allhc7 <- auto.arima(allhc, xreg=fourier(allhc, K=7), seasonal=FALSE)
+fit_allhc8 <- auto.arima(allhc, xreg=fourier(allhc, K=8), seasonal=FALSE)
+fit_allhc9 <- auto.arima(allhc, xreg=fourier(allhc, K=9), seasonal=FALSE)
+fit_allhc10 <- auto.arima(allhc, xreg=fourier(allhc, K=10), seasonal=FALSE)
+fit_allhc11 <- auto.arima(allhc, xreg=fourier(allhc, K=11), seasonal=FALSE)
+fit_allhc12 <- auto.arima(allhc, xreg=fourier(allhc, K=12), seasonal=FALSE)
+fit_allhc13 <- auto.arima(allhc, xreg=fourier(allhc, K=13), seasonal=FALSE)
+fit_allhc14 <- auto.arima(allhc, xreg=fourier(allhc, K=14), seasonal=FALSE)
+fit_allhc15 <- auto.arima(allhc, xreg=fourier(allhc, K=15), seasonal=FALSE)
+fit_allhc16 <- auto.arima(allhc, xreg=fourier(allhc, K=16), seasonal=FALSE)
+fit_allhc17 <- auto.arima(allhc, xreg=fourier(allhc, K=17), seasonal=FALSE)
+fit_allhc18 <- auto.arima(allhc, xreg=fourier(allhc, K=18), seasonal=FALSE)
+fit_allhc19 <- auto.arima(allhc, xreg=fourier(allhc, K=19), seasonal=FALSE)
+fit_allhc20 <- auto.arima(allhc, xreg=fourier(allhc, K=20), seasonal=FALSE)
+fit_allhc21 <- auto.arima(allhc, xreg=fourier(allhc, K=21), seasonal=FALSE)
+fit_allhc22 <- auto.arima(allhc, xreg=fourier(allhc, K=22), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_allhc1),AIC(fit_allhc2),AIC(fit_allhc3),AIC(fit_allhc4),AIC(fit_allhc5),AIC(fit_allhc6),AIC(fit_allhc7),AIC(fit_allhc8),AIC(fit_allhc9),AIC(fit_allhc10),AIC(fit_allhc11),AIC(fit_allhc12),AIC(fit_allhc13),AIC(fit_allhc14),AIC(fit_allhc15),AIC(fit_allhc16),AIC(fit_allhc17),AIC(fit_allhc18),AIC(fit_allhc19),AIC(fit_allhc20),AIC(fit_allhc21),AIC(fit_allhc22))
+plot(aics)
+```
+
+```{r}
+fc_allhc3 <- forecast(fit_allhc3, xreg=fourier(allhc, K=3, h=105))
+plot(fc_allhc3)
+```
+
+```{r}
+plot(forecast(allhc))
+```
+
+```{r}
+autofc_allhc<-forecast(allhc)
+summary(autofc_allhc)
+```
+
+```{r}
+summary(fc_allhc3)
+```
+
+```{r}
+plot(forecast(allhc))
+```
+
+```{r}
+nnfit<-nnetar(allhc)
+plot(forecast(nnfit,h=105))
+```
+
+```{r}
+plot(stlf(allhc))
+```
+
+```{r}
+tbats_allhc<-tbats(allhc)
+plot(forecast(tbats_allhc,h=105))
+```
+
+```{r}
+ets_allhc<-ets(allhc)
+plot(forecast(ets_allhc,h=105))
+```
+
+
+```{r}
+arima_allhc<-auto.arima(allhc)
+plot(forecast(arima_allhc,h=105))
+```
