@@ -1,0 +1,38 @@
+---
+title: "SPP for PCOR"
+output: html_notebook
+---
+
+```{r}
+load("~/R/SPP/SPP.RData")
+library(forecast)
+library(ggplot2)
+```
+
+```{r}
+pcor <- ts(PCOR[,2], freq=365.25/7, start=2015+51/365.25)
+plot(pcor)
+```
+
+```{r}
+plot(decompose(pcor))
+```
+
+```{r}
+training <- subset(pcor, end=length(pcor)-21)
+test <- subset(pcor, start=length(pcor)-20)
+fc_training<-forecast(training)
+fc_training %>%
+  forecast(h=30) %>%
+  autoplot() +autolayer(test)
+```
+
+```{r}
+fc_training
+```
+
+```{r}
+fc_pcor<-forecast(pcor,h=10)
+plot(fc_pcor)
+```
+

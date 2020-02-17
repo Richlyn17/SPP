@@ -7,8 +7,6 @@ output: html_notebook
 load("~/R/SPP/SPP.RData")
 ```
 
-# ALLHC
-
 ```{r}
 plc <- ts(PLC[,2], freq=365.25/7, start=2015+51/365.25)
 plot(plc)
