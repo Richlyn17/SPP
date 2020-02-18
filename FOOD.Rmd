@@ -4,12 +4,13 @@ output: html_notebook
 ---
 
 ```{r}
-load("~/R/SPP/SPP.RData")
 library(forecast)
 library(ggplot2)
+library(readr)
 ```
 
 ```{r}
+FOOD <- read_csv("FOOD.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 food <- ts(FOOD[,2], freq=365.25/7, start=2015+44/365.25)
 food %>%
   autoplot()
@@ -20,11 +21,11 @@ plot(decompose(food))
 ```
 
 ```{r}
-training_food <- subset(food, end=length(food)-5)
-test_food <- subset(food, start=length(food)-4)
+training_food <- subset(food, end=length(food)-2)
+test_food <- subset(food, start=length(food)-1)
 fc_training_food<-forecast(training_food)
 fc_training_food %>%
-  forecast(h=15) %>%
+  forecast(h=5) %>%
   autoplot() +autolayer(test_food)
 ```
 

@@ -4,12 +4,13 @@ output: html_notebook
 ---
 
 ```{r}
-load("~/R/SPP/SPP.RData")
 library(forecast)
 library(ggplot2)
+library(readr)
 ```
 
 ```{r}
+PCOR <- read_csv("PCOR.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 pcor <- ts(PCOR[,2], freq=365.25/7, start=2015+51/365.25)
 pcor %>%
   autoplot()
@@ -20,11 +21,11 @@ plot(decompose(pcor))
 ```
 
 ```{r}
-training_pcor <- subset(pcor, end=length(pcor)-1)
+training_pcor <- subset(pcor, end=length(pcor)-2)
 test_pcor <- subset(pcor, start=length(pcor)-1)
 fc_training_pcor<-forecast(training_pcor)
 fc_training_pcor %>%
-  forecast(h=30) %>%
+  forecast(h=5) %>%
   autoplot() +autolayer(test_pcor)
 ```
 

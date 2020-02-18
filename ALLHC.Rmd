@@ -4,12 +4,13 @@ output: html_notebook
 ---
 
 ```{r}
-load("~/R/SPP/SPP.RData")
 library(forecast)
 library(ggplot2)
+library(readr)
 ```
 
 ```{r}
+ALLHC <- read_csv("ALLHC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 allhc <- ts(ALLHC[,2], freq=365.25/7, start=2015+37/365.25)
 allhc %>%
   autoplot()
@@ -20,11 +21,11 @@ plot(decompose(allhc))
 ```
 
 ```{r}
-training_allhc <- subset(allhc, end=length(allhc)-5)
-test_allhc <- subset(allhc, start=length(allhc)-4)
+training_allhc <- subset(allhc, end=length(allhc)-3)
+test_allhc <- subset(allhc, start=length(allhc)-2)
 fc_training_allhc<-forecast(training_allhc)
 fc_training_allhc %>%
-  forecast(h=15) %>%
+  forecast(h=5) %>%
   autoplot() +autolayer(test_allhc)
 ```
 

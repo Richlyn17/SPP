@@ -4,12 +4,13 @@ output: html_notebook
 ---
 
 ```{r}
-load("~/R/SPP/SPP.RData")
 library(forecast)
 library(ggplot2)
+library(readr)
 ```
 
 ```{r}
+TECH <- read_csv("TECH.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 tech <- ts(TECH[,2], freq=365.25/7, start=2015+51/365.25)
 tech %>%
   autoplot()
@@ -20,11 +21,11 @@ plot(decompose(tech))
 ```
 
 ```{r}
-training_tech <- subset(tech, end=length(tech)-5)
-test_tech <- subset(tech, start=length(tech)-4)
+training_tech <- subset(tech, end=length(tech)-2)
+test_tech <- subset(tech, start=length(tech)-1)
 fc_training_tech<-forecast(training_tech)
 fc_training_tech %>%
-  forecast(h=15) %>%
+  forecast(h=5) %>%
   autoplot() +autolayer(test_tech)
 ```
 
