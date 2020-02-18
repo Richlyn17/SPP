@@ -1,0 +1,46 @@
+---
+title: "SPP for BEL"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+BEL <- read_csv("BEL.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+bel <- ts(BEL[,2], freq=365.25/7, start=2015+51/365.25)
+bel %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(bel))
+```
+
+```{r}
+training_bel <- subset(bel, end=length(bel)-2)
+test_bel <- subset(bel, start=length(bel)-1)
+fc_training_bel<-forecast(training_bel)
+fc_training_bel %>%
+  forecast(h=5) %>%
+  autoplot() +autolayer(test_bel)
+```
+
+```{r}
+fc_training_bel
+```
+
+```{r}
+fc_bel<-forecast(bel)
+fc_bel %>%
+forecast(h=30) %>%
+  autoplot()
+```
+
+```{r}
+fc_bel
+```
+
