@@ -10,7 +10,7 @@ library(readr)
 ```
 
 ```{r}
-ALLHC <- read_csv("ALLHC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+ALLHC <- read_csv("~/R/SPP/CSV/ALLHC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 allhc <- ts(ALLHC[,2], freq=365.25/7, start=2015+37/365.25)
 allhc %>%
   autoplot()

@@ -10,7 +10,7 @@ library(readr)
 ```
 
 ```{r}
-FOOD <- read_csv("FOOD.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+FOOD <- read_csv("~/R/SPP/CSV/FOOD.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 food <- ts(FOOD[,2], freq=365.25/7, start=2015+44/365.25)
 food %>%
   autoplot()

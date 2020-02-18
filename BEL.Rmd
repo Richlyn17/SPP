@@ -10,7 +10,7 @@ library(readr)
 ```
 
 ```{r}
-BEL <- read_csv("BEL.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+BEL <- read_csv("~/R/SPP/CSV/BEL.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 bel <- ts(BEL[,2], freq=365.25/7, start=2015+51/365.25)
 bel %>%
   autoplot()

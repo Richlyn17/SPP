@@ -10,7 +10,7 @@ library(readr)
 ```
 
 ```{r}
-PLC <- read_csv("PLC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+PLC <- read_csv("~/R/SPP/CSV/PLC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 plc <- ts(PLC[,2], freq=365.25/7, start=2015+51/365.25)
 plc %>%
   autoplot()

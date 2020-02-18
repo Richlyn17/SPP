@@ -10,7 +10,7 @@ library(readr)
 ```
 
 ```{r}
-MAC <- read_csv("MAC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+MAC <- read_csv("~/R/SPP/CSV/MAC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 mac <- ts(MAC[,2], freq=365.25/7, start=2015+51/365.25)
 mac %>%
   autoplot()

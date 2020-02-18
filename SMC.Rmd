@@ -10,7 +10,7 @@ library(readr)
 ```
 
 ```{r}
-SMC <- read_csv("SMC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+SMC <- read_csv("~/R/SPP/CSV/SMC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 smc <- ts(SMC[,2], freq=365.25/7, start=2015+44/365.25)
 smc %>%
   autoplot()

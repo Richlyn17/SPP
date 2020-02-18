@@ -10,7 +10,7 @@ library(readr)
 ```
 
 ```{r}
-IMI <- read_csv("IMI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+IMI <- read_csv("~/R/SPP/CSV/IMI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 imi <- ts(IMI[,2], freq=365.25/7, start=2015+51/365.25)
 imi %>%
   autoplot()
