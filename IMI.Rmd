@@ -1,0 +1,46 @@
+---
+title: "SPP for IMI"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+IMI <- read_csv("IMI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+imi <- ts(IMI[,2], freq=365.25/7, start=2015+51/365.25)
+imi %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(imi))
+```
+
+```{r}
+training_imi <- subset(imi, end=length(imi)-2)
+test_imi <- subset(imi, start=length(imi)-1)
+fc_training_imi<-forecast(training_imi)
+fc_training_imi %>%
+  forecast(h=5) %>%
+  autoplot() +autolayer(test_imi)
+```
+
+```{r}
+fc_training_imi
+```
+
+```{r}
+fc_imi<-forecast(imi)
+fc_imi %>%
+forecast(h=30) %>%
+  autoplot()
+```
+
+```{r}
+fc_imi
+```
+
