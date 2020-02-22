@@ -21,8 +21,8 @@ plot(decompose(smc))
 ```
 
 ```{r}
-training_smc <- subset(smc, end=length(smc)-3)
-test_smc <- subset(smc, start=length(smc)-2)
+training_smc <- subset(smc, end=length(smc)-5)
+test_smc <- subset(smc, start=length(smc)-4)
 fc_training_smc<-forecast(training_smc)
 fc_training_smc %>%
   forecast(h=15) %>%

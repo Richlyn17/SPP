@@ -36,11 +36,10 @@ fc_training_allhc
 ```{r}
 fc_allhc<-forecast(allhc)
 fc_allhc %>%
-forecast(h=10) %>%
+forecast(h=100) %>%
   autoplot()
 ```
 
 ```{r}
 fc_allhc
 ```
-
