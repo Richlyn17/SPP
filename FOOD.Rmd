@@ -2,6 +2,7 @@
 title: "SPP for FOOD"
 output: html_notebook
 ---
+Going up.
 
 ```{r}
 library(forecast)
@@ -21,11 +22,11 @@ plot(decompose(food))
 ```
 
 ```{r}
-training_food <- subset(food, end=length(food)-2)
-test_food <- subset(food, start=length(food)-1)
+training_food <- subset(food, end=length(food)-5)
+test_food <- subset(food, start=length(food)-4)
 fc_training_food<-forecast(training_food)
 fc_training_food %>%
-  forecast(h=5) %>%
+  forecast(h=10) %>%
   autoplot() +autolayer(test_food)
 ```
 

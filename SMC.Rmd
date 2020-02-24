@@ -2,6 +2,7 @@
 title: "SPP for SMC"
 output: html_notebook
 ---
+Going down.
 
 ```{r}
 library(forecast)
@@ -42,5 +43,9 @@ forecast(h=30) %>%
 
 ```{r}
 fc_smc
+```
+
+```{r}
+tail(smc)
 ```
 

@@ -2,6 +2,7 @@
 title: "SPP for PLC"
 output: html_notebook
 ---
+Going down.
 
 ```{r}
 library(forecast)
@@ -21,11 +22,11 @@ plot(decompose(plc))
 ```
 
 ```{r}
-training_plc <- subset(plc, end=length(plc)-2)
-test_plc <- subset(plc, start=length(plc)-1)
+training_plc <- subset(plc, end=length(plc)-5)
+test_plc <- subset(plc, start=length(plc)-4)
 fc_training_plc<-forecast(training_plc)
 fc_training_plc %>%
-  forecast(h=5) %>%
+  forecast(h=10) %>%
   autoplot() +autolayer(test_plc)
 ```
 
@@ -43,3 +44,8 @@ forecast(h=30) %>%
 ```{r}
 fc_plc
 ```
+
+```{r}
+tail(plc)
+```
+

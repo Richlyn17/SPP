@@ -2,6 +2,7 @@
 title: "SPP for PCOR"
 output: html_notebook
 ---
+Going down.
 
 ```{r}
 library(forecast)
@@ -42,5 +43,9 @@ forecast(h=30) %>%
 
 ```{r}
 fc_pcor
+```
+
+```{r}
+tail(pcor)
 ```
 
