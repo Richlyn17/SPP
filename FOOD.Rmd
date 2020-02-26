@@ -45,3 +45,7 @@ forecast(h=10) %>%
 fc_food
 ```
 
+```{r}
+tail(food)
+```
+
