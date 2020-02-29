@@ -37,7 +37,7 @@ fc_training_food
 ```{r}
 fc_food<-forecast(food)
 fc_food %>%
-forecast(h=10) %>%
+forecast(h=100) %>%
   autoplot()
 ```
 

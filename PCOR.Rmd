@@ -37,7 +37,7 @@ fc_training_pcor
 ```{r}
 fc_pcor<-forecast(pcor)
 fc_pcor %>%
-forecast(h=30) %>%
+forecast(h=100) %>%
   autoplot()
 ```
 

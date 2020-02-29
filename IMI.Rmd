@@ -37,7 +37,7 @@ fc_training_imi
 ```{r}
 fc_imi<-forecast(imi)
 fc_imi %>%
-forecast(h=30) %>%
+forecast(h=100) %>%
   autoplot()
 ```
 
