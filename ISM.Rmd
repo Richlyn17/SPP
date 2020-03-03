@@ -1,0 +1,55 @@
+---
+title: "SPP for ISM"
+output: html_notebook
+---
+
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+ISM <- read_csv("~/R/SPP/CSV/ISM.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+ism <- ts(ISM[,2], freq=365.25/7, start=2015+65/365.25)
+ism %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(ism))
+```
+
+```{r}
+training_ism <- subset(ism, end=length(ism)-5)
+test_ism <- subset(ism, start=length(ism)-4)
+fc_training_ism<-forecast(training_ism)
+fc_training_ism %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_ism)
+```
+
+```{r}
+fc_training_ism
+```
+
+```{r}
+fc_ism<-forecast(ism)
+fc_ism %>%
+  forecast(h=100) %>%
+  autoplot()
+```
+
+```{r}
+fc_ism
+```
+
+```{r}
+accuracy(fc_ism)
+```
+
+```{r}
+tail(ism)
+```
+
