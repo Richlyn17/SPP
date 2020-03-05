@@ -1,0 +1,54 @@
+---
+title: "SPP for MAH"
+output: html_notebook
+---
+
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+MAH <- read_csv("~/R/SPP/CSV/MAH.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+mah <- ts(MAH[,2], freq=365.25/7, start=2018+152.25/365.25)
+mah %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(mah))
+```
+
+```{r}
+training_mah <- subset(mah, end=length(mah)-2)
+test_mah <- subset(mah, start=length(mah)-1)
+fc_training_mah<-forecast(training_mah)
+fc_training_mah %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_mah)
+```
+
+```{r}
+fc_training_mah
+```
+
+```{r}
+fc_mah<-forecast(mah)
+fc_mah %>%
+  forecast(h=5) %>%
+  autoplot()
+```
+
+```{r}
+fc_mah
+```
+
+```{r}
+accuracy(fc_mah)
+```
+
+```{r}
+tail(mah)
+```

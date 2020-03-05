@@ -1,0 +1,54 @@
+---
+title: "SPP for C"
+output: html_notebook
+---
+
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+C <- read_csv("~/R/SPP/CSV/C.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+c <- ts(C[,2], freq=365.25/7, start=2017+223.50/365.25)
+c %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(c))
+```
+
+```{r}
+training_c <- subset(c, end=length(c)-2)
+test_c <- subset(c, start=length(c)-1)
+fc_training_c<-forecast(training_c)
+fc_training_c %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_c)
+```
+
+```{r}
+fc_training_c
+```
+
+```{r}
+fc_c<-forecast(c)
+fc_c %>%
+  forecast(h=100) %>%
+  autoplot()
+```
+
+```{r}
+fc_c
+```
+
+```{r}
+accuracy(fc_c)
+```
+
+```{r}
+tail(c)
+```
