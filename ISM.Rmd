@@ -22,11 +22,11 @@ plot(decompose(ism))
 ```
 
 ```{r}
-training_ism <- subset(ism, end=length(ism)-5)
-test_ism <- subset(ism, start=length(ism)-4)
+training_ism <- subset(ism, end=length(ism)-1)
+test_ism <- subset(ism, start=length(ism)-1)
 fc_training_ism<-forecast(training_ism)
 fc_training_ism %>%
-  forecast(h=10) %>%
+  forecast(h=50) %>%
   autoplot() +autolayer(test_ism)
 ```
 
@@ -37,7 +37,7 @@ fc_training_ism
 ```{r}
 fc_ism<-forecast(ism)
 fc_ism %>%
-  forecast(h=100) %>%
+  forecast(h=20) %>%
   autoplot()
 ```
 
@@ -51,5 +51,8 @@ accuracy(fc_ism)
 
 ```{r}
 tail(ism)
+min(ism)
+max(ism)
+which.min(ism)
 ```
 
