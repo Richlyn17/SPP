@@ -2,7 +2,6 @@
 title: "SPP for IMI"
 output: html_notebook
 ---
-Going down.
 
 ```{r}
 library(forecast)
@@ -22,8 +21,8 @@ plot(decompose(imi))
 ```
 
 ```{r}
-training_imi <- subset(imi, end=length(imi)-5)
-test_imi <- subset(imi, start=length(imi)-4)
+training_imi <- subset(imi, end=length(imi)-2)
+test_imi <- subset(imi, start=length(imi)-1)
 fc_training_imi<-forecast(training_imi)
 fc_training_imi %>%
   forecast(h=10) %>%

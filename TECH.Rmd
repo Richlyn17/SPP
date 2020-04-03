@@ -2,7 +2,6 @@
 title: "SPP for TECH"
 output: html_notebook
 ---
-Steady, waiting to go up.
 
 ```{r}
 library(forecast)
@@ -22,8 +21,8 @@ plot(decompose(tech))
 ```
 
 ```{r}
-training_tech <- subset(tech, end=length(tech)-3)
-test_tech <- subset(tech, start=length(tech)-2)
+training_tech <- subset(tech, end=length(tech)-2)
+test_tech <- subset(tech, start=length(tech)-1)
 fc_training_tech<-forecast(training_tech)
 fc_training_tech %>%
   forecast(h=10) %>%

@@ -2,7 +2,6 @@
 title: "SPP for BEL"
 output: html_notebook
 ---
-Going down.
 
 ```{r}
 library(forecast)
@@ -22,8 +21,8 @@ plot(decompose(bel))
 ```
 
 ```{r}
-training_bel <- subset(bel, end=length(bel)-5)
-test_bel <- subset(bel, start=length(bel)-4)
+training_bel <- subset(bel, end=length(bel)-2)
+test_bel <- subset(bel, start=length(bel)-1)
 fc_training_bel<-forecast(training_bel)
 fc_training_bel %>%
   forecast(h=10) %>%

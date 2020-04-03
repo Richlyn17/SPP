@@ -2,7 +2,6 @@
 title: "SPP for ALLHC"
 output: html_notebook
 ---
-Going down.
 
 ```{r}
 library(forecast)
@@ -22,8 +21,8 @@ plot(decompose(allhc))
 ```
 
 ```{r}
-training_allhc <- subset(allhc, end=length(allhc)-5)
-test_allhc <- subset(allhc, start=length(allhc)-4)
+training_allhc <- subset(allhc, end=length(allhc)-2)
+test_allhc <- subset(allhc, start=length(allhc)-1)
 fc_training_allhc<-forecast(training_allhc)
 fc_training_allhc %>%
   forecast(h=10) %>%

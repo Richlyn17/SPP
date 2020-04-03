@@ -2,7 +2,6 @@
 title: "SPP for PCOR"
 output: html_notebook
 ---
-Going down.
 
 ```{r}
 library(forecast)
@@ -22,8 +21,8 @@ plot(decompose(pcor))
 ```
 
 ```{r}
-training_pcor <- subset(pcor, end=length(pcor)-5)
-test_pcor <- subset(pcor, start=length(pcor)-4)
+training_pcor <- subset(pcor, end=length(pcor)-2)
+test_pcor <- subset(pcor, start=length(pcor)-1)
 fc_training_pcor<-forecast(training_pcor)
 fc_training_pcor %>%
   forecast(h=10) %>%

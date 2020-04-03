@@ -2,7 +2,6 @@
 title: "SPP for SMC"
 output: html_notebook
 ---
-Going down.
 
 ```{r}
 library(forecast)
@@ -22,8 +21,8 @@ plot(decompose(smc))
 ```
 
 ```{r}
-training_smc <- subset(smc, end=length(smc)-5)
-test_smc <- subset(smc, start=length(smc)-4)
+training_smc <- subset(smc, end=length(smc)-2)
+test_smc <- subset(smc, start=length(smc)-1)
 fc_training_smc<-forecast(training_smc)
 fc_training_smc %>%
   forecast(h=15) %>%
