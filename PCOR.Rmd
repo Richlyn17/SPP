@@ -45,6 +45,10 @@ fc_pcor
 ```
 
 ```{r}
+accuracy(fc_pcor)
+```
+
+```{r}
 tail(pcor)
 ```
 

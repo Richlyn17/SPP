@@ -45,6 +45,10 @@ fc_allhc
 ```
 
 ```{r}
+accuracy(fc_allhc)
+```
+
+```{r}
 tail(allhc)
 ```
 

@@ -45,6 +45,10 @@ fc_smc
 ```
 
 ```{r}
+accuracy(fc_smc)
+```
+
+```{r}
 tail(smc)
 ```
 
