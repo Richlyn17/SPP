@@ -1764,19 +1764,9 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShmb3JlY2FzdClcbmBgYCJ9 -->
-<pre class="r"><code>library(forecast)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2Qgb3ZlcndyaXR0ZW4gYnkgJ2RwbHlyJzpcbiAgbWV0aG9kICAgICAgICAgICBmcm9tXG4gIHByaW50LnJvd3dpc2VfZGYgICAgIFxuUmVnaXN0ZXJlZCBTMyBtZXRob2Qgb3ZlcndyaXR0ZW4gYnkgJ3F1YW50bW9kJzpcbiAgbWV0aG9kICAgICAgICAgICAgZnJvbVxuICBhcy56b28uZGF0YS5mcmFtZSB6b28gXG4ifQ== -->
-<pre><code>Registered S3 method overwritten by &#39;dplyr&#39;:
-  method           from
-  print.rowwise_df     
-Registered S3 method overwritten by &#39;quantmod&#39;:
-  method            from
-  as.zoo.data.frame zoo </code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ3Bsb3QyKVxubGlicmFyeShyZWFkcilcbmBgYCJ9 -->
-<pre class="r"><code>library(ggplot2)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShmb3JlY2FzdClcbmxpYnJhcnkoZ2dwbG90MilcbmxpYnJhcnkocmVhZHIpXG5gYGAifQ== -->
+<pre class="r"><code>library(forecast)
+library(ggplot2)
 library(readr)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -1891,11 +1881,29 @@ Frequency = 52.1785714285714
 [5,]  1.65
 [6,]  1.83</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWluKGFsbGhjKVxuYGBgIn0= -->
+<pre class="r"><code>min(allhc)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuNjlcbiJ9 -->
+<pre><code>[1] 0.69</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF4KGFsbGhjKVxuYGBgIn0= -->
+<pre class="r"><code>max(allhc)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDQuMjZcbiJ9 -->
+<pre><code>[1] 4.26</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2hpY2gubWluKGFsbGhjKVxuYGBgIn0= -->
+<pre class="r"><code>which.min(allhc)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDFcbiJ9 -->
+<pre><code>[1] 1</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNQUCBmb3IgQUxMSEMiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkoZm9yZWNhc3QpDQpsaWJyYXJ5KGdncGxvdDIpDQpsaWJyYXJ5KHJlYWRyKQ0KYGBgDQoNCmBgYHtyfQ0KQUxMSEMgPC0gcmVhZF9jc3YoIn4vUi9TUFAvQ1NWL0FMTEhDLmNzdiIsIGNvbF90eXBlcyA9IGNvbHMoV2VlayA9IGNvbF9kYXRlKGZvcm1hdCA9ICIlWS0lbS0lZCIpKSkNCmFsbGhjIDwtIHRzKEFMTEhDWywyXSwgZnJlcT0zNjUuMjUvNywgc3RhcnQ9MjAxNSszNy8zNjUuMjUpDQphbGxoYyAlPiUNCiAgYXV0b3Bsb3QoKQ0KYGBgDQoNCmBgYHtyfQ0KcGxvdChkZWNvbXBvc2UoYWxsaGMpKQ0KYGBgDQoNCmBgYHtyfQ0KdHJhaW5pbmdfYWxsaGMgPC0gc3Vic2V0KGFsbGhjLCBlbmQ9bGVuZ3RoKGFsbGhjKS0yKQ0KdGVzdF9hbGxoYyA8LSBzdWJzZXQoYWxsaGMsIHN0YXJ0PWxlbmd0aChhbGxoYyktMSkNCmZjX3RyYWluaW5nX2FsbGhjPC1mb3JlY2FzdCh0cmFpbmluZ19hbGxoYykNCmZjX3RyYWluaW5nX2FsbGhjICU+JQ0KICBmb3JlY2FzdChoPTEwKSAlPiUNCiAgYXV0b3Bsb3QoKSArYXV0b2xheWVyKHRlc3RfYWxsaGMpDQpgYGANCg0KYGBge3J9DQpmY190cmFpbmluZ19hbGxoYw0KYGBgDQoNCmBgYHtyfQ0KZmNfYWxsaGM8LWZvcmVjYXN0KGFsbGhjKQ0KZmNfYWxsaGMgJT4lDQpmb3JlY2FzdChoPTEwMCkgJT4lDQogIGF1dG9wbG90KCkNCmBgYA0KDQpgYGB7cn0NCmZjX2FsbGhjDQpgYGANCg0KYGBge3J9DQphY2N1cmFjeShmY19hbGxoYykNCmBgYA0KDQpgYGB7cn0NCnRhaWwoYWxsaGMpDQpgYGANCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNQUCBmb3IgQUxMSEMiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkoZm9yZWNhc3QpDQpsaWJyYXJ5KGdncGxvdDIpDQpsaWJyYXJ5KHJlYWRyKQ0KYGBgDQoNCmBgYHtyfQ0KQUxMSEMgPC0gcmVhZF9jc3YoIn4vUi9TUFAvQ1NWL0FMTEhDLmNzdiIsIGNvbF90eXBlcyA9IGNvbHMoV2VlayA9IGNvbF9kYXRlKGZvcm1hdCA9ICIlWS0lbS0lZCIpKSkNCmFsbGhjIDwtIHRzKEFMTEhDWywyXSwgZnJlcT0zNjUuMjUvNywgc3RhcnQ9MjAxNSszNy8zNjUuMjUpDQphbGxoYyAlPiUNCiAgYXV0b3Bsb3QoKQ0KYGBgDQoNCmBgYHtyfQ0KcGxvdChkZWNvbXBvc2UoYWxsaGMpKQ0KYGBgDQoNCmBgYHtyfQ0KdHJhaW5pbmdfYWxsaGMgPC0gc3Vic2V0KGFsbGhjLCBlbmQ9bGVuZ3RoKGFsbGhjKS0yKQ0KdGVzdF9hbGxoYyA8LSBzdWJzZXQoYWxsaGMsIHN0YXJ0PWxlbmd0aChhbGxoYyktMSkNCmZjX3RyYWluaW5nX2FsbGhjPC1mb3JlY2FzdCh0cmFpbmluZ19hbGxoYykNCmZjX3RyYWluaW5nX2FsbGhjICU+JQ0KICBmb3JlY2FzdChoPTEwKSAlPiUNCiAgYXV0b3Bsb3QoKSArYXV0b2xheWVyKHRlc3RfYWxsaGMpDQpgYGANCg0KYGBge3J9DQpmY190cmFpbmluZ19hbGxoYw0KYGBgDQoNCmBgYHtyfQ0KZmNfYWxsaGM8LWZvcmVjYXN0KGFsbGhjKQ0KZmNfYWxsaGMgJT4lDQpmb3JlY2FzdChoPTEwMCkgJT4lDQogIGF1dG9wbG90KCkNCmBgYA0KDQpgYGB7cn0NCmZjX2FsbGhjDQpgYGANCg0KYGBge3J9DQphY2N1cmFjeShmY19hbGxoYykNCmBgYA0KDQpgYGB7cn0NCnRhaWwoYWxsaGMpDQptaW4oYWxsaGMpDQptYXgoYWxsaGMpDQp3aGljaC5taW4oYWxsaGMpDQpgYGANCg0K</div>
 
 
 

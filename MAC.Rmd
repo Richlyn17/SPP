@@ -36,7 +36,7 @@ fc_training_mac
 ```{r}
 fc_mac<-forecast(mac)
 fc_mac %>%
-forecast(h=10) %>%
+forecast(h=100) %>%
   autoplot()
 ```
 
@@ -45,6 +45,12 @@ fc_mac
 ```
 
 ```{r}
-tail(mac)
+accuracy(fc_mac)
 ```
 
+```{r}
+tail(mac)
+min(mac)
+max(mac)
+which.min(mac)
+```

@@ -1,0 +1,57 @@
+---
+title: "SPP for ATN"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+ATN <- read_csv("~/R/SPP/CSV/ATN.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+atn <- ts(ATN[,2], freq=365.25/7, start=2015+73/365.25)
+atn %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(atn))
+```
+
+```{r}
+training_atn <- subset(atn, end=length(atn)-2)
+test_atn <- subset(atn, start=length(atn)-1)
+fc_training_atn<-forecast(training_atn)
+fc_training_atn %>%
+  forecast(h=100) %>%
+  autoplot() +autolayer(test_atn)
+```
+
+```{r}
+fc_training_atn
+```
+
+```{r}
+fc_atn<-forecast(atn)
+fc_atn %>%
+  forecast(h=52) %>%
+  autoplot()
+```
+
+```{r}
+fc_atn
+```
+
+```{r}
+accuracy(fc_atn)
+```
+
+```{r}
+tail(atn)
+min(atn)
+max(atn)
+which.min(atn)
+```
+

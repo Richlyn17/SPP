@@ -50,5 +50,8 @@ accuracy(fc_allhc)
 
 ```{r}
 tail(allhc)
+min(allhc)
+max(allhc)
+which.min(allhc)
 ```
 

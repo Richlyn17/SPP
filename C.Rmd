@@ -50,4 +50,7 @@ accuracy(fc_c)
 
 ```{r}
 tail(c)
+min(c)
+max(c)
+which.min(c)
 ```
