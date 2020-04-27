@@ -1,0 +1,56 @@
+---
+title: "SPP for SSP"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+SSP <- read_csv("~/R/SPP/CSV/SSP.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+ssp <- ts(SSP[,2], freq=365.25/7, start=2015+121/365.25)
+ssp %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(ssp))
+```
+
+```{r}
+training_ssp <- subset(ssp, end=length(ssp)-2)
+test_ssp <- subset(ssp, start=length(ssp)-1)
+fc_training_ssp<-forecast(training_ssp)
+fc_training_ssp %>%
+  forecast(h=100) %>%
+  autoplot() +autolayer(test_ssp)
+```
+
+```{r}
+fc_training_ssp
+```
+
+```{r}
+fc_ssp<-forecast(ssp)
+fc_ssp %>%
+  forecast(h=52) %>%
+  autoplot()
+```
+
+```{r}
+fc_ssp
+```
+
+```{r}
+accuracy(fc_ssp)
+```
+
+```{r}
+tail(ssp)
+min(ssp)
+max(ssp)
+which.min(ssp)
+```

@@ -11,7 +11,7 @@ library(readr)
 
 ```{r}
 ATN <- read_csv("~/R/SPP/CSV/ATN.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
-atn <- ts(ATN[,2], freq=365.25/7, start=2015+73/365.25)
+atn <- ts(ATN[,2], freq=365.25/7, start=2015+121/365.25)
 atn %>%
   autoplot()
 ```
