@@ -36,7 +36,7 @@ fc_training_smc
 ```{r}
 fc_smc<-forecast(smc)
 fc_smc %>%
-forecast(h=100) %>%
+forecast(h=26) %>%
   autoplot()
 ```
 

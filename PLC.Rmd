@@ -36,7 +36,7 @@ fc_training_plc
 ```{r}
 fc_plc<-forecast(plc)
 fc_plc %>%
-forecast(h=100) %>%
+forecast(h=26) %>%
   autoplot()
 ```
 
