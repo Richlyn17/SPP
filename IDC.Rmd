@@ -1,0 +1,56 @@
+---
+title: "IDC for SSP"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+IDC <- read_csv("~/R/SPP/CSV/IDC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+idc <- ts(IDC[,2], freq=365.25/7, start=2015+338/365.25)
+idc %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(idc))
+```
+
+```{r}
+training_idc <- subset(idc, end=length(idc)-91)
+test_idc <- subset(idc, start=length(idc)-90)
+fc_training_idc<-forecast(training_idc)
+fc_training_idc %>%
+  forecast(h=100) %>%
+  autoplot() +autolayer(test_idc)
+```
+
+```{r}
+fc_training_idc
+```
+
+```{r}
+fc_idc<-forecast(idc)
+fc_idc %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_idc
+```
+
+```{r}
+accuracy(fc_idc)
+```
+
+```{r}
+tail(idc)
+min(idc)
+max(idc)
+which.min(idc)
+```

@@ -21,8 +21,8 @@ plot(decompose(atn))
 ```
 
 ```{r}
-training_atn <- subset(atn, end=length(atn)-2)
-test_atn <- subset(atn, start=length(atn)-1)
+training_atn <- subset(atn, end=length(atn)-53)
+test_atn <- subset(atn, start=length(atn)-52)
 fc_training_atn<-forecast(training_atn)
 fc_training_atn %>%
   forecast(h=100) %>%
