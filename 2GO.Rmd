@@ -1,0 +1,56 @@
+---
+title: "2GO for SSP"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+TUGO <- read_csv("~/R/SPP/CSV/2GO.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+tugo <- ts(TUGO[,2], freq=365.25/7, start=2015+128/365.25)
+tugo %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(tugo))
+```
+
+```{r}
+training_tugo <- subset(tugo, end=length(tugo)-4)
+test_tugo <- subset(tugo, start=length(tugo)-3)
+fc_training_tugo<-forecast(training_tugo)
+fc_training_tugo %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_tugo)
+```
+
+```{r}
+fc_training_tugo
+```
+
+```{r}
+fc_tugo<-forecast(tugo)
+fc_tugo %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_tugo
+```
+
+```{r}
+accuracy(fc_tugo)
+```
+
+```{r}
+tail(tugo)
+min(tugo)
+max(tugo)
+which.min(tugo)
+```

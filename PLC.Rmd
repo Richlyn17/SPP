@@ -50,5 +50,8 @@ accuracy(fc_plc)
 
 ```{r}
 tail(plc)
+min(plc)
+max(plc)
+which.min(plc)
 ```
 

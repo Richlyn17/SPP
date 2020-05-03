@@ -1767,11 +1767,12 @@ summary {
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShmb3JlY2FzdClcbmBgYCJ9 -->
 <pre class="r"><code>library(forecast)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZyBtZXNzYWdlczpcbjE6IEluIHJlYWRDaGFyKGZpbGUsIHNpemUsIFRSVUUpIDogdHJ1bmNhdGluZyBzdHJpbmcgd2l0aCBlbWJlZGRlZCBudWxzXG4yOiBJbiByZWFkQ2hhcihmaWxlLCBzaXplLCBUUlVFKSA6IHRydW5jYXRpbmcgc3RyaW5nIHdpdGggZW1iZWRkZWQgbnVsc1xuMzogSW4gcmVhZENoYXIoZmlsZSwgc2l6ZSwgVFJVRSkgOiB0cnVuY2F0aW5nIHN0cmluZyB3aXRoIGVtYmVkZGVkIG51bHNcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZyBtZXNzYWdlczpcbjE6IEluIHJlYWRDaGFyKGZpbGUsIHNpemUsIFRSVUUpIDogdHJ1bmNhdGluZyBzdHJpbmcgd2l0aCBlbWJlZGRlZCBudWxzXG4yOiBJbiByZWFkQ2hhcihmaWxlLCBzaXplLCBUUlVFKSA6IHRydW5jYXRpbmcgc3RyaW5nIHdpdGggZW1iZWRkZWQgbnVsc1xuMzogSW4gcmVhZENoYXIoZmlsZSwgc2l6ZSwgVFJVRSkgOiB0cnVuY2F0aW5nIHN0cmluZyB3aXRoIGVtYmVkZGVkIG51bHNcbjQ6IEluIHJlYWRDaGFyKGZpbGUsIHNpemUsIFRSVUUpIDogdHJ1bmNhdGluZyBzdHJpbmcgd2l0aCBlbWJlZGRlZCBudWxzXG4ifQ== -->
 <pre><code>Warning messages:
 1: In readChar(file, size, TRUE) : truncating string with embedded nuls
 2: In readChar(file, size, TRUE) : truncating string with embedded nuls
-3: In readChar(file, size, TRUE) : truncating string with embedded nuls</code></pre>
+3: In readChar(file, size, TRUE) : truncating string with embedded nuls
+4: In readChar(file, size, TRUE) : truncating string with embedded nuls</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnZ3Bsb3QyKVxubGlicmFyeShyZWFkcilcbmBgYCJ9 -->
 <pre class="r"><code>library(ggplot2)
@@ -1889,11 +1890,29 @@ Frequency = 52.1785714285714
 [5,]  0.32
 [6,]  0.32</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWluKHBsYylcbmBgYCJ9 -->
+<pre class="r"><code>min(plc)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuM1xuIn0= -->
+<pre><code>[1] 0.3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF4KHBsYylcbmBgYCJ9 -->
+<pre class="r"><code>max(plc)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEuNzVcbiJ9 -->
+<pre><code>[1] 1.75</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2hpY2gubWluKHBsYylcbmBgYCJ9 -->
+<pre class="r"><code>which.min(plc)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDI2NlxuIn0= -->
+<pre><code>[1] 266</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNQUCBmb3IgUExDIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KYGBge3J9DQpsaWJyYXJ5KGZvcmVjYXN0KQ0KbGlicmFyeShnZ3Bsb3QyKQ0KbGlicmFyeShyZWFkcikNCmBgYA0KDQpgYGB7cn0NClBMQyA8LSByZWFkX2Nzdigifi9SL1NQUC9DU1YvUExDLmNzdiIsIGNvbF90eXBlcyA9IGNvbHMoV2VlayA9IGNvbF9kYXRlKGZvcm1hdCA9ICIlWS0lbS0lZCIpKSkNCnBsYyA8LSB0cyhQTENbLDJdLCBmcmVxPTM2NS4yNS83LCBzdGFydD0yMDE1KzUxLzM2NS4yNSkNCnBsYyAlPiUNCiAgYXV0b3Bsb3QoKQ0KYGBgDQoNCmBgYHtyfQ0KcGxvdChkZWNvbXBvc2UocGxjKSkNCmBgYA0KDQpgYGB7cn0NCnRyYWluaW5nX3BsYyA8LSBzdWJzZXQocGxjLCBlbmQ9bGVuZ3RoKHBsYyktMikNCnRlc3RfcGxjIDwtIHN1YnNldChwbGMsIHN0YXJ0PWxlbmd0aChwbGMpLTEpDQpmY190cmFpbmluZ19wbGM8LWZvcmVjYXN0KHRyYWluaW5nX3BsYykNCmZjX3RyYWluaW5nX3BsYyAlPiUNCiAgZm9yZWNhc3QoaD0xMCkgJT4lDQogIGF1dG9wbG90KCkgK2F1dG9sYXllcih0ZXN0X3BsYykNCmBgYA0KDQpgYGB7cn0NCmZjX3RyYWluaW5nX3BsYw0KYGBgDQoNCmBgYHtyfQ0KZmNfcGxjPC1mb3JlY2FzdChwbGMpDQpmY19wbGMgJT4lDQpmb3JlY2FzdChoPTI2KSAlPiUNCiAgYXV0b3Bsb3QoKQ0KYGBgDQoNCmBgYHtyfQ0KZmNfcGxjDQpgYGANCg0KYGBge3J9DQphY2N1cmFjeShmY19wbGMpDQpgYGANCg0KYGBge3J9DQp0YWlsKHBsYykNCmBgYA0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNQUCBmb3IgUExDIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KYGBge3J9DQpsaWJyYXJ5KGZvcmVjYXN0KQ0KbGlicmFyeShnZ3Bsb3QyKQ0KbGlicmFyeShyZWFkcikNCmBgYA0KDQpgYGB7cn0NClBMQyA8LSByZWFkX2Nzdigifi9SL1NQUC9DU1YvUExDLmNzdiIsIGNvbF90eXBlcyA9IGNvbHMoV2VlayA9IGNvbF9kYXRlKGZvcm1hdCA9ICIlWS0lbS0lZCIpKSkNCnBsYyA8LSB0cyhQTENbLDJdLCBmcmVxPTM2NS4yNS83LCBzdGFydD0yMDE1KzUxLzM2NS4yNSkNCnBsYyAlPiUNCiAgYXV0b3Bsb3QoKQ0KYGBgDQoNCmBgYHtyfQ0KcGxvdChkZWNvbXBvc2UocGxjKSkNCmBgYA0KDQpgYGB7cn0NCnRyYWluaW5nX3BsYyA8LSBzdWJzZXQocGxjLCBlbmQ9bGVuZ3RoKHBsYyktMikNCnRlc3RfcGxjIDwtIHN1YnNldChwbGMsIHN0YXJ0PWxlbmd0aChwbGMpLTEpDQpmY190cmFpbmluZ19wbGM8LWZvcmVjYXN0KHRyYWluaW5nX3BsYykNCmZjX3RyYWluaW5nX3BsYyAlPiUNCiAgZm9yZWNhc3QoaD0xMCkgJT4lDQogIGF1dG9wbG90KCkgK2F1dG9sYXllcih0ZXN0X3BsYykNCmBgYA0KDQpgYGB7cn0NCmZjX3RyYWluaW5nX3BsYw0KYGBgDQoNCmBgYHtyfQ0KZmNfcGxjPC1mb3JlY2FzdChwbGMpDQpmY19wbGMgJT4lDQpmb3JlY2FzdChoPTI2KSAlPiUNCiAgYXV0b3Bsb3QoKQ0KYGBgDQoNCmBgYHtyfQ0KZmNfcGxjDQpgYGANCg0KYGBge3J9DQphY2N1cmFjeShmY19wbGMpDQpgYGANCg0KYGBge3J9DQp0YWlsKHBsYykNCm1pbihwbGMpDQptYXgocGxjKQ0Kd2hpY2gubWluKHBsYykNCmBgYA0KDQo=</div>
 
 
 

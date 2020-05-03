@@ -50,5 +50,8 @@ accuracy(fc_food)
 
 ```{r}
 tail(food)
+min(food)
+max(food)
+which.min(food)
 ```
 

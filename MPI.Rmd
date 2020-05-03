@@ -1,0 +1,56 @@
+---
+title: "MPI for SSP"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+MPI <- read_csv("~/R/SPP/CSV/MPI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+mpi <- ts(MPI[,2], freq=365.25/7, start=2015+128/365.25)
+mpi %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(mpi))
+```
+
+```{r}
+training_mpi <- subset(mpi, end=length(mpi)-4)
+test_mpi <- subset(mpi, start=length(mpi)-3)
+fc_training_mpi<-forecast(training_mpi)
+fc_training_mpi %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_mpi)
+```
+
+```{r}
+fc_training_mpi
+```
+
+```{r}
+fc_mpi<-forecast(mpi)
+fc_mpi %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_mpi
+```
+
+```{r}
+accuracy(fc_mpi)
+```
+
+```{r}
+tail(mpi)
+min(mpi)
+max(mpi)
+which.min(mpi)
+```

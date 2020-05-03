@@ -50,5 +50,8 @@ accuracy(fc_pcor)
 
 ```{r}
 tail(pcor)
+min(pcor)
+max(pcor)
+which.min(pcor)
 ```
 

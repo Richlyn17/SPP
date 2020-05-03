@@ -1834,18 +1834,9 @@ fc_training_food %&gt;%
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmNfZm9vZDwtZm9yZWNhc3QoZm9vZClcbmBgYCJ9 -->
-<pre class="r"><code>fc_food&lt;-forecast(food)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZyBtZXNzYWdlczpcbjE6IEluIHJlYWRDaGFyKGZpbGUsIHNpemUsIFRSVUUpIDogdHJ1bmNhdGluZyBzdHJpbmcgd2l0aCBlbWJlZGRlZCBudWxzXG4yOiBJbiByZWFkQ2hhcihmaWxlLCBzaXplLCBUUlVFKSA6IHRydW5jYXRpbmcgc3RyaW5nIHdpdGggZW1iZWRkZWQgbnVsc1xuMzogSW4gcmVhZENoYXIoZmlsZSwgc2l6ZSwgVFJVRSkgOiB0cnVuY2F0aW5nIHN0cmluZyB3aXRoIGVtYmVkZGVkIG51bHNcbjQ6IEluIHJlYWRDaGFyKGZpbGUsIHNpemUsIFRSVUUpIDogdHJ1bmNhdGluZyBzdHJpbmcgd2l0aCBlbWJlZGRlZCBudWxzXG4ifQ== -->
-<pre><code>Warning messages:
-1: In readChar(file, size, TRUE) : truncating string with embedded nuls
-2: In readChar(file, size, TRUE) : truncating string with embedded nuls
-3: In readChar(file, size, TRUE) : truncating string with embedded nuls
-4: In readChar(file, size, TRUE) : truncating string with embedded nuls</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmNfZm9vZCAlPiVcbmZvcmVjYXN0KGg9MjYpICU+JVxuICBhdXRvcGxvdCgpXG5gYGAifQ== -->
-<pre class="r"><code>fc_food %&gt;%
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmNfZm9vZDwtZm9yZWNhc3QoZm9vZClcbmZjX2Zvb2QgJT4lXG5mb3JlY2FzdChoPTI2KSAlPiVcbiAgYXV0b3Bsb3QoKVxuYGBgIn0= -->
+<pre class="r"><code>fc_food&lt;-forecast(food)
+fc_food %&gt;%
 forecast(h=26) %&gt;%
   autoplot()</code></pre>
 <!-- rnb-source-end -->
@@ -1899,11 +1890,29 @@ Frequency = 52.1785714285714
 [5,]  0.53
 [6,]  0.56</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWluKGZvb2QpXG5gYGAifQ== -->
+<pre class="r"><code>min(food)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuNDVcbiJ9 -->
+<pre><code>[1] 0.45</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF4KGZvb2QpXG5gYGAifQ== -->
+<pre class="r"><code>max(food)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEuMzVcbiJ9 -->
+<pre><code>[1] 1.35</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud2hpY2gubWluKGZvb2QpXG5gYGAifQ== -->
+<pre class="r"><code>which.min(food)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDI2N1xuIn0= -->
+<pre><code>[1] 267</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNQUCBmb3IgRk9PRCINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCmBgYHtyfQ0KbGlicmFyeShmb3JlY2FzdCkNCmxpYnJhcnkoZ2dwbG90MikNCmxpYnJhcnkocmVhZHIpDQpgYGANCg0KYGBge3J9DQpGT09EIDwtIHJlYWRfY3N2KCJ+L1IvU1BQL0NTVi9GT09ELmNzdiIsIGNvbF90eXBlcyA9IGNvbHMoV2VlayA9IGNvbF9kYXRlKGZvcm1hdCA9ICIlWS0lbS0lZCIpKSkNCmZvb2QgPC0gdHMoRk9PRFssMl0sIGZyZXE9MzY1LjI1LzcsIHN0YXJ0PTIwMTUrNDQvMzY1LjI1KQ0KZm9vZCAlPiUNCiAgYXV0b3Bsb3QoKQ0KYGBgDQoNCmBgYHtyfQ0KcGxvdChkZWNvbXBvc2UoZm9vZCkpDQpgYGANCg0KYGBge3J9DQp0cmFpbmluZ19mb29kIDwtIHN1YnNldChmb29kLCBlbmQ9bGVuZ3RoKGZvb2QpLTIpDQp0ZXN0X2Zvb2QgPC0gc3Vic2V0KGZvb2QsIHN0YXJ0PWxlbmd0aChmb29kKS0xKQ0KZmNfdHJhaW5pbmdfZm9vZDwtZm9yZWNhc3QodHJhaW5pbmdfZm9vZCkNCmZjX3RyYWluaW5nX2Zvb2QgJT4lDQogIGZvcmVjYXN0KGg9MTApICU+JQ0KICBhdXRvcGxvdCgpICthdXRvbGF5ZXIodGVzdF9mb29kKQ0KYGBgDQoNCmBgYHtyfQ0KZmNfdHJhaW5pbmdfZm9vZA0KYGBgDQoNCmBgYHtyfQ0KZmNfZm9vZDwtZm9yZWNhc3QoZm9vZCkNCmZjX2Zvb2QgJT4lDQpmb3JlY2FzdChoPTI2KSAlPiUNCiAgYXV0b3Bsb3QoKQ0KYGBgDQoNCmBgYHtyfQ0KZmNfZm9vZA0KYGBgDQoNCmBgYHtyfQ0KYWNjdXJhY3koZmNfZm9vZCkNCmBgYA0KDQpgYGB7cn0NCnRhaWwoZm9vZCkNCmBgYA0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlNQUCBmb3IgRk9PRCINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCmBgYHtyfQ0KbGlicmFyeShmb3JlY2FzdCkNCmxpYnJhcnkoZ2dwbG90MikNCmxpYnJhcnkocmVhZHIpDQpgYGANCg0KYGBge3J9DQpGT09EIDwtIHJlYWRfY3N2KCJ+L1IvU1BQL0NTVi9GT09ELmNzdiIsIGNvbF90eXBlcyA9IGNvbHMoV2VlayA9IGNvbF9kYXRlKGZvcm1hdCA9ICIlWS0lbS0lZCIpKSkNCmZvb2QgPC0gdHMoRk9PRFssMl0sIGZyZXE9MzY1LjI1LzcsIHN0YXJ0PTIwMTUrNDQvMzY1LjI1KQ0KZm9vZCAlPiUNCiAgYXV0b3Bsb3QoKQ0KYGBgDQoNCmBgYHtyfQ0KcGxvdChkZWNvbXBvc2UoZm9vZCkpDQpgYGANCg0KYGBge3J9DQp0cmFpbmluZ19mb29kIDwtIHN1YnNldChmb29kLCBlbmQ9bGVuZ3RoKGZvb2QpLTIpDQp0ZXN0X2Zvb2QgPC0gc3Vic2V0KGZvb2QsIHN0YXJ0PWxlbmd0aChmb29kKS0xKQ0KZmNfdHJhaW5pbmdfZm9vZDwtZm9yZWNhc3QodHJhaW5pbmdfZm9vZCkNCmZjX3RyYWluaW5nX2Zvb2QgJT4lDQogIGZvcmVjYXN0KGg9MTApICU+JQ0KICBhdXRvcGxvdCgpICthdXRvbGF5ZXIodGVzdF9mb29kKQ0KYGBgDQoNCmBgYHtyfQ0KZmNfdHJhaW5pbmdfZm9vZA0KYGBgDQoNCmBgYHtyfQ0KZmNfZm9vZDwtZm9yZWNhc3QoZm9vZCkNCmZjX2Zvb2QgJT4lDQpmb3JlY2FzdChoPTI2KSAlPiUNCiAgYXV0b3Bsb3QoKQ0KYGBgDQoNCmBgYHtyfQ0KZmNfZm9vZA0KYGBgDQoNCmBgYHtyfQ0KYWNjdXJhY3koZmNfZm9vZCkNCmBgYA0KDQpgYGB7cn0NCnRhaWwoZm9vZCkNCm1pbihmb29kKQ0KbWF4KGZvb2QpDQp3aGljaC5taW4oZm9vZCkNCmBgYA0KDQo=</div>
 
 
 

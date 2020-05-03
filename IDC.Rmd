@@ -21,11 +21,11 @@ plot(decompose(idc))
 ```
 
 ```{r}
-training_idc <- subset(idc, end=length(idc)-91)
-test_idc <- subset(idc, start=length(idc)-90)
+training_idc <- subset(idc, end=length(idc)-3)
+test_idc <- subset(idc, start=length(idc)-2)
 fc_training_idc<-forecast(training_idc)
 fc_training_idc %>%
-  forecast(h=100) %>%
+  forecast(h=26) %>%
   autoplot() +autolayer(test_idc)
 ```
 

@@ -50,5 +50,8 @@ accuracy(fc_smc)
 
 ```{r}
 tail(smc)
+min(smc)
+max(smc)
+which.min(smc)
 ```
 
