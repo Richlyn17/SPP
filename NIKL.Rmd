@@ -1,0 +1,56 @@
+---
+title: "NIKL for SSP"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+NIKL <- read_csv("~/R/SPP/CSV/NIKL.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+nikl <- ts(NIKL[,2], freq=365.25/7, start=2015+128/365.25)
+nikl %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(nikl))
+```
+
+```{r}
+training_nikl <- subset(nikl, end=length(nikl)-91)
+test_nikl <- subset(nikl, start=length(nikl)-90)
+fc_training_nikl<-forecast(training_nikl)
+fc_training_nikl %>%
+  forecast(h=100) %>%
+  autoplot() +autolayer(test_nikl)
+```
+
+```{r}
+fc_training_nikl
+```
+
+```{r}
+fc_nikl<-forecast(nikl)
+fc_nikl %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_nikl
+```
+
+```{r}
+accuracy(fc_nikl)
+```
+
+```{r}
+tail(nikl)
+min(nikl)
+max(nikl)
+which.min(nikl)
+```
