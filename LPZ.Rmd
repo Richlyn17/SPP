@@ -1,0 +1,56 @@
+---
+title: "SPP for LPZ"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+LPZ <- read_csv("~/R/SPP/CSV/LPZ.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+lpz <- ts(LPZ[,2], freq=365.25/7, start=2015+128/365.25)
+lpz %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(lpz))
+```
+
+```{r}
+training_lpz <- subset(lpz, end=length(lpz)-2)
+test_lpz <- subset(lpz, start=length(lpz)-1)
+fc_training_lpz<-forecast(training_lpz)
+fc_training_lpz %>%
+  forecast(h=100) %>%
+  autoplot() +autolayer(test_lpz)
+```
+
+```{r}
+fc_training_lpz
+```
+
+```{r}
+fc_lpz<-forecast(lpz)
+fc_lpz %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_lpz
+```
+
+```{r}
+accuracy(fc_lpz)
+```
+
+```{r}
+tail(lpz)
+min(lpz)
+max(lpz)
+which.min(lpz)
+```
