@@ -21,8 +21,8 @@ plot(decompose(allhc))
 ```
 
 ```{r}
-training_allhc <- subset(allhc, end=length(allhc)-2)
-test_allhc <- subset(allhc, start=length(allhc)-1)
+training_allhc <- subset(allhc, end=length(allhc)-5)
+test_allhc <- subset(allhc, start=length(allhc)-4)
 fc_training_allhc<-forecast(training_allhc)
 fc_training_allhc %>%
   forecast(h=10) %>%

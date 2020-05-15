@@ -36,7 +36,7 @@ fc_training_tech
 ```{r}
 fc_tech<-forecast(tech)
 fc_tech %>%
-  forecast(h=26) %>%
+  forecast(h=52) %>%
   autoplot()
 ```
 
