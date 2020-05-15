@@ -21,8 +21,8 @@ plot(decompose(mpi))
 ```
 
 ```{r}
-training_mpi <- subset(mpi, end=length(mpi)-4)
-test_mpi <- subset(mpi, start=length(mpi)-3)
+training_mpi <- subset(mpi, end=length(mpi)-5)
+test_mpi <- subset(mpi, start=length(mpi)-4)
 fc_training_mpi<-forecast(training_mpi)
 fc_training_mpi %>%
   forecast(h=26) %>%

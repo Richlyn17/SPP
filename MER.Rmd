@@ -1,0 +1,56 @@
+---
+title: "SPP for MER"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+MER <- read_csv("~/R/SPP/CSV/MER.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+mer <- ts(MER[,2], freq=365.25/7, start=2015+135/365.25)
+mer %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(mer))
+```
+
+```{r}
+training_mer <- subset(mer, end=length(mer)-3)
+test_mer <- subset(mer, start=length(mer)-2)
+fc_training_mer<-forecast(training_mer)
+fc_training_mer %>%
+  forecast(h=100) %>%
+  autoplot() +autolayer(test_mer)
+```
+
+```{r}
+fc_training_mer
+```
+
+```{r}
+fc_mer<-forecast(mer)
+fc_mer %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_mer
+```
+
+```{r}
+accuracy(fc_mer)
+```
+
+```{r}
+tail(mer)
+min(mer)
+max(mer)
+which.min(mer)
+```
