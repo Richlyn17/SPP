@@ -21,11 +21,11 @@ plot(decompose(mah))
 ```
 
 ```{r}
-training_mah <- subset(mah, end=length(mah)-2)
-test_mah <- subset(mah, start=length(mah)-1)
+training_mah <- subset(mah, end=length(mah)-5)
+test_mah <- subset(mah, start=length(mah)-4)
 fc_training_mah<-forecast(training_mah)
 fc_training_mah %>%
-  forecast(h=10) %>%
+  forecast(h=20) %>%
   autoplot() +autolayer(test_mah)
 ```
 

@@ -21,11 +21,11 @@ plot(decompose(mer))
 ```
 
 ```{r}
-training_mer <- subset(mer, end=length(mer)-3)
-test_mer <- subset(mer, start=length(mer)-2)
+training_mer <- subset(mer, end=length(mer)-5)
+test_mer <- subset(mer, start=length(mer)-4)
 fc_training_mer<-forecast(training_mer)
 fc_training_mer %>%
-  forecast(h=100) %>%
+  forecast(h=20) %>%
   autoplot() +autolayer(test_mer)
 ```
 

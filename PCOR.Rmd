@@ -21,11 +21,11 @@ plot(decompose(pcor))
 ```
 
 ```{r}
-training_pcor <- subset(pcor, end=length(pcor)-2)
-test_pcor <- subset(pcor, start=length(pcor)-1)
+training_pcor <- subset(pcor, end=length(pcor)-5)
+test_pcor <- subset(pcor, start=length(pcor)-4)
 fc_training_pcor<-forecast(training_pcor)
 fc_training_pcor %>%
-  forecast(h=10) %>%
+  forecast(h=26) %>%
   autoplot() +autolayer(test_pcor)
 ```
 

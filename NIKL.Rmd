@@ -21,11 +21,11 @@ plot(decompose(nikl))
 ```
 
 ```{r}
-training_nikl <- subset(nikl, end=length(nikl)-91)
-test_nikl <- subset(nikl, start=length(nikl)-90)
+training_nikl <- subset(nikl, end=length(nikl)-5)
+test_nikl <- subset(nikl, start=length(nikl)-4)
 fc_training_nikl<-forecast(training_nikl)
 fc_training_nikl %>%
-  forecast(h=100) %>%
+  forecast(h=20) %>%
   autoplot() +autolayer(test_nikl)
 ```
 

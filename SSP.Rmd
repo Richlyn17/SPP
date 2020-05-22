@@ -21,11 +21,11 @@ plot(decompose(ssp))
 ```
 
 ```{r}
-training_ssp <- subset(ssp, end=length(ssp)-2)
-test_ssp <- subset(ssp, start=length(ssp)-1)
+training_ssp <- subset(ssp, end=length(ssp)-5)
+test_ssp <- subset(ssp, start=length(ssp)-4)
 fc_training_ssp<-forecast(training_ssp)
 fc_training_ssp %>%
-  forecast(h=100) %>%
+  forecast(h=26) %>%
   autoplot() +autolayer(test_ssp)
 ```
 
