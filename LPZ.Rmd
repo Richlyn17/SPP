@@ -21,11 +21,11 @@ plot(decompose(lpz))
 ```
 
 ```{r}
-training_lpz <- subset(lpz, end=length(lpz)-2)
-test_lpz <- subset(lpz, start=length(lpz)-1)
+training_lpz <- subset(lpz, end=length(lpz)-4)
+test_lpz <- subset(lpz, start=length(lpz)-3)
 fc_training_lpz<-forecast(training_lpz)
 fc_training_lpz %>%
-  forecast(h=100) %>%
+  forecast(h=26) %>%
   autoplot() +autolayer(test_lpz)
 ```
 
