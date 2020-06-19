@@ -25,7 +25,7 @@ training_nikl <- subset(nikl, end=length(nikl)-5)
 test_nikl <- subset(nikl, start=length(nikl)-4)
 fc_training_nikl<-forecast(training_nikl)
 fc_training_nikl %>%
-  forecast(h=20) %>%
+  forecast(h=30) %>%
   autoplot() +autolayer(test_nikl)
 ```
 
