@@ -1,0 +1,56 @@
+---
+title: "SPP for MEG"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+MEG <- read_csv("~/R/SPP/CSV/MEG.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+meg <- ts(MEG[,2], freq=365.25/7, start=2015+177/365.25)
+meg %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(meg))
+```
+
+```{r}
+training_meg <- subset(meg, end=length(meg)-5)
+test_meg <- subset(meg, start=length(meg)-4)
+fc_training_meg<-forecast(training_meg)
+fc_training_meg %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_meg)
+```
+
+```{r}
+fc_training_meg
+```
+
+```{r}
+fc_meg<-forecast(meg)
+fc_meg %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_meg
+```
+
+```{r}
+accuracy(fc_meg)
+```
+
+```{r}
+tail(meg)
+min(meg)
+max(meg)
+which.min(meg)
+```

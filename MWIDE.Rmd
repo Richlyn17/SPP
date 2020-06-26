@@ -1,0 +1,56 @@
+---
+title: "SPP for MWIDE"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+MWIDE <- read_csv("~/R/SPP/CSV/MWIDE.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+mwide <- ts(MWIDE[,2], freq=365.25/7, start=2015+177/365.25)
+mwide %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(mwide))
+```
+
+```{r}
+training_mwide <- subset(mwide, end=length(mwide)-5)
+test_mwide <- subset(mwide, start=length(mwide)-4)
+fc_training_mwide<-forecast(training_mwide)
+fc_training_mwide %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_mwide)
+```
+
+```{r}
+fc_training_mwide
+```
+
+```{r}
+fc_mwide<-forecast(mwide)
+fc_mwide %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_mwide
+```
+
+```{r}
+accuracy(fc_mwide)
+```
+
+```{r}
+tail(mwide)
+min(mwide)
+max(mwide)
+which.min(mwide)
+```

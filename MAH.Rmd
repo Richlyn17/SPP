@@ -50,4 +50,6 @@ accuracy(fc_mah)
 
 ```{r}
 tail(mah)
+min(mah)
+max(mah)
 ```
