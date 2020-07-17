@@ -21,8 +21,8 @@ plot(decompose(tugo))
 ```
 
 ```{r}
-training_tugo <- subset(tugo, end=length(tugo)-4)
-test_tugo <- subset(tugo, start=length(tugo)-3)
+training_tugo <- subset(tugo, end=length(tugo)-3)
+test_tugo <- subset(tugo, start=length(tugo)-2)
 fc_training_tugo<-forecast(training_tugo)
 fc_training_tugo %>%
   forecast(h=26) %>%

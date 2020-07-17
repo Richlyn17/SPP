@@ -21,8 +21,8 @@ plot(decompose(mwide))
 ```
 
 ```{r}
-training_mwide <- subset(mwide, end=length(mwide)-5)
-test_mwide <- subset(mwide, start=length(mwide)-4)
+training_mwide <- subset(mwide, end=length(mwide)-3)
+test_mwide <- subset(mwide, start=length(mwide)-2)
 fc_training_mwide<-forecast(training_mwide)
 fc_training_mwide %>%
   forecast(h=26) %>%
@@ -36,7 +36,7 @@ fc_training_mwide
 ```{r}
 fc_mwide<-forecast(mwide)
 fc_mwide %>%
-  forecast(h=26) %>%
+  forecast(h=52) %>%
   autoplot()
 ```
 

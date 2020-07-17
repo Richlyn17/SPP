@@ -1,0 +1,56 @@
+---
+title: "SPP for APX"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+APX <- read_csv("~/R/SPP/CSV/APX.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+apx <- ts(APX[,2], freq=365.25/7, start=2015+198/365.25)
+apx %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(apx))
+```
+
+```{r}
+training_apx <- subset(apx, end=length(apx)-3)
+test_apx <- subset(apx, start=length(apx)-2)
+fc_training_apx<-forecast(training_apx)
+fc_training_apx %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_apx)
+```
+
+```{r}
+fc_training_apx
+```
+
+```{r}
+fc_apx<-forecast(apx)
+fc_apx %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_apx
+```
+
+```{r}
+accuracy(fc_apx)
+```
+
+```{r}
+tail(apx)
+min(apx)
+max(apx)
+which.min(apx)
+```

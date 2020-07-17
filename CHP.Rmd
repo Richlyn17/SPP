@@ -1,0 +1,56 @@
+---
+title: "SPP for CHP"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+CHP <- read_csv("~/R/SPP/CSV/CHP.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+chp <- ts(CHP[,2], freq=365.25/7, start=2016+196.75/365.25)
+chp %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(chp))
+```
+
+```{r}
+training_chp <- subset(chp, end=length(chp)-3)
+test_chp <- subset(chp, start=length(chp)-2)
+fc_training_chp<-forecast(training_chp)
+fc_training_chp %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_chp)
+```
+
+```{r}
+fc_training_chp
+```
+
+```{r}
+fc_chp<-forecast(chp)
+fc_chp %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_chp
+```
+
+```{r}
+accuracy(fc_chp)
+```
+
+```{r}
+tail(chp)
+min(chp)
+max(chp)
+which.min(chp)
+```

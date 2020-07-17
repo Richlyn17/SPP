@@ -21,8 +21,8 @@ plot(decompose(tech))
 ```
 
 ```{r}
-training_tech <- subset(tech, end=length(tech)-5)
-test_tech <- subset(tech, start=length(tech)-4)
+training_tech <- subset(tech, end=length(tech)-3)
+test_tech <- subset(tech, start=length(tech)-2)
 fc_training_tech<-forecast(training_tech)
 fc_training_tech %>%
   forecast(h=26) %>%

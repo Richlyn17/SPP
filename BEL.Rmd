@@ -21,8 +21,8 @@ plot(decompose(bel))
 ```
 
 ```{r}
-training_bel <- subset(bel, end=length(bel)-2)
-test_bel <- subset(bel, start=length(bel)-1)
+training_bel <- subset(bel, end=length(bel)-3)
+test_bel <- subset(bel, start=length(bel)-2)
 fc_training_bel<-forecast(training_bel)
 fc_training_bel %>%
   forecast(h=10) %>%

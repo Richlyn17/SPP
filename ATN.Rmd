@@ -25,7 +25,7 @@ training_atn <- subset(atn, end=length(atn)-3)
 test_atn <- subset(atn, start=length(atn)-2)
 fc_training_atn<-forecast(training_atn)
 fc_training_atn %>%
-  forecast(h=100) %>%
+  forecast(h=26) %>%
   autoplot() +autolayer(test_atn)
 ```
 

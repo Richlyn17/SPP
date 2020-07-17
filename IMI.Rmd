@@ -21,11 +21,11 @@ plot(decompose(imi))
 ```
 
 ```{r}
-training_imi <- subset(imi, end=length(imi)-2)
-test_imi <- subset(imi, start=length(imi)-1)
+training_imi <- subset(imi, end=length(imi)-3)
+test_imi <- subset(imi, start=length(imi)-2)
 fc_training_imi<-forecast(training_imi)
 fc_training_imi %>%
-  forecast(h=10) %>%
+  forecast(h=26) %>%
   autoplot() +autolayer(test_imi)
 ```
 

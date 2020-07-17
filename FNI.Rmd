@@ -1,0 +1,56 @@
+---
+title: "SPP for FNI"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+FNI <- read_csv("~/R/SPP/CSV/FNI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+fni <- ts(FNI[,2], freq=365.25/7, start=2015+191/365.25)
+fni %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(fni))
+```
+
+```{r}
+training_fni <- subset(fni, end=length(fni)-3)
+test_fni <- subset(fni, start=length(fni)-2)
+fc_training_fni<-forecast(training_fni)
+fc_training_fni %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_fni)
+```
+
+```{r}
+fc_training_fni
+```
+
+```{r}
+fc_fni<-forecast(fni)
+fc_fni %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_fni
+```
+
+```{r}
+accuracy(fc_fni)
+```
+
+```{r}
+tail(fni)
+min(fni)
+max(fni)
+which.min(fni)
+```

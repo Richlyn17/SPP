@@ -21,11 +21,11 @@ plot(decompose(ism))
 ```
 
 ```{r}
-training_ism <- subset(ism, end=length(ism)-10)
-test_ism <- subset(ism, start=length(ism)-9)
+training_ism <- subset(ism, end=length(ism)-3)
+test_ism <- subset(ism, start=length(ism)-2)
 fc_training_ism<-forecast(training_ism)
 fc_training_ism %>%
-  forecast(h=20) %>%
+  forecast(h=26) %>%
   autoplot() +autolayer(test_ism)
 ```
 

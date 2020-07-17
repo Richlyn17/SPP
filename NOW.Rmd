@@ -1,0 +1,56 @@
+---
+title: "SPP for NOW"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+NOW <- read_csv("~/R/SPP/CSV/NOW.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+now <- ts(NOW[,2], freq=365.25/7, start=2015+198/365.25)
+now %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(now))
+```
+
+```{r}
+training_now <- subset(now, end=length(now)-3)
+test_now <- subset(now, start=length(now)-2)
+fc_training_now<-forecast(training_now)
+fc_training_now %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_now)
+```
+
+```{r}
+fc_training_now
+```
+
+```{r}
+fc_now<-forecast(now)
+fc_now %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_now
+```
+
+```{r}
+accuracy(fc_now)
+```
+
+```{r}
+tail(now)
+min(now)
+max(now)
+which.min(now)
+```
