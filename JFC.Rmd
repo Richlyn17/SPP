@@ -1,0 +1,56 @@
+---
+title: "SPP for MARC"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+JFC <- read_csv("~/R/SPP/CSV/JFC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+jfc <- ts(JFC[,2], freq=365.25/7, start=2015+226/365.25)
+jfc %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(marc))
+```
+
+```{r}
+training_marc <- subset(marc, end=length(marc)-3)
+test_marc <- subset(marc, start=length(marc)-2)
+fc_training_marc<-forecast(training_marc)
+fc_training_marc %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_marc)
+```
+
+```{r}
+fc_training_marc
+```
+
+```{r}
+fc_marc<-forecast(marc)
+fc_marc %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_marc
+```
+
+```{r}
+accuracy(fc_marc)
+```
+
+```{r}
+tail(marc)
+min(marc)
+max(marc)
+which.min(marc)
+```
