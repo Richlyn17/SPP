@@ -1,0 +1,56 @@
+---
+title: "PSEI"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+PSEI <- read_csv("~/R/SPP/CSV/PSEI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+psei <- ts(PSEI[,2], freq=365.25/7, start=2015+226/365.25)
+psei %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(psei))
+```
+
+```{r}
+training_psei <- subset(psei, end=length(psei)-3)
+test_psei <- subset(psei, start=length(psei)-2)
+fc_training_psei<-forecast(training_psei)
+fc_training_psei %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_psei)
+```
+
+```{r}
+fc_training_psei
+```
+
+```{r}
+fc_psei<-forecast(psei)
+fc_psei %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_psei
+```
+
+```{r}
+accuracy(fc_psei)
+```
+
+```{r}
+tail(psei)
+min(psei)
+max(psei)
+which.min(psei)
+```
