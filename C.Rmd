@@ -25,7 +25,7 @@ training_c <- subset(c, end=length(c)-3)
 test_c <- subset(c, start=length(c)-2)
 fc_training_c<-forecast(training_c)
 fc_training_c %>%
-  forecast(h=10) %>%
+  forecast(h=26) %>%
   autoplot() +autolayer(test_c)
 ```
 
