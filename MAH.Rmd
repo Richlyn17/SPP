@@ -36,7 +36,7 @@ fc_training_mah
 ```{r}
 fc_mah<-forecast(mah)
 fc_mah %>%
-  forecast(h=5) %>%
+  forecast(h=26) %>%
   autoplot()
 ```
 
