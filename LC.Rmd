@@ -1,0 +1,56 @@
+---
+title: "SPP for LC"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+LC <- read_csv("~/R/SPP/CSV/LC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+lc <- ts(LC[,2], freq=365.25/7, start=2015+219/365.25)
+lc %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(lc))
+```
+
+```{r}
+training_lc <- subset(lc, end=length(lc)-3)
+test_lc <- subset(lc, start=length(lc)-2)
+fc_training_lc<-forecast(training_lc)
+fc_training_lc %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_lc)
+```
+
+```{r}
+fc_training_lc
+```
+
+```{r}
+fc_lc<-forecast(lc)
+fc_lc %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_lc
+```
+
+```{r}
+accuracy(fc_lc)
+```
+
+```{r}
+tail(lc)
+min(lc)
+max(lc)
+which.min(lc)
+```
