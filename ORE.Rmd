@@ -1,0 +1,56 @@
+---
+title: "SPP for ORE"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+ORE <- read_csv("~/R/SPP/CSV/ORE.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+ore <- ts(ORE[,2], freq=365.25/7, start=2015+247/365.25)
+ore %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(ore))
+```
+
+```{r}
+training_ore <- subset(ore, end=length(ore)-3)
+test_ore <- subset(ore, start=length(ore)-2)
+fc_training_ore<-forecast(training_ore)
+fc_training_ore %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_ore)
+```
+
+```{r}
+fc_training_ore
+```
+
+```{r}
+fc_ore<-forecast(ore)
+fc_ore %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_ore
+```
+
+```{r}
+accuracy(fc_ore)
+```
+
+```{r}
+tail(ore)
+min(ore)
+max(ore)
+which.min(ore)
+```
