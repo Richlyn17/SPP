@@ -36,7 +36,7 @@ fc_training_psei
 ```{r}
 fc_psei<-forecast(psei)
 fc_psei %>%
-  forecast(h=26) %>%
+  forecast(h=40) %>%
   autoplot()
 ```
 
