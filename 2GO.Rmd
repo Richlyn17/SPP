@@ -36,7 +36,7 @@ fc_training_tugo
 ```{r}
 fc_tugo<-forecast(tugo)
 fc_tugo %>%
-  forecast(h=26) %>%
+  forecast(h=27) %>%
   autoplot()
 ```
 
