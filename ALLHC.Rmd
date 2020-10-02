@@ -54,4 +54,3 @@ min(allhc)
 max(allhc)
 which.min(allhc)
 ```
-
