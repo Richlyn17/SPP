@@ -1,0 +1,56 @@
+---
+title: "SPP for BC"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+BC <- read_csv("~/R/SPP/CSV/BC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+bc <- ts(BC[,2], freq=365.25/7, start=2015+65/365.25)
+bc %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(bc))
+```
+
+```{r}
+training_bc <- subset(bc, end=length(bc)-1)
+test_bc <- subset(bc, start=length(bc)-1)
+fc_training_bc<-forecast(training_bc)
+fc_training_bc %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_bc)
+```
+
+```{r}
+fc_training_bc
+```
+
+```{r}
+fc_bc<-forecast(bc)
+fc_bc %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_bc
+```
+
+```{r}
+accuracy(fc_bc)
+```
+
+```{r}
+tail(bc)
+min(bc)
+max(bc)
+which.min(bc)
+```
