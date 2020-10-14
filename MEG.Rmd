@@ -21,8 +21,8 @@ plot(decompose(meg))
 ```
 
 ```{r}
-training_meg <- subset(meg, end=length(meg)-3)
-test_meg <- subset(meg, start=length(meg)-2)
+training_meg <- subset(meg, end=length(meg)-1)
+test_meg <- subset(meg, start=length(meg)-1)
 fc_training_meg<-forecast(training_meg)
 fc_training_meg %>%
   forecast(h=26) %>%

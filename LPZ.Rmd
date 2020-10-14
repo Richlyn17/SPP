@@ -21,8 +21,8 @@ plot(decompose(lpz))
 ```
 
 ```{r}
-training_lpz <- subset(lpz, end=length(lpz)-3)
-test_lpz <- subset(lpz, start=length(lpz)-2)
+training_lpz <- subset(lpz, end=length(lpz)-1)
+test_lpz <- subset(lpz, start=length(lpz)-1)
 fc_training_lpz<-forecast(training_lpz)
 fc_training_lpz %>%
   forecast(h=26) %>%

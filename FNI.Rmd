@@ -21,8 +21,8 @@ plot(decompose(fni))
 ```
 
 ```{r}
-training_fni <- subset(fni, end=length(fni)-3)
-test_fni <- subset(fni, start=length(fni)-2)
+training_fni <- subset(fni, end=length(fni)-1)
+test_fni <- subset(fni, start=length(fni)-1)
 fc_training_fni<-forecast(training_fni)
 fc_training_fni %>%
   forecast(h=26) %>%

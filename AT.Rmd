@@ -1,0 +1,56 @@
+---
+title: "SPP for AT"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+AT <- read_csv("~/R/SPP/CSV/AT.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+at <- ts(AT[,2], freq=365.25/7, start=2015+65/365.25)
+at %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(at))
+```
+
+```{r}
+training_at <- subset(at, end=length(at)-1)
+test_at <- subset(at, start=length(at)-1)
+fc_training_at<-forecast(training_at)
+fc_training_at %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_at)
+```
+
+```{r}
+fc_training_at
+```
+
+```{r}
+fc_at<-forecast(at)
+fc_at %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_at
+```
+
+```{r}
+accuracy(fc_at)
+```
+
+```{r}
+tail(at)
+min(at)
+max(at)
+which.min(at)
+```

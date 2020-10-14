@@ -21,8 +21,8 @@ plot(decompose(apx))
 ```
 
 ```{r}
-training_apx <- subset(apx, end=length(apx)-3)
-test_apx <- subset(apx, start=length(apx)-2)
+training_apx <- subset(apx, end=length(apx)-1)
+test_apx <- subset(apx, start=length(apx)-1)
 fc_training_apx<-forecast(training_apx)
 fc_training_apx %>%
   forecast(h=26) %>%

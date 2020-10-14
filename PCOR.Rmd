@@ -21,8 +21,8 @@ plot(decompose(pcor))
 ```
 
 ```{r}
-training_pcor <- subset(pcor, end=length(pcor)-3)
-test_pcor <- subset(pcor, start=length(pcor)-2)
+training_pcor <- subset(pcor, end=length(pcor)-1)
+test_pcor <- subset(pcor, start=length(pcor)-1)
 fc_training_pcor<-forecast(training_pcor)
 fc_training_pcor %>%
   forecast(h=26) %>%

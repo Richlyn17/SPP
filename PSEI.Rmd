@@ -21,8 +21,8 @@ plot(decompose(psei))
 ```
 
 ```{r}
-training_psei <- subset(psei, end=length(psei)-3)
-test_psei <- subset(psei, start=length(psei)-2)
+training_psei <- subset(psei, end=length(psei)-1)
+test_psei <- subset(psei, start=length(psei)-1)
 fc_training_psei<-forecast(training_psei)
 fc_training_psei %>%
   forecast(h=26) %>%

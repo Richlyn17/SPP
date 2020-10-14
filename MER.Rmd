@@ -21,8 +21,8 @@ plot(decompose(mer))
 ```
 
 ```{r}
-training_mer <- subset(mer, end=length(mer)-3)
-test_mer <- subset(mer, start=length(mer)-2)
+training_mer <- subset(mer, end=length(mer)-1)
+test_mer <- subset(mer, start=length(mer)-1)
 fc_training_mer<-forecast(training_mer)
 fc_training_mer %>%
   forecast(h=20) %>%

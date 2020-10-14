@@ -21,8 +21,8 @@ plot(decompose(now))
 ```
 
 ```{r}
-training_now <- subset(now, end=length(now)-3)
-test_now <- subset(now, start=length(now)-2)
+training_now <- subset(now, end=length(now)-1)
+test_now <- subset(now, start=length(now)-1)
 fc_training_now<-forecast(training_now)
 fc_training_now %>%
   forecast(h=26) %>%

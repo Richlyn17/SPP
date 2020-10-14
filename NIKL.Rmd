@@ -21,8 +21,8 @@ plot(decompose(nikl))
 ```
 
 ```{r}
-training_nikl <- subset(nikl, end=length(nikl)-3)
-test_nikl <- subset(nikl, start=length(nikl)-2)
+training_nikl <- subset(nikl, end=length(nikl)-1)
+test_nikl <- subset(nikl, start=length(nikl)-1)
 fc_training_nikl<-forecast(training_nikl)
 fc_training_nikl %>%
   forecast(h=30) %>%

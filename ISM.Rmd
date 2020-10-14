@@ -21,8 +21,8 @@ plot(decompose(ism))
 ```
 
 ```{r}
-training_ism <- subset(ism, end=length(ism)-3)
-test_ism <- subset(ism, start=length(ism)-2)
+training_ism <- subset(ism, end=length(ism)-1)
+test_ism <- subset(ism, start=length(ism)-1)
 fc_training_ism<-forecast(training_ism)
 fc_training_ism %>%
   forecast(h=26) %>%

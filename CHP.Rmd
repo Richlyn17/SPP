@@ -21,8 +21,8 @@ plot(decompose(chp))
 ```
 
 ```{r}
-training_chp <- subset(chp, end=length(chp)-3)
-test_chp <- subset(chp, start=length(chp)-2)
+training_chp <- subset(chp, end=length(chp)-1)
+test_chp <- subset(chp, start=length(chp)-1)
 fc_training_chp<-forecast(training_chp)
 fc_training_chp %>%
   forecast(h=26) %>%

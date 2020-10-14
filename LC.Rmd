@@ -21,8 +21,8 @@ plot(decompose(lc))
 ```
 
 ```{r}
-training_lc <- subset(lc, end=length(lc)-3)
-test_lc <- subset(lc, start=length(lc)-2)
+training_lc <- subset(lc, end=length(lc)-1)
+test_lc <- subset(lc, start=length(lc)-1)
 fc_training_lc<-forecast(training_lc)
 fc_training_lc %>%
   forecast(h=26) %>%

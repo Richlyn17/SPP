@@ -21,8 +21,8 @@ plot(decompose(mah))
 ```
 
 ```{r}
-training_mah <- subset(mah, end=length(mah)-3)
-test_mah <- subset(mah, start=length(mah)-2)
+training_mah <- subset(mah, end=length(mah)-1)
+test_mah <- subset(mah, start=length(mah)-1)
 fc_training_mah<-forecast(training_mah)
 fc_training_mah %>%
   forecast(h=20) %>%

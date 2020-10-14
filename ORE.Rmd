@@ -21,8 +21,8 @@ plot(decompose(ore))
 ```
 
 ```{r}
-training_ore <- subset(ore, end=length(ore)-3)
-test_ore <- subset(ore, start=length(ore)-2)
+training_ore <- subset(ore, end=length(ore)-1)
+test_ore <- subset(ore, start=length(ore)-1)
 fc_training_ore<-forecast(training_ore)
 fc_training_ore %>%
   forecast(h=26) %>%
