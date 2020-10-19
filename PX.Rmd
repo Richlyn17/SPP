@@ -1,0 +1,56 @@
+---
+title: "SPP for PX"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+PX <- read_csv("~/R/SPP/CSV/PX.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+px <- ts(PX[,2], freq=365.25/7, start=2015+65/365.25)
+px %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(px))
+```
+
+```{r}
+training_px <- subset(px, end=length(px)-1)
+test_px <- subset(px, start=length(px)-1)
+fc_training_px<-forecast(training_px)
+fc_training_px %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_px)
+```
+
+```{r}
+fc_training_px
+```
+
+```{r}
+fc_px<-forecast(px)
+fc_px %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_px
+```
+
+```{r}
+accuracy(fc_px)
+```
+
+```{r}
+tail(px)
+min(px)
+max(px)
+which.min(px)
+```
