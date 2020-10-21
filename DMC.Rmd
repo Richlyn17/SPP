@@ -1,0 +1,56 @@
+---
+title: "SPP for DMC"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+DMC <- read_csv("~/R/SPP/CSV/DMC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+dmc <- ts(DMC[,2], freq=365.25/7, start=2015+65/365.25)
+dmc %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(dmc))
+```
+
+```{r}
+training_dmc <- subset(dmc, end=length(dmc)-1)
+test_dmc <- subset(dmc, start=length(dmc)-1)
+fc_training_dmc<-forecast(training_dmc)
+fc_training_dmc %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_dmc)
+```
+
+```{r}
+fc_training_dmc
+```
+
+```{r}
+fc_dmc<-forecast(dmc)
+fc_dmc %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_dmc
+```
+
+```{r}
+accuracy(fc_dmc)
+```
+
+```{r}
+tail(dmc)
+min(dmc)
+max(dmc)
+which.min(dmc)
+```
