@@ -30,7 +30,7 @@ fc_training_idc %>%
 ```
 
 ```{r}
-fc_training_idc
+fc_training_idc↔
 ```
 
 ```{r}

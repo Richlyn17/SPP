@@ -36,7 +36,7 @@ fc_training_dmc
 ```{r}
 fc_dmc<-forecast(dmc)
 fc_dmc %>%
-  forecast(h=26) %>%
+  forecast(h=52) %>%
   autoplot()
 ```
 
