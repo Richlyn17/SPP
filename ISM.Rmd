@@ -36,16 +36,12 @@ fc_training_ism
 ```{r}
 fc_ism<-forecast(ism)
 fc_ism %>%
-  forecast(h=26) %>%
+  forecast(h=52) %>%
   autoplot()
 ```
 
 ```{r}
 fc_ism
-```
-
-```{r}
-accuracy(fc_ism)
 ```
 
 ```{r}
@@ -55,3 +51,58 @@ max(ism)
 which.min(ism)
 ```
 
+```{r}
+bestfit_ism <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_ism <- auto.arima(ism, xreg=fourier(ism, K=i), seasonal=FALSE)
+  if(fit_ism$aicc < bestfit_ism$aicc)
+    bestfit_ism <- fit_ism
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_ism)
+```
+
+```{r}
+fc_arima_ism <- forecast(bestfit_ism, xreg=fourier(ism, K=2, h=26))
+plot(fc_arima_ism)
+```
+```{r}
+fc_arima_ism
+```
+
+```{r}
+accuracy(fc_ism)
+```
+
+```{r}
+accuracy(fc_arima_ism)
+```
+
+```{r}
+fit_ism1 <- auto.arima(ism, xreg=fourier(ism, K=1), seasonal=FALSE)
+fit_ism2 <- auto.arima(ism, xreg=fourier(ism, K=2), seasonal=FALSE)
+fit_ism3 <- auto.arima(ism, xreg=fourier(ism, K=3), seasonal=FALSE)
+fit_ism4 <- auto.arima(ism, xreg=fourier(ism, K=4), seasonal=FALSE)
+fit_ism5 <- auto.arima(ism, xreg=fourier(ism, K=5), seasonal=FALSE)
+fit_ism6 <- auto.arima(ism, xreg=fourier(ism, K=6), seasonal=FALSE)
+fit_ism7 <- auto.arima(ism, xreg=fourier(ism, K=7), seasonal=FALSE)
+fit_ism8 <- auto.arima(ism, xreg=fourier(ism, K=8), seasonal=FALSE)
+fit_ism9 <- auto.arima(ism, xreg=fourier(ism, K=9), seasonal=FALSE)
+fit_ism10 <- auto.arima(ism, xreg=fourier(ism, K=10), seasonal=FALSE)
+fit_ism11 <- auto.arima(ism, xreg=fourier(ism, K=11), seasonal=FALSE)
+fit_ism12 <- auto.arima(ism, xreg=fourier(ism, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_ism1),AIC(fit_ism2),AIC(fit_ism3),AIC(fit_ism4),AIC(fit_ism5),AIC(fit_ism6),AIC(fit_ism7),AIC(fit_ism8),AIC(fit_ism9),AIC(fit_ism10),AIC(fit_ism11),AIC(fit_ism12))
+plot(aics)
+```
+
+```{r}
+fc_ism2 <- forecast(fit_ism2, xreg=fourier(ism, K=2, h=26))
+plot(fc_ism2)
+```
