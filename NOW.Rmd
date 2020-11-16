@@ -45,12 +45,73 @@ fc_now
 ```
 
 ```{r}
-accuracy(fc_now)
-```
-
-```{r}
 tail(now)
 min(now)
 max(now)
 which.min(now)
+```
+
+```{r}
+bestfit_now <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_now <- auto.arima(now, xreg=fourier(now, K=i), seasonal=FALSE)
+  if(fit_now$aicc < bestfit_now$aicc)
+    bestfit_now <- fit_now
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_now)
+```
+
+```{r}
+fc_arima_now <- forecast(bestfit_now, xreg=fourier(now, K=1, h=26))
+plot(fc_arima_now)
+```
+
+```{r}
+fc_arima_now
+```
+
+```{r}
+fit_now1 <- auto.arima(now, xreg=fourier(now, K=1), seasonal=FALSE)
+fit_now2 <- auto.arima(now, xreg=fourier(now, K=2), seasonal=FALSE)
+fit_now3 <- auto.arima(now, xreg=fourier(now, K=3), seasonal=FALSE)
+fit_now4 <- auto.arima(now, xreg=fourier(now, K=4), seasonal=FALSE)
+fit_now5 <- auto.arima(now, xreg=fourier(now, K=5), seasonal=FALSE)
+fit_now6 <- auto.arima(now, xreg=fourier(now, K=6), seasonal=FALSE)
+fit_now7 <- auto.arima(now, xreg=fourier(now, K=7), seasonal=FALSE)
+fit_now8 <- auto.arima(now, xreg=fourier(now, K=8), seasonal=FALSE)
+fit_now9 <- auto.arima(now, xreg=fourier(now, K=9), seasonal=FALSE)
+fit_now10 <- auto.arima(now, xreg=fourier(now, K=10), seasonal=FALSE)
+fit_now11 <- auto.arima(now, xreg=fourier(now, K=11), seasonal=FALSE)
+fit_now12 <- auto.arima(now, xreg=fourier(now, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_now1),AIC(fit_now2),AIC(fit_now3),AIC(fit_now4),AIC(fit_now5),AIC(fit_now6),AIC(fit_now7),AIC(fit_now8),AIC(fit_now9),AIC(fit_now10),AIC(fit_now11),AIC(fit_now12))
+plot(aics)
+```
+
+```{r}
+fc_now8 <- forecast(fit_now8, xreg=fourier(now, K=8, h=26))
+plot(fc_now8)
+```
+
+```{r}
+fc_now8
+```
+
+```{r}
+accuracy(fc_now)
+```
+
+```{r}
+accuracy(fc_arima_now)
+```
+
+```{r}
+accuracy(fc_now8)
 ```

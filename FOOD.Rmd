@@ -55,3 +55,67 @@ max(food)
 which.min(food)
 ```
 
+```{r}
+bestfit_food <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_food <- auto.arima(food, xreg=fourier(food, K=i), seasonal=FALSE)
+  if(fit_food$aicc < bestfit_food$aicc)
+    bestfit_food <- fit_food
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_food)
+```
+
+```{r}
+fc_arima_food <- forecast(bestfit_food, xreg=fourier(food, K=1, h=26))
+plot(fc_arima_food)
+```
+
+```{r}
+fc_arima_food
+```
+
+```{r}
+fit_food1 <- auto.arima(food, xreg=fourier(food, K=1), seasonal=FALSE)
+fit_food2 <- auto.arima(food, xreg=fourier(food, K=2), seasonal=FALSE)
+fit_food3 <- auto.arima(food, xreg=fourier(food, K=3), seasonal=FALSE)
+fit_food4 <- auto.arima(food, xreg=fourier(food, K=4), seasonal=FALSE)
+fit_food5 <- auto.arima(food, xreg=fourier(food, K=5), seasonal=FALSE)
+fit_food6 <- auto.arima(food, xreg=fourier(food, K=6), seasonal=FALSE)
+fit_food7 <- auto.arima(food, xreg=fourier(food, K=7), seasonal=FALSE)
+fit_food8 <- auto.arima(food, xreg=fourier(food, K=8), seasonal=FALSE)
+fit_food9 <- auto.arima(food, xreg=fourier(food, K=9), seasonal=FALSE)
+fit_food10 <- auto.arima(food, xreg=fourier(food, K=10), seasonal=FALSE)
+fit_food11 <- auto.arima(food, xreg=fourier(food, K=11), seasonal=FALSE)
+fit_food12 <- auto.arima(food, xreg=fourier(food, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_food1),AIC(fit_food2),AIC(fit_food3),AIC(fit_food4),AIC(fit_food5),AIC(fit_food6),AIC(fit_food7),AIC(fit_food8),AIC(fit_food9),AIC(fit_food10),AIC(fit_food11),AIC(fit_food12))
+plot(aics)
+```
+
+```{r}
+fc_food2 <- forecast(fit_food2, xreg=fourier(food, K=2, h=26))
+plot(fc_food2)
+```
+
+```{r}
+fc_food2
+```
+
+```{r}
+accuracy(fc_food)
+```
+
+```{r}
+accuracy(fc_arima_food)
+```
+
+```{r}
+accuracy(fc_food2)
+```

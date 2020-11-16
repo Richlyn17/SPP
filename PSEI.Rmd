@@ -45,12 +45,73 @@ fc_psei
 ```
 
 ```{r}
-accuracy(fc_psei)
-```
-
-```{r}
 tail(psei)
 min(psei)
 max(psei)
 which.min(psei)
+```
+
+```{r}
+bestfit_psei <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_psei <- auto.arima(psei, xreg=fourier(psei, K=i), seasonal=FALSE)
+  if(fit_psei$aicc < bestfit_psei$aicc)
+    bestfit_psei <- fit_psei
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_psei)
+```
+
+```{r}
+fc_arima_psei <- forecast(bestfit_psei, xreg=fourier(psei, K=2, h=26))
+plot(fc_arima_psei)
+```
+
+```{r}
+fc_arima_psei
+```
+
+```{r}
+fit_psei1 <- auto.arima(psei, xreg=fourier(psei, K=1), seasonal=FALSE)
+fit_psei2 <- auto.arima(psei, xreg=fourier(psei, K=2), seasonal=FALSE)
+fit_psei3 <- auto.arima(psei, xreg=fourier(psei, K=3), seasonal=FALSE)
+fit_psei4 <- auto.arima(psei, xreg=fourier(psei, K=4), seasonal=FALSE)
+fit_psei5 <- auto.arima(psei, xreg=fourier(psei, K=5), seasonal=FALSE)
+fit_psei6 <- auto.arima(psei, xreg=fourier(psei, K=6), seasonal=FALSE)
+fit_psei7 <- auto.arima(psei, xreg=fourier(psei, K=7), seasonal=FALSE)
+fit_psei8 <- auto.arima(psei, xreg=fourier(psei, K=8), seasonal=FALSE)
+fit_psei9 <- auto.arima(psei, xreg=fourier(psei, K=9), seasonal=FALSE)
+fit_psei10 <- auto.arima(psei, xreg=fourier(psei, K=10), seasonal=FALSE)
+fit_psei11 <- auto.arima(psei, xreg=fourier(psei, K=11), seasonal=FALSE)
+fit_psei12 <- auto.arima(psei, xreg=fourier(psei, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_psei1),AIC(fit_psei2),AIC(fit_psei3),AIC(fit_psei4),AIC(fit_psei5),AIC(fit_psei6),AIC(fit_psei7),AIC(fit_psei8),AIC(fit_psei9),AIC(fit_psei10),AIC(fit_psei11),AIC(fit_psei12))
+plot(aics)
+```
+
+```{r}
+fc_psei1 <- forecast(fit_psei1, xreg=fourier(psei, K=1, h=26))
+plot(fc_psei1)
+```
+
+```{r}
+fc_psei1
+```
+
+```{r}
+accuracy(fc_psei)
+```
+
+```{r}
+accuracy(fc_arima_psei)
+```
+
+```{r}
+accuracy(fc_psei1)
 ```

@@ -45,12 +45,73 @@ fc_meg
 ```
 
 ```{r}
-accuracy(fc_meg)
-```
-
-```{r}
 tail(meg)
 min(meg)
 max(meg)
 which.min(meg)
+```
+
+```{r}
+bestfit_meg <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_meg <- auto.arima(meg, xreg=fourier(meg, K=i), seasonal=FALSE)
+  if(fit_meg$aicc < bestfit_meg$aicc)
+    bestfit_meg <- fit_meg
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_meg)
+```
+
+```{r}
+fc_arima_meg <- forecast(bestfit_meg, xreg=fourier(meg, K=1, h=26))
+plot(fc_arima_meg)
+```
+
+```{r}
+fc_arima_meg
+```
+
+```{r}
+fit_meg1 <- auto.arima(meg, xreg=fourier(meg, K=1), seasonal=FALSE)
+fit_meg2 <- auto.arima(meg, xreg=fourier(meg, K=2), seasonal=FALSE)
+fit_meg3 <- auto.arima(meg, xreg=fourier(meg, K=3), seasonal=FALSE)
+fit_meg4 <- auto.arima(meg, xreg=fourier(meg, K=4), seasonal=FALSE)
+fit_meg5 <- auto.arima(meg, xreg=fourier(meg, K=5), seasonal=FALSE)
+fit_meg6 <- auto.arima(meg, xreg=fourier(meg, K=6), seasonal=FALSE)
+fit_meg7 <- auto.arima(meg, xreg=fourier(meg, K=7), seasonal=FALSE)
+fit_meg8 <- auto.arima(meg, xreg=fourier(meg, K=8), seasonal=FALSE)
+fit_meg9 <- auto.arima(meg, xreg=fourier(meg, K=9), seasonal=FALSE)
+fit_meg10 <- auto.arima(meg, xreg=fourier(meg, K=10), seasonal=FALSE)
+fit_meg11 <- auto.arima(meg, xreg=fourier(meg, K=11), seasonal=FALSE)
+fit_meg12 <- auto.arima(meg, xreg=fourier(meg, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_meg1),AIC(fit_meg2),AIC(fit_meg3),AIC(fit_meg4),AIC(fit_meg5),AIC(fit_meg6),AIC(fit_meg7),AIC(fit_meg8),AIC(fit_meg9),AIC(fit_meg10),AIC(fit_meg11),AIC(fit_meg12))
+plot(aics)
+```
+
+```{r}
+fc_meg2 <- forecast(fit_meg2, xreg=fourier(meg, K=2, h=26))
+plot(fc_meg2)
+```
+
+```{r}
+fc_meg2
+```
+
+```{r}
+accuracy(fc_meg)
+```
+
+```{r}
+accuracy(fc_arima_meg)
+```
+
+```{r}
+accuracy(fc_meg2)
 ```

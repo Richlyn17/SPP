@@ -95,12 +95,12 @@ plot(aics)
 ```
 
 ```{r}
-fc_mah1 <- forecast(fit_mah1, xreg=fourier(mah, K=1, h=26))
-plot(fc_mah1)
+fc_mah2 <- forecast(fit_mah2, xreg=fourier(mah, K=2, h=26))
+plot(fc_mah2)
 ```
 
 ```{r}
-fc_mah1
+fc_mah2
 ```
 
 ```{r}
@@ -112,5 +112,5 @@ accuracy(fc_arima_mah)
 ```
 
 ```{r}
-accuracy(fc_mah1)
+accuracy(fc_mah2)
 ```

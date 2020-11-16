@@ -45,12 +45,73 @@ fc_mer
 ```
 
 ```{r}
-accuracy(fc_mer)
-```
-
-```{r}
 tail(mer)
 min(mer)
 max(mer)
 which.min(mer)
+```
+
+```{r}
+bestfit_mer <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_mer <- auto.arima(mer, xreg=fourier(mer, K=i), seasonal=FALSE)
+  if(fit_mer$aicc < bestfit_mer$aicc)
+    bestfit_mer <- fit_mer
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_mer)
+```
+
+```{r}
+fc_arima_mer <- forecast(bestfit_mer, xreg=fourier(mer, K=1, h=26))
+plot(fc_arima_mer)
+```
+
+```{r}
+fc_arima_mer
+```
+
+```{r}
+fit_mer1 <- auto.arima(mer, xreg=fourier(mer, K=1), seasonal=FALSE)
+fit_mer2 <- auto.arima(mer, xreg=fourier(mer, K=2), seasonal=FALSE)
+fit_mer3 <- auto.arima(mer, xreg=fourier(mer, K=3), seasonal=FALSE)
+fit_mer4 <- auto.arima(mer, xreg=fourier(mer, K=4), seasonal=FALSE)
+fit_mer5 <- auto.arima(mer, xreg=fourier(mer, K=5), seasonal=FALSE)
+fit_mer6 <- auto.arima(mer, xreg=fourier(mer, K=6), seasonal=FALSE)
+fit_mer7 <- auto.arima(mer, xreg=fourier(mer, K=7), seasonal=FALSE)
+fit_mer8 <- auto.arima(mer, xreg=fourier(mer, K=8), seasonal=FALSE)
+fit_mer9 <- auto.arima(mer, xreg=fourier(mer, K=9), seasonal=FALSE)
+fit_mer10 <- auto.arima(mer, xreg=fourier(mer, K=10), seasonal=FALSE)
+fit_mer11 <- auto.arima(mer, xreg=fourier(mer, K=11), seasonal=FALSE)
+fit_mer12 <- auto.arima(mer, xreg=fourier(mer, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_mer1),AIC(fit_mer2),AIC(fit_mer3),AIC(fit_mer4),AIC(fit_mer5),AIC(fit_mer6),AIC(fit_mer7),AIC(fit_mer8),AIC(fit_mer9),AIC(fit_mer10),AIC(fit_mer11),AIC(fit_mer12))
+plot(aics)
+```
+
+```{r}
+fc_mer2 <- forecast(fit_mer2, xreg=fourier(mer, K=2, h=26))
+plot(fc_mer2)
+```
+
+```{r}
+fc_mer2
+```
+
+```{r}
+accuracy(fc_mer)
+```
+
+```{r}
+accuracy(fc_arima_mer)
+```
+
+```{r}
+accuracy(fc_mer2)
 ```

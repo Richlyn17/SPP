@@ -45,12 +45,73 @@ fc_mac
 ```
 
 ```{r}
-accuracy(fc_mac)
-```
-
-```{r}
 tail(mac)
 min(mac)
 max(mac)
 which.min(mac)
+```
+
+```{r}
+bestfit_mac <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_mac <- auto.arima(mac, xreg=fourier(mac, K=i), seasonal=FALSE)
+  if(fit_mac$aicc < bestfit_mac$aicc)
+    bestfit_mac <- fit_mac
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_mac)
+```
+
+```{r}
+fc_arima_mac <- forecast(bestfit_mac, xreg=fourier(mac, K=1, h=26))
+plot(fc_arima_mac)
+```
+
+```{r}
+fc_arima_mac
+```
+
+```{r}
+fit_mac1 <- auto.arima(mac, xreg=fourier(mac, K=1), seasonal=FALSE)
+fit_mac2 <- auto.arima(mac, xreg=fourier(mac, K=2), seasonal=FALSE)
+fit_mac3 <- auto.arima(mac, xreg=fourier(mac, K=3), seasonal=FALSE)
+fit_mac4 <- auto.arima(mac, xreg=fourier(mac, K=4), seasonal=FALSE)
+fit_mac5 <- auto.arima(mac, xreg=fourier(mac, K=5), seasonal=FALSE)
+fit_mac6 <- auto.arima(mac, xreg=fourier(mac, K=6), seasonal=FALSE)
+fit_mac7 <- auto.arima(mac, xreg=fourier(mac, K=7), seasonal=FALSE)
+fit_mac8 <- auto.arima(mac, xreg=fourier(mac, K=8), seasonal=FALSE)
+fit_mac9 <- auto.arima(mac, xreg=fourier(mac, K=9), seasonal=FALSE)
+fit_mac10 <- auto.arima(mac, xreg=fourier(mac, K=10), seasonal=FALSE)
+fit_mac11 <- auto.arima(mac, xreg=fourier(mac, K=11), seasonal=FALSE)
+fit_mac12 <- auto.arima(mac, xreg=fourier(mac, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_mac1),AIC(fit_mac2),AIC(fit_mac3),AIC(fit_mac4),AIC(fit_mac5),AIC(fit_mac6),AIC(fit_mac7),AIC(fit_mac8),AIC(fit_mac9),AIC(fit_mac10),AIC(fit_mac11),AIC(fit_mac12))
+plot(aics)
+```
+
+```{r}
+fc_mac4 <- forecast(fit_mac4, xreg=fourier(mac, K=4, h=26))
+plot(fc_mac4)
+```
+
+```{r}
+fc_mac4
+```
+
+```{r}
+accuracy(fc_mac)
+```
+
+```{r}
+accuracy(fc_arima_mac)
+```
+
+```{r}
+accuracy(fc_mac4)
 ```

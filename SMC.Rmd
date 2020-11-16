@@ -45,13 +45,73 @@ fc_smc
 ```
 
 ```{r}
-accuracy(fc_smc)
-```
-
-```{r}
 tail(smc)
 min(smc)
 max(smc)
 which.min(smc)
 ```
 
+```{r}
+bestfit_smc <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_smc <- auto.arima(smc, xreg=fourier(smc, K=i), seasonal=FALSE)
+  if(fit_smc$aicc < bestfit_smc$aicc)
+    bestfit_smc <- fit_smc
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_smc)
+```
+
+```{r}
+fc_arima_smc <- forecast(bestfit_smc, xreg=fourier(smc, K=1, h=26))
+plot(fc_arima_smc)
+```
+
+```{r}
+fc_arima_smc
+```
+
+```{r}
+fit_smc1 <- auto.arima(smc, xreg=fourier(smc, K=1), seasonal=FALSE)
+fit_smc2 <- auto.arima(smc, xreg=fourier(smc, K=2), seasonal=FALSE)
+fit_smc3 <- auto.arima(smc, xreg=fourier(smc, K=3), seasonal=FALSE)
+fit_smc4 <- auto.arima(smc, xreg=fourier(smc, K=4), seasonal=FALSE)
+fit_smc5 <- auto.arima(smc, xreg=fourier(smc, K=5), seasonal=FALSE)
+fit_smc6 <- auto.arima(smc, xreg=fourier(smc, K=6), seasonal=FALSE)
+fit_smc7 <- auto.arima(smc, xreg=fourier(smc, K=7), seasonal=FALSE)
+fit_smc8 <- auto.arima(smc, xreg=fourier(smc, K=8), seasonal=FALSE)
+fit_smc9 <- auto.arima(smc, xreg=fourier(smc, K=9), seasonal=FALSE)
+fit_smc10 <- auto.arima(smc, xreg=fourier(smc, K=10), seasonal=FALSE)
+fit_smc11 <- auto.arima(smc, xreg=fourier(smc, K=11), seasonal=FALSE)
+fit_smc12 <- auto.arima(smc, xreg=fourier(smc, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_smc1),AIC(fit_smc2),AIC(fit_smc3),AIC(fit_smc4),AIC(fit_smc5),AIC(fit_smc6),AIC(fit_smc7),AIC(fit_smc8),AIC(fit_smc9),AIC(fit_smc10),AIC(fit_smc11),AIC(fit_smc12))
+plot(aics)
+```
+
+```{r}
+fc_smc5 <- forecast(fit_smc5, xreg=fourier(smc, K=5, h=26))
+plot(fc_smc5)
+```
+
+```{r}
+fc_smc5
+```
+
+```{r}
+accuracy(fc_smc)
+```
+
+```{r}
+accuracy(fc_arima_smc)
+```
+
+```{r}
+accuracy(fc_smc5)
+```

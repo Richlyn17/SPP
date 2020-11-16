@@ -45,12 +45,73 @@ fc_tugo
 ```
 
 ```{r}
-accuracy(fc_tugo)
-```
-
-```{r}
 tail(tugo)
 min(tugo)
 max(tugo)
 which.min(tugo)
+```
+
+```{r}
+bestfit_tugo <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_tugo <- auto.arima(tugo, xreg=fourier(tugo, K=i), seasonal=FALSE)
+  if(fit_tugo$aicc < bestfit_tugo$aicc)
+    bestfit_tugo <- fit_tugo
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_tugo)
+```
+
+```{r}
+fc_arima_tugo <- forecast(bestfit_tugo, xreg=fourier(tugo, K=2, h=26))
+plot(fc_arima_tugo)
+```
+
+```{r}
+fc_arima_tugo
+```
+
+```{r}
+fit_tugo1 <- auto.arima(tugo, xreg=fourier(tugo, K=1), seasonal=FALSE)
+fit_tugo2 <- auto.arima(tugo, xreg=fourier(tugo, K=2), seasonal=FALSE)
+fit_tugo3 <- auto.arima(tugo, xreg=fourier(tugo, K=3), seasonal=FALSE)
+fit_tugo4 <- auto.arima(tugo, xreg=fourier(tugo, K=4), seasonal=FALSE)
+fit_tugo5 <- auto.arima(tugo, xreg=fourier(tugo, K=5), seasonal=FALSE)
+fit_tugo6 <- auto.arima(tugo, xreg=fourier(tugo, K=6), seasonal=FALSE)
+fit_tugo7 <- auto.arima(tugo, xreg=fourier(tugo, K=7), seasonal=FALSE)
+fit_tugo8 <- auto.arima(tugo, xreg=fourier(tugo, K=8), seasonal=FALSE)
+fit_tugo9 <- auto.arima(tugo, xreg=fourier(tugo, K=9), seasonal=FALSE)
+fit_tugo10 <- auto.arima(tugo, xreg=fourier(tugo, K=10), seasonal=FALSE)
+fit_tugo11 <- auto.arima(tugo, xreg=fourier(tugo, K=11), seasonal=FALSE)
+fit_tugo12 <- auto.arima(tugo, xreg=fourier(tugo, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_tugo1),AIC(fit_tugo2),AIC(fit_tugo3),AIC(fit_tugo4),AIC(fit_tugo5),AIC(fit_tugo6),AIC(fit_tugo7),AIC(fit_tugo8),AIC(fit_tugo9),AIC(fit_tugo10),AIC(fit_tugo11),AIC(fit_tugo12))
+plot(aics)
+```
+
+```{r}
+fc_tugo1 <- forecast(fit_tugo1, xreg=fourier(tugo, K=1, h=26))
+plot(fc_tugo1)
+```
+
+```{r}
+fc_tugo1
+```
+
+```{r}
+accuracy(fc_tugo)
+```
+
+```{r}
+accuracy(fc_arima_tugo)
+```
+
+```{r}
+accuracy(fc_tugo1)
 ```

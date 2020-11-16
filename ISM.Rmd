@@ -25,7 +25,7 @@ training_ism <- subset(ism, end=length(ism)-1)
 test_ism <- subset(ism, start=length(ism)-1)
 fc_training_ism<-forecast(training_ism)
 fc_training_ism %>%
-  forecast(h=26) %>%
+  forecast(h=76) %>%
   autoplot() +autolayer(test_ism)
 ```
 
@@ -67,7 +67,7 @@ summary(bestfit_ism)
 ```
 
 ```{r}
-fc_arima_ism <- forecast(bestfit_ism, xreg=fourier(ism, K=2, h=26))
+fc_arima_ism <- forecast(bestfit_ism, xreg=fourier(ism, K=2, h=52))
 plot(fc_arima_ism)
 ```
 
@@ -96,12 +96,12 @@ plot(aics)
 ```
 
 ```{r}
-fc_ism2 <- forecast(fit_ism2, xreg=fourier(ism, K=2, h=26))
-plot(fc_ism2)
+fc_ism1 <- forecast(fit_ism1, xreg=fourier(ism, K=1, h=26))
+plot(fc_ism1)
 ```
 
 ```{r}
-fc_ism2
+fc_ism1
 ```
 
 ```{r}
@@ -113,5 +113,5 @@ accuracy(fc_arima_ism)
 ```
 
 ```{r}
-accuracy(fc_ism2)
+accuracy(fc_ism1)
 ```

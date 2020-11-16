@@ -45,12 +45,73 @@ fc_ore
 ```
 
 ```{r}
-accuracy(fc_ore)
-```
-
-```{r}
 tail(ore)
 min(ore)
 max(ore)
 which.min(ore)
+```
+
+```{r}
+bestfit_ore <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_ore <- auto.arima(ore, xreg=fourier(ore, K=i), seasonal=FALSE)
+  if(fit_ore$aicc < bestfit_ore$aicc)
+    bestfit_ore <- fit_ore
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_ore)
+```
+
+```{r}
+fc_arima_ore <- forecast(bestfit_ore, xreg=fourier(ore, K=1, h=26))
+plot(fc_arima_ore)
+```
+
+```{r}
+fc_arima_ore
+```
+
+```{r}
+fit_ore1 <- auto.arima(ore, xreg=fourier(ore, K=1), seasonal=FALSE)
+fit_ore2 <- auto.arima(ore, xreg=fourier(ore, K=2), seasonal=FALSE)
+fit_ore3 <- auto.arima(ore, xreg=fourier(ore, K=3), seasonal=FALSE)
+fit_ore4 <- auto.arima(ore, xreg=fourier(ore, K=4), seasonal=FALSE)
+fit_ore5 <- auto.arima(ore, xreg=fourier(ore, K=5), seasonal=FALSE)
+fit_ore6 <- auto.arima(ore, xreg=fourier(ore, K=6), seasonal=FALSE)
+fit_ore7 <- auto.arima(ore, xreg=fourier(ore, K=7), seasonal=FALSE)
+fit_ore8 <- auto.arima(ore, xreg=fourier(ore, K=8), seasonal=FALSE)
+fit_ore9 <- auto.arima(ore, xreg=fourier(ore, K=9), seasonal=FALSE)
+fit_ore10 <- auto.arima(ore, xreg=fourier(ore, K=10), seasonal=FALSE)
+fit_ore11 <- auto.arima(ore, xreg=fourier(ore, K=11), seasonal=FALSE)
+fit_ore12 <- auto.arima(ore, xreg=fourier(ore, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_ore1),AIC(fit_ore2),AIC(fit_ore3),AIC(fit_ore4),AIC(fit_ore5),AIC(fit_ore6),AIC(fit_ore7),AIC(fit_ore8),AIC(fit_ore9),AIC(fit_ore10),AIC(fit_ore11),AIC(fit_ore12))
+plot(aics)
+```
+
+```{r}
+fc_ore2 <- forecast(fit_ore2, xreg=fourier(ore, K=2, h=26))
+plot(fc_ore2)
+```
+
+```{r}
+fc_ore2
+```
+
+```{r}
+accuracy(fc_ore)
+```
+
+```{r}
+accuracy(fc_arima_ore)
+```
+
+```{r}
+accuracy(fc_ore2)
 ```

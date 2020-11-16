@@ -45,13 +45,73 @@ fc_tech
 ```
 
 ```{r}
-accuracy(fc_tech)
-```
-
-```{r}
 tail(tech)
 min(tech)
 max(tech)
 which.min(tech)
 ```
 
+```{r}
+bestfit_tech <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_tech <- auto.arima(tech, xreg=fourier(tech, K=i), seasonal=FALSE)
+  if(fit_tech$aicc < bestfit_tech$aicc)
+    bestfit_tech <- fit_tech
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_tech)
+```
+
+```{r}
+fc_arima_tech <- forecast(bestfit_tech, xreg=fourier(tech, K=1, h=26))
+plot(fc_arima_tech)
+```
+
+```{r}
+fc_arima_tech
+```
+
+```{r}
+fit_tech1 <- auto.arima(tech, xreg=fourier(tech, K=1), seasonal=FALSE)
+fit_tech2 <- auto.arima(tech, xreg=fourier(tech, K=2), seasonal=FALSE)
+fit_tech3 <- auto.arima(tech, xreg=fourier(tech, K=3), seasonal=FALSE)
+fit_tech4 <- auto.arima(tech, xreg=fourier(tech, K=4), seasonal=FALSE)
+fit_tech5 <- auto.arima(tech, xreg=fourier(tech, K=5), seasonal=FALSE)
+fit_tech6 <- auto.arima(tech, xreg=fourier(tech, K=6), seasonal=FALSE)
+fit_tech7 <- auto.arima(tech, xreg=fourier(tech, K=7), seasonal=FALSE)
+fit_tech8 <- auto.arima(tech, xreg=fourier(tech, K=8), seasonal=FALSE)
+fit_tech9 <- auto.arima(tech, xreg=fourier(tech, K=9), seasonal=FALSE)
+fit_tech10 <- auto.arima(tech, xreg=fourier(tech, K=10), seasonal=FALSE)
+fit_tech11 <- auto.arima(tech, xreg=fourier(tech, K=11), seasonal=FALSE)
+fit_tech12 <- auto.arima(tech, xreg=fourier(tech, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_tech1),AIC(fit_tech2),AIC(fit_tech3),AIC(fit_tech4),AIC(fit_tech5),AIC(fit_tech6),AIC(fit_tech7),AIC(fit_tech8),AIC(fit_tech9),AIC(fit_tech10),AIC(fit_tech11),AIC(fit_tech12))
+plot(aics)
+```
+
+```{r}
+fc_tech5 <- forecast(fit_tech5, xreg=fourier(tech, K=5, h=26))
+plot(fc_tech5)
+```
+
+```{r}
+fc_tech5
+```
+
+```{r}
+accuracy(fc_tech)
+```
+
+```{r}
+accuracy(fc_arima_tech)
+```
+
+```{r}
+accuracy(fc_tech5)
+```

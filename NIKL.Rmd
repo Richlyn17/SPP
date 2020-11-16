@@ -45,12 +45,73 @@ fc_nikl
 ```
 
 ```{r}
-accuracy(fc_nikl)
-```
-
-```{r}
 tail(nikl)
 min(nikl)
 max(nikl)
 which.min(nikl)
+```
+
+```{r}
+bestfit_nikl <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_nikl <- auto.arima(nikl, xreg=fourier(nikl, K=i), seasonal=FALSE)
+  if(fit_nikl$aicc < bestfit_nikl$aicc)
+    bestfit_nikl <- fit_nikl
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_nikl)
+```
+
+```{r}
+fc_arima_nikl <- forecast(bestfit_nikl, xreg=fourier(nikl, K=1, h=26))
+plot(fc_arima_nikl)
+```
+
+```{r}
+fc_arima_nikl
+```
+
+```{r}
+fit_nikl1 <- auto.arima(nikl, xreg=fourier(nikl, K=1), seasonal=FALSE)
+fit_nikl2 <- auto.arima(nikl, xreg=fourier(nikl, K=2), seasonal=FALSE)
+fit_nikl3 <- auto.arima(nikl, xreg=fourier(nikl, K=3), seasonal=FALSE)
+fit_nikl4 <- auto.arima(nikl, xreg=fourier(nikl, K=4), seasonal=FALSE)
+fit_nikl5 <- auto.arima(nikl, xreg=fourier(nikl, K=5), seasonal=FALSE)
+fit_nikl6 <- auto.arima(nikl, xreg=fourier(nikl, K=6), seasonal=FALSE)
+fit_nikl7 <- auto.arima(nikl, xreg=fourier(nikl, K=7), seasonal=FALSE)
+fit_nikl8 <- auto.arima(nikl, xreg=fourier(nikl, K=8), seasonal=FALSE)
+fit_nikl9 <- auto.arima(nikl, xreg=fourier(nikl, K=9), seasonal=FALSE)
+fit_nikl10 <- auto.arima(nikl, xreg=fourier(nikl, K=10), seasonal=FALSE)
+fit_nikl11 <- auto.arima(nikl, xreg=fourier(nikl, K=11), seasonal=FALSE)
+fit_nikl12 <- auto.arima(nikl, xreg=fourier(nikl, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_nikl1),AIC(fit_nikl2),AIC(fit_nikl3),AIC(fit_nikl4),AIC(fit_nikl5),AIC(fit_nikl6),AIC(fit_nikl7),AIC(fit_nikl8),AIC(fit_nikl9),AIC(fit_nikl10),AIC(fit_nikl11),AIC(fit_nikl12))
+plot(aics)
+```
+
+```{r}
+fc_nikl2 <- forecast(fit_nikl2, xreg=fourier(nikl, K=2, h=26))
+plot(fc_nikl2)
+```
+
+```{r}
+fc_nikl2
+```
+
+```{r}
+accuracy(fc_nikl)
+```
+
+```{r}
+accuracy(fc_arima_nikl)
+```
+
+```{r}
+accuracy(fc_nikl2)
 ```

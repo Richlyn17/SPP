@@ -45,12 +45,73 @@ fc_lpz
 ```
 
 ```{r}
-accuracy(fc_lpz)
-```
-
-```{r}
 tail(lpz)
 min(lpz)
 max(lpz)
 which.min(lpz)
+```
+
+```{r}
+bestfit_lpz <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_lpz <- auto.arima(lpz, xreg=fourier(lpz, K=i), seasonal=FALSE)
+  if(fit_lpz$aicc < bestfit_lpz$aicc)
+    bestfit_lpz <- fit_lpz
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_lpz)
+```
+
+```{r}
+fc_arima_lpz <- forecast(bestfit_lpz, xreg=fourier(lpz, K=1, h=26))
+plot(fc_arima_lpz)
+```
+
+```{r}
+fc_arima_lpz
+```
+
+```{r}
+fit_lpz1 <- auto.arima(lpz, xreg=fourier(lpz, K=1), seasonal=FALSE)
+fit_lpz2 <- auto.arima(lpz, xreg=fourier(lpz, K=2), seasonal=FALSE)
+fit_lpz3 <- auto.arima(lpz, xreg=fourier(lpz, K=3), seasonal=FALSE)
+fit_lpz4 <- auto.arima(lpz, xreg=fourier(lpz, K=4), seasonal=FALSE)
+fit_lpz5 <- auto.arima(lpz, xreg=fourier(lpz, K=5), seasonal=FALSE)
+fit_lpz6 <- auto.arima(lpz, xreg=fourier(lpz, K=6), seasonal=FALSE)
+fit_lpz7 <- auto.arima(lpz, xreg=fourier(lpz, K=7), seasonal=FALSE)
+fit_lpz8 <- auto.arima(lpz, xreg=fourier(lpz, K=8), seasonal=FALSE)
+fit_lpz9 <- auto.arima(lpz, xreg=fourier(lpz, K=9), seasonal=FALSE)
+fit_lpz10 <- auto.arima(lpz, xreg=fourier(lpz, K=10), seasonal=FALSE)
+fit_lpz11 <- auto.arima(lpz, xreg=fourier(lpz, K=11), seasonal=FALSE)
+fit_lpz12 <- auto.arima(lpz, xreg=fourier(lpz, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_lpz1),AIC(fit_lpz2),AIC(fit_lpz3),AIC(fit_lpz4),AIC(fit_lpz5),AIC(fit_lpz6),AIC(fit_lpz7),AIC(fit_lpz8),AIC(fit_lpz9),AIC(fit_lpz10),AIC(fit_lpz11),AIC(fit_lpz12))
+plot(aics)
+```
+
+```{r}
+fc_lpz2 <- forecast(fit_lpz2, xreg=fourier(lpz, K=2, h=26))
+plot(fc_lpz2)
+```
+
+```{r}
+fc_lpz2
+```
+
+```{r}
+accuracy(fc_lpz)
+```
+
+```{r}
+accuracy(fc_arima_lpz)
+```
+
+```{r}
+accuracy(fc_lpz2)
 ```
