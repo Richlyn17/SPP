@@ -45,11 +45,72 @@ fc_mah
 ```
 
 ```{r}
+tail(mah)
+min(mah)
+max(mah)
+```
+
+```{r}
+bestfit_mah <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_mah <- auto.arima(mah, xreg=fourier(mah, K=i), seasonal=FALSE)
+  if(fit_mah$aicc < bestfit_mah$aicc)
+    bestfit_mah <- fit_mah
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_mah)
+```
+
+```{r}
+fc_arima_mah <- forecast(bestfit_mah, xreg=fourier(mah, K=1, h=26))
+plot(fc_arima_mah)
+```
+
+```{r}
+fc_arima_mah
+```
+
+```{r}
+fit_mah1 <- auto.arima(mah, xreg=fourier(mah, K=1), seasonal=FALSE)
+fit_mah2 <- auto.arima(mah, xreg=fourier(mah, K=2), seasonal=FALSE)
+fit_mah3 <- auto.arima(mah, xreg=fourier(mah, K=3), seasonal=FALSE)
+fit_mah4 <- auto.arima(mah, xreg=fourier(mah, K=4), seasonal=FALSE)
+fit_mah5 <- auto.arima(mah, xreg=fourier(mah, K=5), seasonal=FALSE)
+fit_mah6 <- auto.arima(mah, xreg=fourier(mah, K=6), seasonal=FALSE)
+fit_mah7 <- auto.arima(mah, xreg=fourier(mah, K=7), seasonal=FALSE)
+fit_mah8 <- auto.arima(mah, xreg=fourier(mah, K=8), seasonal=FALSE)
+fit_mah9 <- auto.arima(mah, xreg=fourier(mah, K=9), seasonal=FALSE)
+fit_mah10 <- auto.arima(mah, xreg=fourier(mah, K=10), seasonal=FALSE)
+fit_mah11 <- auto.arima(mah, xreg=fourier(mah, K=11), seasonal=FALSE)
+fit_mah12 <- auto.arima(mah, xreg=fourier(mah, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_mah1),AIC(fit_mah2),AIC(fit_mah3),AIC(fit_mah4),AIC(fit_mah5),AIC(fit_mah6),AIC(fit_mah7),AIC(fit_mah8),AIC(fit_mah9),AIC(fit_mah10),AIC(fit_mah11),AIC(fit_mah12))
+plot(aics)
+```
+
+```{r}
+fc_mah1 <- forecast(fit_mah1, xreg=fourier(mah, K=1, h=26))
+plot(fc_mah1)
+```
+
+```{r}
+fc_mah1
+```
+
+```{r}
 accuracy(fc_mah)
 ```
 
 ```{r}
-tail(mah)
-min(mah)
-max(mah)
+accuracy(fc_arima_mah)
+```
+
+```{r}
+accuracy(fc_mah1)
 ```
