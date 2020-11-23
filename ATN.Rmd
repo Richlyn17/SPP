@@ -100,12 +100,12 @@ plot(aics)
 ```
 
 ```{r}
-fc_atn2 <- forecast(fit_atn2, xreg=fourier(atn, K=2, h=26))
-plot(fc_atn2)
+fc_atn4 <- forecast(fit_atn4, xreg=fourier(atn, K=4, h=26))
+plot(fc_atn4)
 ```
 
 ```{r}
-fc_atn2
+fc_atn4
 ```
 
 ```{r}
@@ -117,5 +117,5 @@ accuracy(fc_arima_atn)
 ```
 
 ```{r}
-accuracy(fc_atn2)
+accuracy(fc_atn4)
 ```

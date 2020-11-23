@@ -67,7 +67,7 @@ summary(bestfit_tugo)
 ```
 
 ```{r}
-fc_arima_tugo <- forecast(bestfit_tugo, xreg=fourier(tugo, K=2, h=26))
+fc_arima_tugo <- forecast(bestfit_tugo, xreg=fourier(tugo, K=1, h=26))
 plot(fc_arima_tugo)
 ```
 
@@ -96,12 +96,12 @@ plot(aics)
 ```
 
 ```{r}
-fc_tugo1 <- forecast(fit_tugo1, xreg=fourier(tugo, K=1, h=26))
-plot(fc_tugo1)
+fc_tugo2 <- forecast(fit_tugo2, xreg=fourier(tugo, K=2, h=26))
+plot(fc_tugo2)
 ```
 
 ```{r}
-fc_tugo1
+fc_tugo2
 ```
 
 ```{r}
@@ -113,5 +113,5 @@ accuracy(fc_arima_tugo)
 ```
 
 ```{r}
-accuracy(fc_tugo1)
+accuracy(fc_tugo2)
 ```

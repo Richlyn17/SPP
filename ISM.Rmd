@@ -36,7 +36,7 @@ fc_training_ism
 ```{r}
 fc_ism<-forecast(ism)
 fc_ism %>%
-  forecast(h=52) %>%
+  forecast(h=26) %>%
   autoplot()
 ```
 
