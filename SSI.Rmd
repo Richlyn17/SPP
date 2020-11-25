@@ -1,0 +1,117 @@
+---
+title: "SPP for ssi"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+SSI <- read_csv("~/R/SPP/CSV/SSI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+ssi <- ts(SSI[,2], freq=365.25/7, start=2015+37/365.25)
+ssi %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(ssi))
+```
+
+```{r}
+training_ssi <- subset(ssi, end=length(ssi)-1)
+test_ssi <- subset(ssi, start=length(ssi)-1)
+fc_training_ssi<-forecast(training_ssi)
+fc_training_ssi %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_ssi)
+```
+
+```{r}
+fc_training_ssi
+```
+
+```{r}
+fc_ssi<-forecast(ssi)
+fc_ssi %>%
+forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_ssi
+```
+
+```{r}
+tail(ssi)
+min(ssi)
+max(ssi)
+which.min(ssi)
+```
+
+```{r}
+bestfit_ssi <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_ssi <- auto.arima(ssi, xreg=fourier(ssi, K=i), seasonal=FALSE)
+  if(fit_ssi$aicc < bestfit_ssi$aicc)
+    bestfit_ssi <- fit_ssi
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_ssi)
+```
+
+```{r}
+fc_arima_ssi <- forecast(bestfit_ssi, xreg=fourier(ssi, K=1, h=26))
+plot(fc_arima_ssi)
+```
+
+```{r}
+fc_arima_ssi
+```
+
+```{r}
+fit_ssi1 <- auto.arima(ssi, xreg=fourier(ssi, K=1), seasonal=FALSE)
+fit_ssi2 <- auto.arima(ssi, xreg=fourier(ssi, K=2), seasonal=FALSE)
+fit_ssi3 <- auto.arima(ssi, xreg=fourier(ssi, K=3), seasonal=FALSE)
+fit_ssi4 <- auto.arima(ssi, xreg=fourier(ssi, K=4), seasonal=FALSE)
+fit_ssi5 <- auto.arima(ssi, xreg=fourier(ssi, K=5), seasonal=FALSE)
+fit_ssi6 <- auto.arima(ssi, xreg=fourier(ssi, K=6), seasonal=FALSE)
+fit_ssi7 <- auto.arima(ssi, xreg=fourier(ssi, K=7), seasonal=FALSE)
+fit_ssi8 <- auto.arima(ssi, xreg=fourier(ssi, K=8), seasonal=FALSE)
+fit_ssi9 <- auto.arima(ssi, xreg=fourier(ssi, K=9), seasonal=FALSE)
+fit_ssi10 <- auto.arima(ssi, xreg=fourier(ssi, K=10), seasonal=FALSE)
+fit_ssi11 <- auto.arima(ssi, xreg=fourier(ssi, K=11), seasonal=FALSE)
+fit_ssi12 <- auto.arima(ssi, xreg=fourier(ssi, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_ssi1),AIC(fit_ssi2),AIC(fit_ssi3),AIC(fit_ssi4),AIC(fit_ssi5),AIC(fit_ssi6),AIC(fit_ssi7),AIC(fit_ssi8),AIC(fit_ssi9),AIC(fit_ssi10),AIC(fit_ssi11),AIC(fit_ssi12))
+plot(aics)
+```
+
+```{r}
+fc_ssi2 <- forecast(fit_ssi2, xreg=fourier(ssi, K=2, h=52))
+plot(fc_ssi2)
+```
+
+```{r}
+fc_ssi2
+```
+
+```{r}
+accuracy(fc_ssi)
+```
+
+```{r}
+accuracy(fc_arima_ssi)
+```
+
+```{r}
+accuracy(fc_ssi2)
+```
