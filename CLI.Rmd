@@ -1,0 +1,116 @@
+---
+title: "SPP for CLI"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+CLI <- read_csv("~/R/SPP/CSV/CLI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+cli <- ts(CLI[,2], freq=365.25/7, start=2017+153.50/365.25)
+cli %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(cli))
+```
+
+```{r}
+training_cli <- subset(cli, end=length(cli)-1)
+test_cli <- subset(cli, start=length(cli)-1)
+fc_training_cli<-forecast(training_cli)
+fc_training_cli %>%
+  forecast(h=20) %>%
+  autoplot() +autolayer(test_cli)
+```
+
+```{r}
+fc_training_cli
+```
+
+```{r}
+fc_cli<-forecast(cli)
+fc_cli %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_cli
+```
+
+```{r}
+tail(cli)
+min(cli)
+max(cli)
+```
+
+```{r}
+bestfit_cli <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_cli <- auto.arima(cli, xreg=fourier(cli, K=i), seasonal=FALSE)
+  if(fit_cli$aicc < bestfit_cli$aicc)
+    bestfit_cli <- fit_cli
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_cli)
+```
+
+```{r}
+fc_arima_cli <- forecast(bestfit_cli, xreg=fourier(cli, K=1, h=26))
+plot(fc_arima_cli)
+```
+
+```{r}
+fc_arima_cli
+```
+
+```{r}
+fit_cli1 <- auto.arima(cli, xreg=fourier(cli, K=1), seasonal=FALSE)
+fit_cli2 <- auto.arima(cli, xreg=fourier(cli, K=2), seasonal=FALSE)
+fit_cli3 <- auto.arima(cli, xreg=fourier(cli, K=3), seasonal=FALSE)
+fit_cli4 <- auto.arima(cli, xreg=fourier(cli, K=4), seasonal=FALSE)
+fit_cli5 <- auto.arima(cli, xreg=fourier(cli, K=5), seasonal=FALSE)
+fit_cli6 <- auto.arima(cli, xreg=fourier(cli, K=6), seasonal=FALSE)
+fit_cli7 <- auto.arima(cli, xreg=fourier(cli, K=7), seasonal=FALSE)
+fit_cli8 <- auto.arima(cli, xreg=fourier(cli, K=8), seasonal=FALSE)
+fit_cli9 <- auto.arima(cli, xreg=fourier(cli, K=9), seasonal=FALSE)
+fit_cli10 <- auto.arima(cli, xreg=fourier(cli, K=10), seasonal=FALSE)
+fit_cli11 <- auto.arima(cli, xreg=fourier(cli, K=11), seasonal=FALSE)
+fit_cli12 <- auto.arima(cli, xreg=fourier(cli, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_cli1),AIC(fit_cli2),AIC(fit_cli3),AIC(fit_cli4),AIC(fit_cli5),AIC(fit_cli6),AIC(fit_cli7),AIC(fit_cli8),AIC(fit_cli9),AIC(fit_cli10),AIC(fit_cli11),AIC(fit_cli12))
+plot(aics)
+```
+
+```{r}
+fc_cli6 <- forecast(fit_cli6, xreg=fourier(cli, K=6, h=26))
+plot(fc_cli6)
+```
+
+```{r}
+fc_cli6
+```
+
+```{r}
+accuracy(fc_cli)
+```
+
+```{r}
+accuracy(fc_arima_cli)
+```
+
+```{r}
+accuracy(fc_cli6)
+```
