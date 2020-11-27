@@ -25,7 +25,7 @@ training_ism <- subset(ism, end=length(ism)-1)
 test_ism <- subset(ism, start=length(ism)-1)
 fc_training_ism<-forecast(training_ism)
 fc_training_ism %>%
-  forecast(h=76) %>%
+  forecast(h=26) %>%
   autoplot() +autolayer(test_ism)
 ```
 
