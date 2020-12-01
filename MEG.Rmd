@@ -67,7 +67,7 @@ summary(bestfit_meg)
 ```
 
 ```{r}
-fc_arima_meg <- forecast(bestfit_meg, xreg=fourier(meg, K=2, h=26))
+fc_arima_meg <- forecast(bestfit_meg, xreg=fourier(meg, K=1, h=26))
 plot(fc_arima_meg)
 ```
 
@@ -96,12 +96,12 @@ plot(aics)
 ```
 
 ```{r}
-fc_meg1 <- forecast(fit_meg1, xreg=fourier(meg, K=1, h=26))
-plot(fc_meg1)
+fc_meg2 <- forecast(fit_meg2, xreg=fourier(meg, K=2, h=26))
+plot(fc_meg2)
 ```
 
 ```{r}
-fc_meg1
+fc_meg2
 ```
 
 ```{r}
@@ -113,5 +113,5 @@ accuracy(fc_arima_meg)
 ```
 
 ```{r}
-accuracy(fc_meg1)
+accuracy(fc_meg2)
 ```
