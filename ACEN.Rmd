@@ -1,0 +1,117 @@
+---
+title: "SPP for ACEN"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+ACEN <- read_csv("~/R/SPP/CSV/ACEN.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+acen <- ts(ACEN[,2], freq=365.25/7, start=2015+65/365.25)
+acen %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(acen))
+```
+
+```{r}
+training_acen <- subset(acen, end=length(acen)-1)
+test_acen <- subset(acen, start=length(acen)-1)
+fc_training_acen<-forecast(training_acen)
+fc_training_acen %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_acen)
+```
+
+```{r}
+fc_training_acen
+```
+
+```{r}
+fc_acen<-forecast(acen)
+fc_acen %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_acen
+```
+
+```{r}
+tail(acen)
+min(acen)
+max(acen)
+which.min(acen)
+```
+
+```{r}
+bestfit_acen <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_acen <- auto.arima(acen, xreg=fourier(acen, K=i), seasonal=FALSE)
+  if(fit_acen$aicc < bestfit_acen$aicc)
+    bestfit_acen <- fit_acen
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_acen)
+```
+
+```{r}
+fc_arima_acen <- forecast(bestfit_acen, xreg=fourier(acen, K=1, h=52))
+plot(fc_arima_acen)
+```
+
+```{r}
+fc_arima_acen
+```
+
+```{r}
+fit_acen1 <- auto.arima(acen, xreg=fourier(acen, K=1), seasonal=FALSE)
+fit_acen2 <- auto.arima(acen, xreg=fourier(acen, K=2), seasonal=FALSE)
+fit_acen3 <- auto.arima(acen, xreg=fourier(acen, K=3), seasonal=FALSE)
+fit_acen4 <- auto.arima(acen, xreg=fourier(acen, K=4), seasonal=FALSE)
+fit_acen5 <- auto.arima(acen, xreg=fourier(acen, K=5), seasonal=FALSE)
+fit_acen6 <- auto.arima(acen, xreg=fourier(acen, K=6), seasonal=FALSE)
+fit_acen7 <- auto.arima(acen, xreg=fourier(acen, K=7), seasonal=FALSE)
+fit_acen8 <- auto.arima(acen, xreg=fourier(acen, K=8), seasonal=FALSE)
+fit_acen9 <- auto.arima(acen, xreg=fourier(acen, K=9), seasonal=FALSE)
+fit_acen10 <- auto.arima(acen, xreg=fourier(acen, K=10), seasonal=FALSE)
+fit_acen11 <- auto.arima(acen, xreg=fourier(acen, K=11), seasonal=FALSE)
+fit_acen12 <- auto.arima(acen, xreg=fourier(acen, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_acen1),AIC(fit_acen2),AIC(fit_acen3),AIC(fit_acen4),AIC(fit_acen5),AIC(fit_acen6),AIC(fit_acen7),AIC(fit_acen8),AIC(fit_acen9),AIC(fit_acen10),AIC(fit_acen11),AIC(fit_acen12))
+plot(aics)
+```
+
+```{r}
+fc_acen2 <- forecast(fit_acen2, xreg=fourier(acen, K=2, h=26))
+plot(fc_acen2)
+```
+
+```{r}
+fc_acen2
+```
+
+```{r}
+accuracy(fc_acen)
+```
+
+```{r}
+accuracy(fc_arima_acen)
+```
+
+```{r}
+accuracy(fc_acen2)
+```
