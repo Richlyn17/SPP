@@ -67,7 +67,7 @@ summary(bestfit_at)
 ```
 
 ```{r}
-fc_arima_at <- forecast(bestfit_at, xreg=fourier(at, K=1, h=5))
+fc_arima_at <- forecast(bestfit_at, xreg=fourier(at, K=1, h=26))
 plot(fc_arima_at)
 ```
 

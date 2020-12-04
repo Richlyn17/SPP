@@ -67,7 +67,7 @@ summary(bestfit_fni)
 ```
 
 ```{r}
-fc_arima_fni <- forecast(bestfit_fni, xreg=fourier(fni, K=2, h=26))
+fc_arima_fni <- forecast(bestfit_fni, xreg=fourier(fni, K=1, h=26))
 plot(fc_arima_fni)
 ```
 
@@ -96,12 +96,12 @@ plot(aics)
 ```
 
 ```{r}
-fc_fni1 <- forecast(fit_fni1, xreg=fourier(fni, K=1, h=26))
-plot(fc_fni1)
+fc_fni2 <- forecast(fit_fni2, xreg=fourier(fni, K=2, h=26))
+plot(fc_fni2)
 ```
 
 ```{r}
-fc_fni1
+fc_fni2
 ```
 
 ```{r}
@@ -113,5 +113,5 @@ accuracy(fc_arima_fni)
 ```
 
 ```{r}
-accuracy(fc_fni1)
+accuracy(fc_fni2)
 ```
