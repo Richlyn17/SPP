@@ -45,10 +45,6 @@ fc_food
 ```
 
 ```{r}
-accuracy(fc_food)
-```
-
-```{r}
 tail(food)
 min(food)
 max(food)

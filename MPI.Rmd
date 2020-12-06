@@ -96,12 +96,12 @@ plot(aics)
 ```
 
 ```{r}
-fc_mpi3 <- forecast(fit_mpi3, xreg=fourier(mpi, K=3, h=26))
-plot(fc_mpi3)
+fc_mpi2 <- forecast(fit_mpi2, xreg=fourier(mpi, K=2, h=26))
+plot(fc_mpi2)
 ```
 
 ```{r}
-fc_mpi3
+fc_mpi2
 ```
 
 ```{r}
@@ -113,5 +113,5 @@ accuracy(fc_arima_mpi)
 ```
 
 ```{r}
-accuracy(fc_mpi3)
+accuracy(fc_mpi2)
 ```

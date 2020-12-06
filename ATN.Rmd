@@ -45,10 +45,6 @@ fc_atn
 ```
 
 ```{r}
-accuracy(fc_atn)
-```
-
-```{r}
 tail(atn)
 min(atn)
 max(atn)
@@ -71,7 +67,7 @@ summary(bestfit_atn)
 ```
 
 ```{r}
-fc_arima_atn <- forecast(bestfit_atn, xreg=fourier(atn, K=1, h=5))
+fc_arima_atn <- forecast(bestfit_atn, xreg=fourier(atn, K=1, h=26))
 plot(fc_arima_atn)
 ```
 
