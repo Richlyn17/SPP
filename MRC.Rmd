@@ -1,0 +1,117 @@
+---
+title: "SPP for MRC"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+MRC <- read_csv("~/R/SPP/CSV/MRC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+mrc <- ts(MRC[,2], freq=365.25/7, start=2015+65/365.25)
+mrc %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(mrc))
+```
+
+```{r}
+training_mrc <- subset(mrc, end=length(mrc)-1)
+test_mrc <- subset(mrc, start=length(mrc)-1)
+fc_training_mrc<-forecast(training_mrc)
+fc_training_mrc %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_mrc)
+```
+
+```{r}
+fc_training_mrc
+```
+
+```{r}
+fc_mrc<-forecast(mrc)
+fc_mrc %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_mrc
+```
+
+```{r}
+tail(mrc)
+min(mrc)
+max(mrc)
+which.min(mrc)
+```
+
+```{r}
+bestfit_mrc <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_mrc <- auto.arima(mrc, xreg=fourier(mrc, K=i), seasonal=FALSE)
+  if(fit_mrc$aicc < bestfit_mrc$aicc)
+    bestfit_mrc <- fit_mrc
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_mrc)
+```
+
+```{r}
+fc_arima_mrc <- forecast(bestfit_mrc, xreg=fourier(mrc, K=1, h=52))
+plot(fc_arima_mrc)
+```
+
+```{r}
+fc_arima_mrc
+```
+
+```{r}
+fit_mrc1 <- auto.arima(mrc, xreg=fourier(mrc, K=1), seasonal=FALSE)
+fit_mrc2 <- auto.arima(mrc, xreg=fourier(mrc, K=2), seasonal=FALSE)
+fit_mrc3 <- auto.arima(mrc, xreg=fourier(mrc, K=3), seasonal=FALSE)
+fit_mrc4 <- auto.arima(mrc, xreg=fourier(mrc, K=4), seasonal=FALSE)
+fit_mrc5 <- auto.arima(mrc, xreg=fourier(mrc, K=5), seasonal=FALSE)
+fit_mrc6 <- auto.arima(mrc, xreg=fourier(mrc, K=6), seasonal=FALSE)
+fit_mrc7 <- auto.arima(mrc, xreg=fourier(mrc, K=7), seasonal=FALSE)
+fit_mrc8 <- auto.arima(mrc, xreg=fourier(mrc, K=8), seasonal=FALSE)
+fit_mrc9 <- auto.arima(mrc, xreg=fourier(mrc, K=9), seasonal=FALSE)
+fit_mrc10 <- auto.arima(mrc, xreg=fourier(mrc, K=10), seasonal=FALSE)
+fit_mrc11 <- auto.arima(mrc, xreg=fourier(mrc, K=11), seasonal=FALSE)
+fit_mrc12 <- auto.arima(mrc, xreg=fourier(mrc, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_mrc1),AIC(fit_mrc2),AIC(fit_mrc3),AIC(fit_mrc4),AIC(fit_mrc5),AIC(fit_mrc6),AIC(fit_mrc7),AIC(fit_mrc8),AIC(fit_mrc9),AIC(fit_mrc10),AIC(fit_mrc11),AIC(fit_mrc12))
+plot(aics)
+```
+
+```{r}
+fc_mrc2 <- forecast(fit_mrc2, xreg=fourier(mrc, K=2, h=26))
+plot(fc_mrc2)
+```
+
+```{r}
+fc_mrc2
+```
+
+```{r}
+accuracy(fc_mrc)
+```
+
+```{r}
+accuracy(fc_arima_mrc)
+```
+
+```{r}
+accuracy(fc_mrc2)
+```
