@@ -1,6 +1,6 @@
 ---
-title: "PSEI"
-output: html_notebook
+title: "Stock Prices Forecasting"
+output: slidy_presentation
 ---
 # Packages
 

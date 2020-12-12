@@ -1,6 +1,6 @@
 ---
 title: "PSEI"
-output: html_notebook
+output: pdf_document
 ---
 # Packages
 

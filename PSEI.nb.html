@@ -1810,6 +1810,9 @@ summary {
 
 
 <!-- rnb-text-begin -->
+<div id="packages" class="section level1">
+<h1>Packages</h1>
+<p>Load the packages.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShmb3JlY2FzdClcbmBgYCJ9 -->
@@ -1826,6 +1829,10 @@ library(readr)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="viewing-and-decomposing-the-data" class="section level1">
+<h1>Viewing and Decomposing the Data</h1>
+<p>This commant will let us view the plot of the PSEI time series</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuUFNFSSA8LSByZWFkX2NzdihcIn4vUi9TUFAvQ1NWL1BTRUkuY3N2XCIsIGNvbF90eXBlcyA9IGNvbHMoV2VlayA9IGNvbF9kYXRlKGZvcm1hdCA9IFwiJVktJW0tJWRcIikpKVxucHNlaSA8LSB0cyhQU0VJWywyXSwgZnJlcT0zNjUuMjUvNywgc3RhcnQ9MjAxNSsyMjYvMzY1LjI1KVxucHNlaSAlPiVcbiAgYXV0b3Bsb3QoKVxuYGBgIn0= -->
@@ -1839,6 +1846,7 @@ psei %&gt;%
 <!-- rnb-plot-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>This will show the trend, seasonal, and random component of the time series.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGxvdChkZWNvbXBvc2UocHNlaSkpXG5gYGAifQ== -->
@@ -1849,6 +1857,10 @@ psei %&gt;%
 <!-- rnb-plot-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="forecasting" class="section level1">
+<h1>Forecasting</h1>
+<p>This is a validation of last week’s forecast.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJhaW5pbmdfcHNlaSA8LSBzdWJzZXQocHNlaSwgZW5kPWxlbmd0aChwc2VpKS0xKVxudGVzdF9wc2VpIDwtIHN1YnNldChwc2VpLCBzdGFydD1sZW5ndGgocHNlaSktMSlcbmZjX3RyYWluaW5nX3BzZWk8LWZvcmVjYXN0KHRyYWluaW5nX3BzZWkpXG5mY190cmFpbmluZ19wc2VpICU+JVxuICBmb3JlY2FzdChoPTI2KSAlPiVcbiAgYXV0b3Bsb3QoKSArYXV0b2xheWVyKHRlc3RfcHNlaSlcbmBgYCJ9 -->
@@ -1864,6 +1876,7 @@ fc_training_psei %&gt;%
 <!-- rnb-plot-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>These are the point forecast, the 80% and the 95% confidence interval.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmNfdHJhaW5pbmdfcHNlaVxuYGBgIn0= -->
@@ -1878,6 +1891,7 @@ fc_training_psei %&gt;%
 <!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>This is next week’s forecast.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmNfcHNlaTwtZm9yZWNhc3QocHNlaSlcbmZjX3BzZWkgJT4lXG4gIGZvcmVjYXN0KGg9NDApICU+JVxuICBhdXRvcGxvdCgpXG5gYGAifQ== -->
@@ -1891,6 +1905,7 @@ fc_psei %&gt;%
 <!-- rnb-plot-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>These are the point forecast, the 80% and the 95% confidence interval.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmNfcHNlaVxuYGBgIn0= -->
@@ -1905,6 +1920,7 @@ fc_psei %&gt;%
 <!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>This will show the tail (last 5 data points), minimum, maximum, and which entry is the minimum.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudGFpbChwc2VpKVxuYGBgIn0= -->
@@ -1943,6 +1959,10 @@ Frequency = 52.1785714285714
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="arima" class="section level1">
+<h1>ARIMA</h1>
+<p>This is a command for auto arima.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmVzdGZpdF9wc2VpIDwtIGxpc3QoYWljYz1JbmYpXG5mb3IoaSBpbiAxOjI1KVxue1xuICBmaXRfcHNlaSA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPWkpLCBzZWFzb25hbD1GQUxTRSlcbiAgaWYoZml0X3BzZWkkYWljYyA8IGJlc3RmaXRfcHNlaSRhaWNjKVxuICAgIGJlc3RmaXRfcHNlaSA8LSBmaXRfcHNlaVxuICBlbHNlIGJyZWFrO1xufVxuYGBgIn0= -->
@@ -1957,6 +1977,7 @@ for(i in 1:25)
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>The summary of the ARIMA model.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3VtbWFyeShiZXN0Zml0X3BzZWkpXG5gYGAifQ== -->
@@ -1982,6 +2003,7 @@ Training set -0.01308952</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>The plot of the ARIMA model.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmNfYXJpbWFfcHNlaSA8LSBmb3JlY2FzdChiZXN0Zml0X3BzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTIsIGg9MjYpKVxucGxvdChmY19hcmltYV9wc2VpKVxuYGBgIn0= -->
@@ -1993,6 +2015,7 @@ plot(fc_arima_psei)</code></pre>
 <!-- rnb-plot-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>These are the point forecast, the 80% and the 95% confidence interval.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmNfYXJpbWFfcHNlaVxuYGBgIn0= -->
@@ -2007,6 +2030,10 @@ plot(fc_arima_psei)</code></pre>
 <!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="manual-arima" class="section level1">
+<h1>Manual ARIMA</h1>
+<p>This will generate 12 arima models.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZml0X3BzZWkxIDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9MSksIHNlYXNvbmFsPUZBTFNFKVxuZml0X3BzZWkyIDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9MiksIHNlYXNvbmFsPUZBTFNFKVxuZml0X3BzZWkzIDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9MyksIHNlYXNvbmFsPUZBTFNFKVxuZml0X3BzZWk0IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9NCksIHNlYXNvbmFsPUZBTFNFKVxuZml0X3BzZWk1IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9NSksIHNlYXNvbmFsPUZBTFNFKVxuZml0X3BzZWk2IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9NiksIHNlYXNvbmFsPUZBTFNFKVxuZml0X3BzZWk3IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9NyksIHNlYXNvbmFsPUZBTFNFKVxuZml0X3BzZWk4IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9OCksIHNlYXNvbmFsPUZBTFNFKVxuZml0X3BzZWk5IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9OSksIHNlYXNvbmFsPUZBTFNFKVxuZml0X3BzZWkxMCA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTEwKSwgc2Vhc29uYWw9RkFMU0UpXG5maXRfcHNlaTExIDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9MTEpLCBzZWFzb25hbD1GQUxTRSlcbmZpdF9wc2VpMTIgPC0gYXV0by5hcmltYShwc2VpLCB4cmVnPWZvdXJpZXIocHNlaSwgSz0xMiksIHNlYXNvbmFsPUZBTFNFKVxuYGBgIn0= -->
@@ -2025,6 +2052,7 @@ fit_psei12 &lt;- auto.arima(psei, xreg=fourier(psei, K=12), seasonal=FALSE)</cod
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>This will plot the AIC of the 12 ARIMA models.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWljczwtYyhBSUMoZml0X3BzZWkxKSxBSUMoZml0X3BzZWkyKSxBSUMoZml0X3BzZWkzKSxBSUMoZml0X3BzZWk0KSxBSUMoZml0X3BzZWk1KSxBSUMoZml0X3BzZWk2KSxBSUMoZml0X3BzZWk3KSxBSUMoZml0X3BzZWk4KSxBSUMoZml0X3BzZWk5KSxBSUMoZml0X3BzZWkxMCksQUlDKGZpdF9wc2VpMTEpLEFJQyhmaXRfcHNlaTEyKSlcbnBsb3QoYWljcylcbmBgYCJ9 -->
@@ -2036,6 +2064,7 @@ plot(aics)</code></pre>
 <!-- rnb-plot-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>This is the plot of the 1st ARIMA model.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmNfcHNlaTEgPC0gZm9yZWNhc3QoZml0X3BzZWkxLCB4cmVnPWZvdXJpZXIocHNlaSwgSz0xLCBoPTI2KSlcbnBsb3QoZmNfcHNlaTEpXG5gYGAifQ== -->
@@ -2047,6 +2076,7 @@ plot(fc_psei1)</code></pre>
 <!-- rnb-plot-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>These are the point forecast, the 80% and the 95% confidence interval.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZmNfcHNlaTFcbmBgYCJ9 -->
@@ -2061,6 +2091,10 @@ plot(fc_psei1)</code></pre>
 <!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="accuray-measures" class="section level1">
+<h1>Accuray Measures</h1>
+<p>These are the accuracy measures for each model.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYWNjdXJhY3koZmNfcHNlaSlcbmBgYCJ9 -->
@@ -2099,8 +2133,9 @@ Training set -0.7638461 186.5596 133.3621 -0.05103483 1.895593 0.1634711
 Training set 0.006575347</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBTRUkiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkoZm9yZWNhc3QpDQpsaWJyYXJ5KGdncGxvdDIpDQpsaWJyYXJ5KHJlYWRyKQ0KYGBgDQoNCmBgYHtyfQ0KUFNFSSA8LSByZWFkX2Nzdigifi9SL1NQUC9DU1YvUFNFSS5jc3YiLCBjb2xfdHlwZXMgPSBjb2xzKFdlZWsgPSBjb2xfZGF0ZShmb3JtYXQgPSAiJVktJW0tJWQiKSkpDQpwc2VpIDwtIHRzKFBTRUlbLDJdLCBmcmVxPTM2NS4yNS83LCBzdGFydD0yMDE1KzIyNi8zNjUuMjUpDQpwc2VpICU+JQ0KICBhdXRvcGxvdCgpDQpgYGANCg0KYGBge3J9DQpwbG90KGRlY29tcG9zZShwc2VpKSkNCmBgYA0KDQpgYGB7cn0NCnRyYWluaW5nX3BzZWkgPC0gc3Vic2V0KHBzZWksIGVuZD1sZW5ndGgocHNlaSktMSkNCnRlc3RfcHNlaSA8LSBzdWJzZXQocHNlaSwgc3RhcnQ9bGVuZ3RoKHBzZWkpLTEpDQpmY190cmFpbmluZ19wc2VpPC1mb3JlY2FzdCh0cmFpbmluZ19wc2VpKQ0KZmNfdHJhaW5pbmdfcHNlaSAlPiUNCiAgZm9yZWNhc3QoaD0yNikgJT4lDQogIGF1dG9wbG90KCkgK2F1dG9sYXllcih0ZXN0X3BzZWkpDQpgYGANCg0KYGBge3J9DQpmY190cmFpbmluZ19wc2VpDQpgYGANCg0KYGBge3J9DQpmY19wc2VpPC1mb3JlY2FzdChwc2VpKQ0KZmNfcHNlaSAlPiUNCiAgZm9yZWNhc3QoaD00MCkgJT4lDQogIGF1dG9wbG90KCkNCmBgYA0KDQpgYGB7cn0NCmZjX3BzZWkNCmBgYA0KDQpgYGB7cn0NCnRhaWwocHNlaSkNCm1pbihwc2VpKQ0KbWF4KHBzZWkpDQp3aGljaC5taW4ocHNlaSkNCmBgYA0KDQpgYGB7cn0NCmJlc3RmaXRfcHNlaSA8LSBsaXN0KGFpY2M9SW5mKQ0KZm9yKGkgaW4gMToyNSkNCnsNCiAgZml0X3BzZWkgPC0gYXV0by5hcmltYShwc2VpLCB4cmVnPWZvdXJpZXIocHNlaSwgSz1pKSwgc2Vhc29uYWw9RkFMU0UpDQogIGlmKGZpdF9wc2VpJGFpY2MgPCBiZXN0Zml0X3BzZWkkYWljYykNCiAgICBiZXN0Zml0X3BzZWkgPC0gZml0X3BzZWkNCiAgZWxzZSBicmVhazsNCn0NCmBgYA0KDQpgYGB7cn0NCnN1bW1hcnkoYmVzdGZpdF9wc2VpKQ0KYGBgDQoNCmBgYHtyfQ0KZmNfYXJpbWFfcHNlaSA8LSBmb3JlY2FzdChiZXN0Zml0X3BzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTIsIGg9MjYpKQ0KcGxvdChmY19hcmltYV9wc2VpKQ0KYGBgDQoNCmBgYHtyfQ0KZmNfYXJpbWFfcHNlaQ0KYGBgDQoNCmBgYHtyfQ0KZml0X3BzZWkxIDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9MSksIHNlYXNvbmFsPUZBTFNFKQ0KZml0X3BzZWkyIDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9MiksIHNlYXNvbmFsPUZBTFNFKQ0KZml0X3BzZWkzIDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9MyksIHNlYXNvbmFsPUZBTFNFKQ0KZml0X3BzZWk0IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9NCksIHNlYXNvbmFsPUZBTFNFKQ0KZml0X3BzZWk1IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9NSksIHNlYXNvbmFsPUZBTFNFKQ0KZml0X3BzZWk2IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9NiksIHNlYXNvbmFsPUZBTFNFKQ0KZml0X3BzZWk3IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9NyksIHNlYXNvbmFsPUZBTFNFKQ0KZml0X3BzZWk4IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9OCksIHNlYXNvbmFsPUZBTFNFKQ0KZml0X3BzZWk5IDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9OSksIHNlYXNvbmFsPUZBTFNFKQ0KZml0X3BzZWkxMCA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTEwKSwgc2Vhc29uYWw9RkFMU0UpDQpmaXRfcHNlaTExIDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9MTEpLCBzZWFzb25hbD1GQUxTRSkNCmZpdF9wc2VpMTIgPC0gYXV0by5hcmltYShwc2VpLCB4cmVnPWZvdXJpZXIocHNlaSwgSz0xMiksIHNlYXNvbmFsPUZBTFNFKQ0KYGBgDQoNCmBgYHtyfQ0KYWljczwtYyhBSUMoZml0X3BzZWkxKSxBSUMoZml0X3BzZWkyKSxBSUMoZml0X3BzZWkzKSxBSUMoZml0X3BzZWk0KSxBSUMoZml0X3BzZWk1KSxBSUMoZml0X3BzZWk2KSxBSUMoZml0X3BzZWk3KSxBSUMoZml0X3BzZWk4KSxBSUMoZml0X3BzZWk5KSxBSUMoZml0X3BzZWkxMCksQUlDKGZpdF9wc2VpMTEpLEFJQyhmaXRfcHNlaTEyKSkNCnBsb3QoYWljcykNCmBgYA0KDQpgYGB7cn0NCmZjX3BzZWkxIDwtIGZvcmVjYXN0KGZpdF9wc2VpMSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9MSwgaD0yNikpDQpwbG90KGZjX3BzZWkxKQ0KYGBgDQoNCmBgYHtyfQ0KZmNfcHNlaTENCmBgYA0KDQpgYGB7cn0NCmFjY3VyYWN5KGZjX3BzZWkpDQpgYGANCg0KYGBge3J9DQphY2N1cmFjeShmY19hcmltYV9wc2VpKQ0KYGBgDQoNCmBgYHtyfQ0KYWNjdXJhY3koZmNfcHNlaTEpDQpgYGA=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlBTRUkiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KIyBQYWNrYWdlcw0KDQpMb2FkIHRoZSBwYWNrYWdlcy4NCg0KYGBge3J9DQpsaWJyYXJ5KGZvcmVjYXN0KQ0KbGlicmFyeShnZ3Bsb3QyKQ0KbGlicmFyeShyZWFkcikNCmBgYA0KDQojIFZpZXdpbmcgYW5kIERlY29tcG9zaW5nIHRoZSBEYXRhDQoNClRoaXMgY29tbWFudCB3aWxsIGxldCB1cyB2aWV3IHRoZSBwbG90IG9mIHRoZSBQU0VJIHRpbWUgc2VyaWVzDQoNCmBgYHtyfQ0KUFNFSSA8LSByZWFkX2Nzdigifi9SL1NQUC9DU1YvUFNFSS5jc3YiLCBjb2xfdHlwZXMgPSBjb2xzKFdlZWsgPSBjb2xfZGF0ZShmb3JtYXQgPSAiJVktJW0tJWQiKSkpDQpwc2VpIDwtIHRzKFBTRUlbLDJdLCBmcmVxPTM2NS4yNS83LCBzdGFydD0yMDE1KzIyNi8zNjUuMjUpDQpwc2VpICU+JQ0KICBhdXRvcGxvdCgpDQpgYGANCg0KVGhpcyB3aWxsIHNob3cgdGhlIHRyZW5kLCBzZWFzb25hbCwgYW5kIHJhbmRvbSBjb21wb25lbnQgb2YgdGhlIHRpbWUgc2VyaWVzLg0KDQpgYGB7cn0NCnBsb3QoZGVjb21wb3NlKHBzZWkpKQ0KYGBgDQoNCiMgRm9yZWNhc3RpbmcNCg0KVGhpcyBpcyBhIHZhbGlkYXRpb24gb2YgbGFzdCB3ZWVrJ3MgZm9yZWNhc3QuDQoNCmBgYHtyfQ0KdHJhaW5pbmdfcHNlaSA8LSBzdWJzZXQocHNlaSwgZW5kPWxlbmd0aChwc2VpKS0xKQ0KdGVzdF9wc2VpIDwtIHN1YnNldChwc2VpLCBzdGFydD1sZW5ndGgocHNlaSktMSkNCmZjX3RyYWluaW5nX3BzZWk8LWZvcmVjYXN0KHRyYWluaW5nX3BzZWkpDQpmY190cmFpbmluZ19wc2VpICU+JQ0KICBmb3JlY2FzdChoPTI2KSAlPiUNCiAgYXV0b3Bsb3QoKSArYXV0b2xheWVyKHRlc3RfcHNlaSkNCmBgYA0KDQpUaGVzZSBhcmUgdGhlIHBvaW50IGZvcmVjYXN0LCB0aGUgODAlIGFuZCB0aGUgOTUlIGNvbmZpZGVuY2UgaW50ZXJ2YWwuDQoNCmBgYHtyfQ0KZmNfdHJhaW5pbmdfcHNlaQ0KYGBgDQoNClRoaXMgaXMgbmV4dCB3ZWVrJ3MgZm9yZWNhc3QuDQoNCmBgYHtyfQ0KZmNfcHNlaTwtZm9yZWNhc3QocHNlaSkNCmZjX3BzZWkgJT4lDQogIGZvcmVjYXN0KGg9NDApICU+JQ0KICBhdXRvcGxvdCgpDQpgYGANCg0KVGhlc2UgYXJlIHRoZSBwb2ludCBmb3JlY2FzdCwgdGhlIDgwJSBhbmQgdGhlIDk1JSBjb25maWRlbmNlIGludGVydmFsLg0KDQpgYGB7cn0NCmZjX3BzZWkNCmBgYA0KVGhpcyB3aWxsIHNob3cgdGhlIHRhaWwgKGxhc3QgNSBkYXRhIHBvaW50cyksIG1pbmltdW0sIG1heGltdW0sIGFuZCB3aGljaCBlbnRyeSBpcyB0aGUgbWluaW11bS4NCg0KYGBge3J9DQp0YWlsKHBzZWkpDQptaW4ocHNlaSkNCm1heChwc2VpKQ0Kd2hpY2gubWluKHBzZWkpDQpgYGANCg0KIyBBUklNQQ0KDQpUaGlzIGlzIGEgY29tbWFuZCBmb3IgYXV0byBhcmltYS4NCg0KYGBge3J9DQpiZXN0Zml0X3BzZWkgPC0gbGlzdChhaWNjPUluZikNCmZvcihpIGluIDE6MjUpDQp7DQogIGZpdF9wc2VpIDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9aSksIHNlYXNvbmFsPUZBTFNFKQ0KICBpZihmaXRfcHNlaSRhaWNjIDwgYmVzdGZpdF9wc2VpJGFpY2MpDQogICAgYmVzdGZpdF9wc2VpIDwtIGZpdF9wc2VpDQogIGVsc2UgYnJlYWs7DQp9DQpgYGANCg0KVGhlIHN1bW1hcnkgb2YgdGhlIEFSSU1BIG1vZGVsLg0KDQpgYGB7cn0NCnN1bW1hcnkoYmVzdGZpdF9wc2VpKQ0KYGBgDQoNClRoZSBwbG90IG9mIHRoZSBBUklNQSBtb2RlbC4NCg0KYGBge3J9DQpmY19hcmltYV9wc2VpIDwtIGZvcmVjYXN0KGJlc3RmaXRfcHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9MiwgaD0yNikpDQpwbG90KGZjX2FyaW1hX3BzZWkpDQpgYGANCg0KVGhlc2UgYXJlIHRoZSBwb2ludCBmb3JlY2FzdCwgdGhlIDgwJSBhbmQgdGhlIDk1JSBjb25maWRlbmNlIGludGVydmFsLg0KDQpgYGB7cn0NCmZjX2FyaW1hX3BzZWkNCmBgYA0KDQojIE1hbnVhbCBBUklNQQ0KDQpUaGlzIHdpbGwgZ2VuZXJhdGUgMTIgYXJpbWEgbW9kZWxzLg0KDQpgYGB7cn0NCmZpdF9wc2VpMSA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTEpLCBzZWFzb25hbD1GQUxTRSkNCmZpdF9wc2VpMiA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTIpLCBzZWFzb25hbD1GQUxTRSkNCmZpdF9wc2VpMyA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTMpLCBzZWFzb25hbD1GQUxTRSkNCmZpdF9wc2VpNCA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTQpLCBzZWFzb25hbD1GQUxTRSkNCmZpdF9wc2VpNSA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTUpLCBzZWFzb25hbD1GQUxTRSkNCmZpdF9wc2VpNiA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTYpLCBzZWFzb25hbD1GQUxTRSkNCmZpdF9wc2VpNyA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTcpLCBzZWFzb25hbD1GQUxTRSkNCmZpdF9wc2VpOCA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTgpLCBzZWFzb25hbD1GQUxTRSkNCmZpdF9wc2VpOSA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTkpLCBzZWFzb25hbD1GQUxTRSkNCmZpdF9wc2VpMTAgPC0gYXV0by5hcmltYShwc2VpLCB4cmVnPWZvdXJpZXIocHNlaSwgSz0xMCksIHNlYXNvbmFsPUZBTFNFKQ0KZml0X3BzZWkxMSA8LSBhdXRvLmFyaW1hKHBzZWksIHhyZWc9Zm91cmllcihwc2VpLCBLPTExKSwgc2Vhc29uYWw9RkFMU0UpDQpmaXRfcHNlaTEyIDwtIGF1dG8uYXJpbWEocHNlaSwgeHJlZz1mb3VyaWVyKHBzZWksIEs9MTIpLCBzZWFzb25hbD1GQUxTRSkNCmBgYA0KDQpUaGlzIHdpbGwgcGxvdCB0aGUgQUlDIG9mIHRoZSAxMiBBUklNQSBtb2RlbHMuDQoNCmBgYHtyfQ0KYWljczwtYyhBSUMoZml0X3BzZWkxKSxBSUMoZml0X3BzZWkyKSxBSUMoZml0X3BzZWkzKSxBSUMoZml0X3BzZWk0KSxBSUMoZml0X3BzZWk1KSxBSUMoZml0X3BzZWk2KSxBSUMoZml0X3BzZWk3KSxBSUMoZml0X3BzZWk4KSxBSUMoZml0X3BzZWk5KSxBSUMoZml0X3BzZWkxMCksQUlDKGZpdF9wc2VpMTEpLEFJQyhmaXRfcHNlaTEyKSkNCnBsb3QoYWljcykNCmBgYA0KDQpUaGlzIGlzIHRoZSBwbG90IG9mIHRoZSAxc3QgQVJJTUEgbW9kZWwuDQoNCmBgYHtyfQ0KZmNfcHNlaTEgPC0gZm9yZWNhc3QoZml0X3BzZWkxLCB4cmVnPWZvdXJpZXIocHNlaSwgSz0xLCBoPTI2KSkNCnBsb3QoZmNfcHNlaTEpDQpgYGANCg0KVGhlc2UgYXJlIHRoZSBwb2ludCBmb3JlY2FzdCwgdGhlIDgwJSBhbmQgdGhlIDk1JSBjb25maWRlbmNlIGludGVydmFsLg0KDQpgYGB7cn0NCmZjX3BzZWkxDQpgYGANCg0KIyBBY2N1cmF5IE1lYXN1cmVzDQoNClRoZXNlIGFyZSB0aGUgYWNjdXJhY3kgbWVhc3VyZXMgZm9yIGVhY2ggbW9kZWwuDQoNCmBgYHtyfQ0KYWNjdXJhY3koZmNfcHNlaSkNCmBgYA0KDQpgYGB7cn0NCmFjY3VyYWN5KGZjX2FyaW1hX3BzZWkpDQpgYGANCg0KYGBge3J9DQphY2N1cmFjeShmY19wc2VpMSkNCmBgYA==</div>
 
 
 
