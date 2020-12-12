@@ -96,12 +96,12 @@ plot(aics)
 ```
 
 ```{r}
-fc_smc5 <- forecast(fit_smc5, xreg=fourier(smc, K=5, h=26))
-plot(fc_smc5)
+fc_smc2 <- forecast(fit_smc2, xreg=fourier(smc, K=2, h=26))
+plot(fc_smc2)
 ```
 
 ```{r}
-fc_smc5
+fc_smc2
 ```
 
 ```{r}
@@ -113,5 +113,5 @@ accuracy(fc_arima_smc)
 ```
 
 ```{r}
-accuracy(fc_smc5)
+accuracy(fc_smc2)
 ```
