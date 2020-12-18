@@ -14,7 +14,7 @@ library(readr)
 
 # Viewing and Decomposing the Data
 
-This commant will let us view the plot of the PSEI time series
+This command will let us view the plot of the PSEI time series
 
 ```{r}
 PSEI <- read_csv("~/R/SPP/CSV/PSEI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
