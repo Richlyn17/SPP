@@ -67,7 +67,7 @@ summary(bestfit_marc)
 ```
 
 ```{r}
-fc_arima_marc <- forecast(bestfit_marc, xreg=fourier(marc, K=1, h=26))
+fc_arima_marc <- forecast(bestfit_marc, xreg=fourier(marc, K=2, h=26))
 plot(fc_arima_marc)
 ```
 
@@ -96,12 +96,12 @@ plot(aics)
 ```
 
 ```{r}
-fc_marc2 <- forecast(fit_marc2, xreg=fourier(marc, K=2, h=26))
-plot(fc_marc2)
+fc_marc1 <- forecast(fit_marc1, xreg=fourier(marc, K=1, h=26))
+plot(fc_marc1)
 ```
 
 ```{r}
-fc_marc2
+fc_marc1
 ```
 
 ```{r}
@@ -113,5 +113,5 @@ accuracy(fc_arima_marc)
 ```
 
 ```{r}
-accuracy(fc_marc2)
+accuracy(fc_marc1)
 ```
