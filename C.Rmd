@@ -67,7 +67,7 @@ summary(bestfit_c)
 ```
 
 ```{r}
-fc_arima_c <- forecast(bestfit_c, xreg=fourier(c, K=3, h=26))
+fc_arima_c <- forecast(bestfit_c, xreg=fourier(c, K=2, h=26))
 plot(fc_arima_c)
 ```
 
@@ -96,12 +96,12 @@ plot(aics)
 ```
 
 ```{r}
-fc_c2 <- forecast(fit_c2, xreg=fourier(c, K=2, h=26))
-plot(fc_c2)
+fc_c5 <- forecast(fit_c5, xreg=fourier(c, K=5, h=26))
+plot(fc_c5)
 ```
 
 ```{r}
-fc_c2
+fc_c5
 ```
 
 ```{r}
@@ -113,5 +113,5 @@ accuracy(fc_arima_c)
 ```
 
 ```{r}
-accuracy(fc_c2)
+accuracy(fc_c5)
 ```
