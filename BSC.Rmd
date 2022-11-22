@@ -1,0 +1,117 @@
+---
+title: "SPP for BSC"
+output: html_notebook
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+BSC <- read_csv("~/R/SPP/CSV/BSC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+bsc <- ts(BSC[,2], freq=365.25/7, start=2015+219/365.25)
+bsc %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(bsc))
+```
+
+```{r}
+training_bsc <- subset(bsc, end=length(bsc)-1)
+test_bsc <- subset(bsc, start=length(bsc)-1)
+fc_training_bsc<-forecast(training_bsc)
+fc_training_bsc %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_bsc)
+```
+
+```{r}
+fc_training_bsc
+```
+
+```{r}
+fc_bsc<-forecast(bsc)
+fc_bsc %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_bsc
+```
+
+```{r}
+tail(bsc)
+min(bsc)
+max(bsc)
+which.min(bsc)
+```
+
+```{r}
+bestfit_bsc <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_bsc <- auto.arima(bsc, xreg=fourier(bsc, K=i), seasonal=FALSE)
+  if(fit_bsc$aicc < bestfit_bsc$aicc)
+    bestfit_bsc <- fit_bsc
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_bsc)
+```
+
+```{r}
+fc_arima_bsc <- forecast(bestfit_bsc, xreg=fourier(bsc, K=1, h=26))
+plot(fc_arima_bsc)
+```
+
+```{r}
+fc_arima_bsc
+```
+
+```{r}
+fit_bsc1 <- auto.arima(bsc, xreg=fourier(bsc, K=1), seasonal=FALSE)
+fit_bsc2 <- auto.arima(bsc, xreg=fourier(bsc, K=2), seasonal=FALSE)
+fit_bsc3 <- auto.arima(bsc, xreg=fourier(bsc, K=3), seasonal=FALSE)
+fit_bsc4 <- auto.arima(bsc, xreg=fourier(bsc, K=4), seasonal=FALSE)
+fit_bsc5 <- auto.arima(bsc, xreg=fourier(bsc, K=5), seasonal=FALSE)
+fit_bsc6 <- auto.arima(bsc, xreg=fourier(bsc, K=6), seasonal=FALSE)
+fit_bsc7 <- auto.arima(bsc, xreg=fourier(bsc, K=7), seasonal=FALSE)
+fit_bsc8 <- auto.arima(bsc, xreg=fourier(bsc, K=8), seasonal=FALSE)
+fit_bsc9 <- auto.arima(bsc, xreg=fourier(bsc, K=9), seasonal=FALSE)
+fit_bsc10 <- auto.arima(bsc, xreg=fourier(bsc, K=10), seasonal=FALSE)
+fit_bsc11 <- auto.arima(bsc, xreg=fourier(bsc, K=11), seasonal=FALSE)
+fit_bsc12 <- auto.arima(bsc, xreg=fourier(bsc, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_bsc1),AIC(fit_bsc2),AIC(fit_bsc3),AIC(fit_bsc4),AIC(fit_bsc5),AIC(fit_bsc6),AIC(fit_bsc7),AIC(fit_bsc8),AIC(fit_bsc9),AIC(fit_bsc10),AIC(fit_bsc11),AIC(fit_bsc12))
+plot(aics)
+```
+
+```{r}
+fc_bsc2 <- forecast(fit_bsc2, xreg=fourier(bsc, K=2, h=26))
+plot(fc_bsc2)
+```
+
+```{r}
+fc_bsc2
+```
+
+```{r}
+accuracy(fc_bsc)
+```
+
+```{r}
+accuracy(fc_arima_bsc)
+```
+
+```{r}
+accuracy(fc_bsc2)
+```

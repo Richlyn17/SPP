@@ -1,13 +1,17 @@
 ---
-title: "SPP for MARC"
-output: html_notebook
+title: "Untitled"
+output: word_document
 ---
+
+# TIME SERIES ANALYSIS OF MARC
 
 ```{r}
 library(forecast)
 library(ggplot2)
 library(readr)
 ```
+
+This is the code for reading the data.
 
 ```{r}
 MARC <- read_csv("~/R/SPP/CSV/MARC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))

@@ -14,7 +14,7 @@ library(readr)
 
 # Viewing and Decomposing the Data
 
-This commant will let us view the plot of the PSEI time series
+This command will let us view the plot of the PSEI time series
 
 ```{r}
 PSEI <- read_csv("~/R/SPP/CSV/PSEI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
@@ -42,8 +42,6 @@ fc_training_psei %>%
   autoplot() +autolayer(test_psei)
 ```
 
-These are the point forecast, the 80% and the 95% confidence interval.
-
 ```{r}
 fc_training_psei
 ```
@@ -56,8 +54,6 @@ fc_psei %>%
   forecast(h=40) %>%
   autoplot()
 ```
-
-These are the point forecast, the 80% and the 95% confidence interval.
 
 ```{r}
 fc_psei
@@ -99,8 +95,6 @@ fc_arima_psei <- forecast(bestfit_psei, xreg=fourier(psei, K=2, h=26))
 plot(fc_arima_psei)
 ```
 
-These are the point forecast, the 80% and the 95% confidence interval.
-
 ```{r}
 fc_arima_psei
 ```
@@ -137,8 +131,6 @@ This is the plot of the 1st ARIMA model.
 fc_psei1 <- forecast(fit_psei1, xreg=fourier(psei, K=1, h=26))
 plot(fc_psei1)
 ```
-
-These are the point forecast, the 80% and the 95% confidence interval.
 
 ```{r}
 fc_psei1
