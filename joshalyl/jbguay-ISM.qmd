@@ -1,0 +1,81 @@
+---
+title: "Stockprice Forcasting"
+author: "Jennifer B. Guay"
+format: html
+editor: visual
+---
+
+## BACKGROUND 
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)
+
+```
+
+```{r}
+IMI <- read_csv("~/RProject/SEC MATH 17/SPP/CSV/IMI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+IMI_ts <- ts(IMI[,2], freq=365.25/7, start=2015+128/365.25)
+IMI_ts %>%
+  autoplot()
+```
+
+```{r}
+ISM <- read_csv("~/RProject/SEC MATH 17/SPP/CSV/ISM.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+ISM_ts <- ts(IMI[,2], freq=365.25/7, start=2015+128/365.25)
+ISM_ts %>%
+  autoplot()
+```
+
+```{r}
+ISM_decomp <- decompose(na.locf(ISM_ts), type="additive")
+autoplot(ISM_decomp)
+```
+
+```{r}
+training_ISM <- subset(ISM_ts, end=length(ISM_ts)-8)
+test_ISM <- subset(ISM_ts, start=length(ISM_ts)-8)
+fc_training_ISM <- forecast(training_ISM)
+fc_training_ISM %>%
+  forecast(h=10
+```
+
+```{r}
+fc_training_ISM
+```
+
+```{r}
+fc_ISM<-forecast(ISM_ts)
+fc_ISM %>%
+  forecast(h=100) %>%
+  autoplot()
+```
+
+```{r}
+fc_ISM
+```
+
+```{r}
+tail(ISM_ts)
+min(ISM_ts)
+max(ISM_ts)
+which.min(ISM_ts)
+```
+
+```{r}
+bestfit_ISM<- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_ISM <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=i), seasonal=FALSE)
+  if(fit_ISM$aicc < bestfit_ISM$aicc)
+    bestfit_ISM <- fit_ISM
+  else break;
+}
+``
+```
+
+```{r}
+summary(bestfit_ISM_ts)
+```
