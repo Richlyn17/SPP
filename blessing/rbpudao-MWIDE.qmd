@@ -1,0 +1,119 @@
+---
+title: "stock price forecasting"
+author: "rizza pudao"
+format: html
+editor: visual
+---
+
+# Background
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)
+```
+
+### Graph for Megawide Construction Corp Price (MWIDE)
+
+```{r}
+MWIDE <- read_csv("/cloud/project/CSV/MWIDE.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+MWIDE_ts <- ts(MWIDE[,2], freq=365.25/7, start=2015+177/365.25)
+MWIDE_ts %>%
+  autoplot()
+```
+
+### Graph for NIKL
+
+```{r}
+NIKL <- read_csv("/cloud/project/CSV/NIKL.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+NIKL_ts <- ts(NIKL[,2], freq=365.25/7, start=2015+159/365.25)
+NIKL_ts %>%
+  autoplot()
+```
+
+### Graph for NOW 
+
+```{r}
+NOW <- read_csv("/cloud/project/CSV/NOW.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+NOW_ts <- ts(NOW[,2], freq=365.25/7, start=2015+158/365.25)
+NOW_ts %>%
+  autoplot()
+```
+
+### Graph for ORE
+
+```{r}
+NOW <- read_csv("/cloud/project/CSV/NOW.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+NOW_ts <- ts(NOW[,2], freq=365.25/7, start=2015+158/365.25)
+NOW_ts %>%
+  autoplot()
+```
+
+```{r}
+td_decomp <- decompose(na.locf(MWIDE_ts), type="additive")
+autoplot(td_decomp)
+```
+
+```{r}
+training_MWIDE <- subset(MWIDE_ts, end=length(MWIDE_ts)-8)
+test_MWIDE <- subset(MWIDE_ts, start=length(MWIDE_ts)-8)
+fc_training_MWIDE<-forecast(training_MWIDE)
+fc_training_MWIDE %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_MWIDE)
+```
+
+```{r}
+fc_training_MWIDE
+```
+
+```{r}
+fc_MWIDE<-forecast(MWIDE_ts)
+fc_MWIDE %>%
+  forecast(h=50) %>%
+  autoplot()
+```
+
+```{r}
+tail(MWIDE_ts)
+min(MWIDE_ts)
+max(MWIDE_ts)
+which.min(MWIDE_ts)
+```
+
+```{r}
+bestfit_MWIDE_ts <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_MWIDE_ts <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=i), seasonal=FALSE)
+  if(fit_MWIDE_ts$aicc < bestfit_MWIDE_ts$aicc)
+    bestfit_MWIDE_ts <- fit_MWIDE_ts
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_MWIDE_ts)
+```
+
+# Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
