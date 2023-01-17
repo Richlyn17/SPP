@@ -1,0 +1,227 @@
+---
+title: "Stock Price Forecasting"
+author: "Donabel Olarte"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+# Background
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)
+```
+
+# AT data
+
+```{r}
+AT <- read_csv("/cloud/project/CSV/AT.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+AT_ts <- ts(AT[,2], freq=365.25/7, start=2015+65/365.25)
+AT_ts %>%
+  autoplot()
+```
+
+```{r}
+AT_decomp <- decompose(na.locf(AT_ts), type="additive")
+autoplot(AT_decomp)
+```
+
+```{r}
+training_AT <- subset(AT_ts, end=length(AT_ts)-8)
+test_AT <- subset(AT_ts, start=length(AT_ts)-8)
+fc_training_AT <- forecast(training_AT)
+fc_training_AT %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_AT)
+```
+
+```{r}
+fc_training_AT
+```
+
+```{r}
+fc_AT<-forecast(AT_ts)
+fc_AT %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_AT
+```
+
+```{r}
+tail(AT_ts)
+min(AT_ts)
+max(AT_ts)
+which.min(AT_ts)
+```
+
+```{r}
+bestfit_AT <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_AT_ts <- auto.arima(AT_ts, xreg=fourier(AT, K=i), seasonal=FALSE)
+  if(fit_AT_ts$aicc < bestfit_AT$aicc)
+    bestfit_AT <- fit_AT
+  else break;
+}
+```
+
+# ATN data
+
+```{r}
+ATN <- read_csv("/cloud/project/CSV/ATN.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+ATN_ts <- ts(ATN[,2], freq=365.25/7, start=2015+91/365.25)
+ATN_ts %>%
+  autoplot()
+```
+
+```{r}
+ATN_decomp <- decompose(na.locf(ATN_ts), type="additive")
+autoplot(ATN_decomp)
+```
+
+```{r}
+training_ATN <- subset(ATN_ts, end=length(ATN_ts)-8)
+test_ATN <- subset(ATN_ts, start=length(ATN_ts)-8)
+fc_training_ATN <- forecast(training_ATN)
+fc_training_ATN %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_ATN)
+```
+
+```{r}
+fc_training_ATN
+```
+
+```{r}
+fc_ATN<-forecast(ATN_ts)
+fc_ATN %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_ATN
+```
+
+```{r}
+tail(ATN_ts)
+min(ATN_ts)
+max(ATN_ts)
+which.min(ATN_ts)
+```
+
+# BC data
+
+```{r}
+BC <- read_csv("/cloud/project/CSV/BC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+BC_ts <- ts(BC[,2], freq=365.25/7, start=2015+65/365.25)
+BC_ts %>%
+  autoplot()
+```
+
+```{r}
+BC_decomp <- decompose(na.locf(BC_ts), type="additive")
+autoplot(BC_decomp)
+```
+
+```{r}
+training_BC <- subset(BC_ts, end=length(BC_ts)-8)
+test_BC <- subset(BC_ts, start=length(BC_ts)-8)
+fc_training_BC <- forecast(training_BC)
+fc_training_BC %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_BC)
+```
+
+```{r}
+fc_training_BC
+```
+
+```{r}
+fc_BC<-forecast(BC_ts)
+fc_BC %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_BC
+```
+
+```{r}
+tail(BC_ts)
+min(BC_ts)
+max(BC_ts)
+which.min(BC_ts)
+```
+
+# BEL data
+
+```{r}
+BEL <- read_csv("/cloud/project/CSV/BEL.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+BEL_ts <- ts(BEL[,2], freq=365.25/7, start=2015+51/365.25)
+BEL_ts %>%
+  autoplot()
+```
+
+```{r}
+BEL_decomp <- decompose(na.locf(BEL_ts), type="additive")
+autoplot(BEL_decomp)
+```
+
+```{r}
+training_BEL <- subset(BEL_ts, end=length(BEL_ts)-8)
+test_BEL <- subset(BEL_ts, start=length(AT_ts)-8)
+fc_training_BEL <- forecast(training_BEL)
+fc_training_BEL %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_BEL)
+```
+
+```{r}
+fc_training_BEL
+```
+
+```{r}
+fc_BEL<-forecast(BEL_ts)
+fc_BEL %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_BEL
+```
+
+```{r}
+tail(BEL_ts)
+min(BEL_ts)
+max(BEL_ts)
+which.min(BEL_ts)
+```
