@@ -5,8 +5,6 @@ format: html
 editor: visual
 ---
 
-# Background
-
 ```{r}
 library(forecast)
 library(ggplot2)
@@ -14,39 +12,14 @@ library(readr)
 library(zoo)
 ```
 
+# Background
+
 ### Graph for Megawide Construction Corp Price (MWIDE)
 
 ```{r}
 MWIDE <- read_csv("/cloud/project/CSV/MWIDE.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
 MWIDE_ts <- ts(MWIDE[,2], freq=365.25/7, start=2015+177/365.25)
 MWIDE_ts %>%
-  autoplot()
-```
-
-### Graph for NIKL
-
-```{r}
-NIKL <- read_csv("/cloud/project/CSV/NIKL.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
-NIKL_ts <- ts(NIKL[,2], freq=365.25/7, start=2015+159/365.25)
-NIKL_ts %>%
-  autoplot()
-```
-
-### Graph for NOW 
-
-```{r}
-NOW <- read_csv("/cloud/project/CSV/NOW.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
-NOW_ts <- ts(NOW[,2], freq=365.25/7, start=2015+158/365.25)
-NOW_ts %>%
-  autoplot()
-```
-
-### Graph for ORE
-
-```{r}
-NOW <- read_csv("/cloud/project/CSV/NOW.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
-NOW_ts <- ts(NOW[,2], freq=365.25/7, start=2015+158/365.25)
-NOW_ts %>%
   autoplot()
 ```
 
@@ -95,6 +68,174 @@ for(i in 1:25)
 
 ```{r}
 summary(bestfit_MWIDE_ts)
+```
+
+### Graph for NIKL
+
+```{r}
+NIKL <- read_csv("/cloud/project/CSV/NIKL.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+NIKL_ts <- ts(NIKL[,2], freq=365.25/7, start=2015+159/365.25)
+NIKL_ts %>%
+  autoplot()
+```
+
+```{r}
+td_decomp <- decompose(na.locf(NIKL_ts), type="additive")
+autoplot(td_decomp)
+```
+
+```{r}
+training_NIKL <- subset(NIKL_ts, end=length(NIKL_ts)-8)
+test_NIKL <- subset(NIKL_ts, start=length(NIKL_ts)-8)
+fc_training_NIKL<-forecast(training_NIKL)
+fc_training_NIKL %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_NIKL)
+```
+
+```{r}
+fc_training_NIKL
+```
+
+```{r}
+fc_NIKL<-forecast(NIKL_ts)
+fc_NIKL %>%
+  forecast(h=50) %>%
+  autoplot()
+```
+
+```{r}
+tail(NIKL_ts)
+min(NIKL_ts)
+max(NIKL_ts)
+which.min(NIKL_ts)
+```
+
+```{r}
+bestfit_NIKL_ts <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_NIKL_ts <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=i), seasonal=FALSE)
+  if(fit_NIKL_ts$aicc < bestfit_NIKL_ts$aicc)
+    bestfit_NIKL_ts <- fit_NIKL_ts
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_NIKL_ts)
+```
+
+### Graph for NOW
+
+```{r}
+NOW <- read_csv("/cloud/project/CSV/NOW.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+NOW_ts <- ts(NOW[,2], freq=365.25/7, start=2015+158/365.25)
+NOW_ts %>%
+  autoplot()
+```
+
+```{r}
+td_decomp <- decompose(na.locf(NOW_ts), type="additive")
+autoplot(td_decomp)
+```
+
+```{r}
+training_NOW  <- subset(NOW_ts, end=length(NOW_ts)-8)
+test_NOW  <- subset(NOW_ts, start=length(NOW_ts)-8)
+fc_training_NOW <-forecast(training_NOW )
+fc_training_NOW  %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_NOW )
+```
+
+```{r}
+fc_training_NOW 
+```
+
+```{r}
+fc_NOW <-forecast(NOW_ts)
+fc_NOW  %>%
+  forecast(h=50) %>%
+  autoplot()
+```
+
+```{r}
+tail(NOW_ts)
+min(NOW_ts)
+max(NOW_ts)
+which.min(NOW_ts)
+```
+
+```{r}
+bestfit_NOW_ts <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_NOW_ts <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=i), seasonal=FALSE)
+  if(fit_NOW_ts$aicc < bestfit_NOW_ts$aicc)
+    bestfit_NOW_ts <- fit_NOW_ts
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_NOW_ts)
+```
+
+### Graph for ORE
+
+```{r}
+ORE <- read_csv("/cloud/project/CSV/ORE.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+ORE_ts <- ts(ORE[,2], freq=365.25/7, start=2015+247/365.25)
+ORE_ts %>%
+  autoplot()
+```
+
+```{r}
+td_decomp <- decompose(na.locf(ORE_ts), type="additive")
+autoplot(td_decomp)
+```
+
+```{r}
+training_ORE <- subset(ORE_ts, end=length(ORE_ts)-8)
+test_ORE <- subset(ORE_ts, start=length(ORE_ts)-8)
+fc_training_ORE<-forecast(training_ORE)
+fc_training_ORE %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_ORE)
+```
+
+```{r}
+fc_training_ORE
+```
+
+```{r}
+fc_ORE<-forecast(ORE_ts)
+fc_ORE %>%
+  forecast(h=50) %>%
+  autoplot()
+```
+
+```{r}
+tail(ORE_ts)
+min(ORE_ts)
+max(ORE_ts)
+which.min(ORE_ts)
+```
+
+```{r}
+bestfit_ORE_ts <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_ORE_ts <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=i), seasonal=FALSE)
+  if(fit_ORE_ts$aicc < bestfit_ORE_ts$aicc)
+    bestfit_ORE_ts <- fit_ORE_ts
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_ORE_ts)
 ```
 
 # Quarto
