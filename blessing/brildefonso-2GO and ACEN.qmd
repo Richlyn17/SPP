@@ -1,0 +1,129 @@
+---
+title: "Stock Price Forecasting"
+author: "Blessing R. Ildefonso"
+format: html
+editor: visual
+---
+
+# Background
+
+```{r}
+library(forecast) #loads the forecast package
+library(ggplot2) #loads the ggplot2 package
+library(readr) #loads the readr package
+library(zoo) #loads the zoo package
+
+```
+
+```{r}
+TUGO <- read_csv("/cloud/project/CSV/2GO.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+tugo_ts <- ts(TUGO[,2], freq=365.25/7, start=2015+128/365.25)
+tugo_ts %>%
+  autoplot()
+```
+
+```{r}
+tugo_decomp <- decompose(na.locf(tugo_ts), type="additive")
+autoplot (tugo_decomp)
+```
+
+```{r}
+training_tugo <- subset(tugo_ts,end=length(tugo_ts)-8)
+test_tugo <- subset(tugo_ts,start=length(tugo_ts)-8)
+fc_training_tugo<-forecast(training_tugo)
+fc_training_tugo%>%
+  forecast(h=60)%>%
+  autoplot() +autolayer(test_tugo)
+```
+
+```{r}
+fc_training_tugo
+```
+
+```{r}
+fc_tugo<-forecast(tugo)
+fc_tugo %>%
+  forecast(h=27) %>%
+  autoplot()
+```
+
+```{r}
+fc_tugo
+```
+
+```{r}
+tail(tugo)
+min(tugo)
+max(tugo)
+which.min(tugo)
+```
+
+```{r}
+bestfit_tugo <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_tugo <- auto.arima(tugo, xreg=fourier(tugo, K=i), seasonal=FALSE)
+  if(fit_tugo$aicc < bestfit_tugo$aicc)
+    bestfit_tugo <- fit_tugo
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_tugo)
+```
+
+```{r}
+ACEN <- read_csv("/cloud/project/CSV/ACEN.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+acen_ts <- ts(ACEN[,2], freq=365.25/7, start=2015+65/365.25)
+acen %>%
+  autoplot()
+```
+
+```{r}
+acen_decomp <- decompose(na.locf(acen_ts), type="additive")
+autoplot (acen_decomp)
+```
+
+```{r}
+training_acen <- subset(acen, end=length(acen)-1)
+test_acen <- subset(acen, start=length(acen)-1)
+fc_training_acen<-forecast(training_acen)
+fc_training_acen %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_acen)
+```
+
+```{r}
+fc_training_acen
+```
+
+```{r}
+fc_acen<-forecast(acen)
+fc_acen %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+# 
