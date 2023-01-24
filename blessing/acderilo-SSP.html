@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Aileene Derilo">
+
+<title>Stock Price Forecasting</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="acderilo-SSP_files/libs/clipboard/clipboard.min.js"></script>
+<script src="acderilo-SSP_files/libs/quarto-html/quarto.js"></script>
+<script src="acderilo-SSP_files/libs/quarto-html/popper.min.js"></script>
+<script src="acderilo-SSP_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="acderilo-SSP_files/libs/quarto-html/anchor.min.js"></script>
+<link href="acderilo-SSP_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="acderilo-SSP_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="acderilo-SSP_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="acderilo-SSP_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="acderilo-SSP_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Stock Price Forecasting</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Aileene Derilo </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="background-ssp-data" class="level1">
+<h1>Background (SSP DATA)</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>SSP <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/SSP.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>SSP <span class="ot">&lt;-</span> <span class="fu">ts</span>(SSP[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2021</span><span class="sc">+</span><span class="dv">15</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>SSP <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="acderilo-SSP_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>SSP_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(SSP), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(SSP_decomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="acderilo-SSP_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>training_SSP <span class="ot">&lt;-</span> <span class="fu">subset</span>(SSP, <span class="at">end=</span><span class="fu">length</span>(SSP)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>test_SSP <span class="ot">&lt;-</span> <span class="fu">subset</span>(SSP, <span class="at">start=</span><span class="fu">length</span>(SSP)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>fc_training_SSP <span class="ot">&lt;-</span> <span class="fu">forecast</span>(training_SSP)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>fc_training_SSP <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">60</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_SSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="acderilo-SSP_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fc_SSP <span class="ot">&lt;-</span><span class="fu">forecast</span>(SSP)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fc_SSP <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="acderilo-SSP_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fc_SSP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast     Lo 80    Hi 80       Lo 95    Hi 95
+2026.752       1.457011 1.3329836 1.581038  1.26732756 1.646694
+2026.771       1.488044 1.3206546 1.655434  1.23204377 1.744045
+2026.791       1.386513 1.1848803 1.588147  1.07814219 1.694885
+2026.810       1.491067 1.2602156 1.721919  1.13801015 1.844124
+2026.829       1.667842 1.4110754 1.924609  1.27515138 2.060533
+2026.848       1.674054 1.3937586 1.954350  1.24537908 2.102730
+2026.867       1.688032 1.3860345 1.990029  1.22616694 2.149896
+2026.886       1.686438 1.3641978 2.008678  1.19361404 2.179262
+2026.906       1.627275 1.2859903 1.968560  1.10532499 2.149225
+2026.925       1.546235 1.1869132 1.905556  0.99669984 2.095770
+2026.944       1.607918 1.2314231 1.984413  1.03211862 2.183718
+2026.963       1.574703 1.1817841 1.967622  0.97378549 2.175620
+2026.982       1.564277 1.1555942 1.972960  0.93925049 2.189304
+2027.001       1.634328 1.2104671 2.058190  0.98608859 2.282568
+2027.021       1.583983 1.1454685 2.022497  0.91333301 2.254633
+2027.040       1.668359 1.2156651 2.121052  0.97602359 2.360694
+2027.059       1.671664 1.2052224 2.138106  0.95830300 2.385026
+2027.078       1.621399 1.1416021 2.101195  0.88761320 2.355184
+2027.097       1.620067 1.1272778 2.112856  0.86641091 2.373723
+2027.116       1.633898 1.1284502 2.139346  0.86088219 2.406915
+2027.136       1.786446 1.2686485 2.304244  0.99454299 2.578349
+2027.155       1.771932 1.2420727 2.301791  0.96158212 2.582282
+2027.174       1.758211 1.2165588 2.299864  0.92982525 2.586598
+2027.193       1.692295 1.1391006 2.245489  0.84625710 2.538333
+2027.212       1.686098 1.1215971 2.250598  0.82276866 2.549426
+2027.231       1.807821 1.2322369 2.383405  0.92754100 2.688101
+2027.251       1.787905 1.2014458 2.374363  0.89099335 2.684816
+2027.270       1.740841 1.1437056 2.337976  0.82760131 2.654080
+2027.289       1.766959 1.1593351 2.374583  0.83767835 2.696240
+2027.308       1.677675 1.0597401 2.295610  0.73262507 2.622725
+2027.327       1.741196 1.1131196 2.369273  0.78063599 2.701756
+2027.346       1.703624 1.0655667 2.341681  0.72779973 2.679448
+2027.366       1.683367 1.0354835 2.331251  0.69251459 2.674220
+2027.385       1.717337 1.0597732 2.374900  0.71168006 2.722994
+2027.404       1.715043 1.0479401 2.382146  0.69479705 2.735289
+2027.423       1.731452 1.0549443 2.407960  0.69682261 2.766082
+2027.442       1.663983 0.9781989 2.349767  0.61516683 2.712799
+2027.461       1.676132 0.9811961 2.371068  0.61331913 2.738945
+2027.480       1.625645 0.9216759 2.329615  0.54901708 2.702273
+2027.500       1.604953 0.8920654 2.317842  0.51468526 2.695222
+2027.519       1.559325 0.8376283 2.281021  0.45558520 2.663065
+2027.538       1.589887 0.8594884 2.320286  0.47283857 2.706936
+2027.557       1.569176 0.8301775 2.308175  0.43897515 2.699377
+2027.576       1.539305 0.7918053 2.286805  0.39610285 2.682507
+2027.595       1.491639 0.7357336 2.247544  0.33558170 2.647695
+2027.615       1.525812 0.7615942 2.290030  0.35704169 2.694582
+2027.634       1.540850 0.7684085 2.313291  0.35950285 2.722197
+2027.653       1.509105 0.7285268 2.289683  0.31531372 2.702896
+2027.672       1.511382 0.7227516 2.300013  0.30527561 2.717489
+2027.691       1.491520 0.6949177 2.288122  0.27322191 2.709818
+2027.710       1.481218 0.6767231 2.285713  0.25084927 2.711586
+2027.730       1.495682 0.6833716 2.307993  0.25336039 2.738004
+2027.749       1.457011 0.6369590 2.277063  0.20284983 2.711172
+2027.768       1.488044 0.6603236 2.315765  0.22215477 2.753934
+2027.787       1.386513 0.5511943 2.221833  0.10900301 2.664024
+2027.806       1.491067 0.6482182 2.333916  0.20204077 2.780094
+2027.825       1.667842 0.8175295 2.518154  0.36740129 2.968283
+2027.845       1.674054 0.8163435 2.531765  0.36229879 2.985810
+2027.864       1.688032 0.8229857 2.553078  0.36505806 3.011005
+2027.883       1.686438 0.8141187 2.558757  0.35234078 3.020535
+2027.902       1.627275 0.7477426 2.506808  0.28214620 2.972404
+2027.921       1.546235 0.6595475 2.432922  0.19016369 2.902306
+2027.940       1.607918 0.7141337 2.501703  0.24099273 2.974844
+2027.960       1.574703 0.6738769 2.475529  0.19700850 2.952397
+2027.979       1.564277 0.6564644 2.472090  0.17589733 2.952657
+2027.998       1.634328 0.7195822 2.549074  0.23534484 3.033312
+2028.017       1.583983 0.6623555 2.505610  0.17447543 2.993490
+2028.036       1.668359 0.7399010 2.596816  0.24840517 3.088312
+2028.055       1.671664 0.7364263 2.606902  0.24134113 3.101988
+2028.075       1.621399 0.6794289 2.563368  0.18078028 3.062017
+2028.094       1.620067 0.6714135 2.568720  0.16922669 3.070907
+2028.113       1.633898 0.6786078 2.589189  0.17290758 3.094889
+2028.132       1.786446 0.8245643 2.748328  0.31537486 3.257517
+2028.151       1.771932 0.8035039 2.740360  0.29084899 3.253015
+2028.170       1.758211 0.7832808 2.733142  0.26718367 3.249239
+2028.190       1.692295 0.7109050 2.673685  0.19138855 3.193201
+2028.209       1.686098 0.6982904 2.673905  0.17537690 3.196818
+2028.228       1.807821 0.8136384 2.802004  0.28734979 3.328293
+2028.247       1.787905 0.7873867 2.788422  0.25774452 3.318065
+2028.266       1.740841 0.7340277 2.747654  0.20105301 3.280629
+2028.285       1.766959 0.7538900 2.780028  0.21760353 3.316315
+2028.305       1.677675 0.6583881 2.696962  0.11881021 3.236540
+2028.324       1.741196 0.7157293 2.766663  0.17287992 3.309512
+2028.343       1.703624 0.6720138 2.735234  0.12591256 3.281335
+2028.362       1.683367 0.6456508 2.721084  0.09631683 3.270418
+2028.381       1.717337 0.6735494 2.761124  0.12100178 3.313672
+2028.400       1.715043 0.6652200 2.764866  0.10947715 3.320609
+2028.420       1.731452 0.6756279 2.787277  0.11670816 3.346196
+2028.439       1.663983 0.6021911 2.725775  0.04011247 3.287853
+2028.458       1.676132 0.6084064 2.743858  0.04318650 3.309078
+2028.477       1.625645 0.5520182 2.699272 -0.01632559 3.267616
+2028.496       1.604953 0.5254575 2.684449 -0.04599317 3.255900
+2028.515       1.559325 0.4739917 2.644658 -0.10054901 3.219199
+2028.535       1.589887 0.4987481 2.681026 -0.07886610 3.258641
+2028.554       1.569176 0.4722617 2.666091 -0.10840970 3.246762
+2028.573       1.539305 0.4366454 2.641964 -0.14706723 3.225677
+2028.592       1.491639 0.3832639 2.600013 -0.20347427 3.186751
+2028.611       1.525812 0.4117514 2.639873 -0.17799670 3.229621
+2028.630       1.540850 0.4211321 2.660567 -0.17161062 3.253310
+2028.650       1.509105 0.3837585 2.634451 -0.21196383 3.230173
+2028.669       1.511382 0.3804356 2.642329 -0.21825155 3.241016
+2028.688       1.491520 0.3550001 2.628040 -0.24663716 3.229677
+2028.707       1.481218 0.3391521 2.623283 -0.26542091 3.227857
+2028.726       1.495682 0.3480974 2.643267 -0.25939718 3.250761</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(SSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time Series:
+Start = 2026.63723477071 
+End = 2026.73305954825 
+Frequency = 52.1785714285714 
+     Price
+[1,]  1.52
+[2,]  1.61
+[3,]  1.70
+[4,]  1.60
+[5,]  1.53
+[6,]  1.49</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(SSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.55</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(SSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.97</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(SSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 256</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>bestfit_SSP <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  fit_SSP <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_SSP<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_SSP<span class="sc">$</span>aicc)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    bestfit_SSP <span class="ot">&lt;-</span> fit_SSP</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_SSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: SSP 
+Regression with ARIMA(1,1,1) errors 
+
+Coefficients:
+         ar1      ma1   S1-52   C1-52
+      0.7162  -0.8229  0.1275  0.0281
+s.e.  0.1146   0.0906  0.0529  0.0530
+
+sigma^2 = 0.01274:  log likelihood = 228.44
+AIC=-446.88   AICc=-446.67   BIC=-428.41
+
+Training set error measures:
+                       ME      RMSE        MAE        MPE     MAPE      MASE
+Training set -0.003432854 0.1119293 0.07705552 -0.5206234 4.813518 0.1462854
+                     ACF1
+Training set -0.009850987</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fc_arima_SSP <span class="ot">&lt;-</span> <span class="fu">forecast</span>(bestfit_SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_SSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="acderilo-SSP_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fit_SSP1 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">1</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>fit_SSP2 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">2</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>fit_SSP3 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">3</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>fit_SSP4 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">4</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>fit_SSP5 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">5</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>fit_SSP6 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">6</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>fit_SSP7 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">7</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>fit_SSP8 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">8</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>fit_SSP9 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">9</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>fit_SSP10 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">10</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>fit_SSP11 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">11</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>fit_SSP12 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(SSP, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">12</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>aics<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">AIC</span>(fit_SSP1),<span class="fu">AIC</span>(fit_SSP2),<span class="fu">AIC</span>(fit_SSP3),<span class="fu">AIC</span>(fit_SSP4),<span class="fu">AIC</span>(fit_SSP5),<span class="fu">AIC</span>(fit_SSP6),<span class="fu">AIC</span>(fit_SSP7),<span class="fu">AIC</span>(fit_SSP8),<span class="fu">AIC</span>(fit_SSP9),<span class="fu">AIC</span>(fit_SSP10),<span class="fu">AIC</span>(fit_SSP11),<span class="fu">AIC</span>(fit_SSP12))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="acderilo-SSP_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_SSP <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_SSP1, <span class="at">xreg=</span><span class="fu">fourier</span>(SSP, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_man_SSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="acderilo-SSP_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_SSP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast    Lo 80    Hi 80     Lo 95    Hi 95
+2026.752       1.493232 1.348570 1.637894 1.2719902 1.714473
+2026.771       1.497576 1.303599 1.691554 1.2009131 1.794240
+2026.791       1.503218 1.276077 1.730359 1.1558354 1.850601
+2026.810       1.510251 1.257762 1.762740 1.1241023 1.896400
+2026.829       1.518700 1.245405 1.791996 1.1007311 1.936670
+2026.848       1.528534 1.237334 1.819734 1.0831827 1.973885
+2026.867       1.539674 1.232546 1.846803 1.0699620 2.009387
+2026.886       1.552006 1.230360 1.873653 1.0600912 2.043922
+2026.906       1.565385 1.230270 1.900500 1.0528714 2.077899
+2026.925       1.579640 1.231865 1.927415 1.0477637 2.111517
+2026.944       1.594582 1.234788 1.954376 1.0443247 2.144840
+2026.963       1.610007 1.238719 1.981296 1.0421705 2.177844
+2026.982       1.625701 1.243357 2.008045 1.0409564 2.210446
+2027.001       1.641442 1.248418 2.034465 1.0403645 2.242519
+2027.021       1.657006 1.253632 2.060381 1.0400979 2.273915
+2027.040       1.672172 1.258737 2.085608 1.0398775 2.304467
+2027.059       1.686723 1.263488 2.109958 1.0394408 2.334005
+2027.078       1.700448 1.267651 2.133245 1.0385422 2.362354
+2027.097       1.713151 1.271010 2.155293 1.0369539 2.389349
+2027.116       1.724649 1.273364 2.175934 1.0344674 2.414831
+2027.136       1.734775 1.274533 2.195017 1.0308955 2.438655
+2027.155       1.743383 1.274359 2.212407 1.0260731 2.460694
+2027.174       1.750350 1.272708 2.227992 1.0198595 2.480840
+2027.193       1.755573 1.269468 2.241678 1.0121397 2.499007
+2027.212       1.758979 1.264557 2.253401 1.0028252 2.515132
+2027.231       1.760517 1.257916 2.263117 0.9918552 2.529178</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_SSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       ME       RMSE       MAE        MPE    MAPE     MASE
+Training set -0.002582306 0.09645364 0.0708023 -0.3102993 4.49743 0.134414
+                     ACF1
+Training set 5.611078e-05</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_arima_SSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       ME      RMSE        MAE        MPE     MAPE      MASE
+Training set -0.003432854 0.1119293 0.07705552 -0.5206234 4.813518 0.1462854
+                     ACF1
+Training set -0.009850987</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_arima_man_SSP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       ME      RMSE        MAE        MPE     MAPE      MASE
+Training set -0.003432854 0.1119293 0.07705552 -0.5206234 4.813518 0.1462854
+                     ACF1
+Training set -0.009850987</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
