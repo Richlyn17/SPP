@@ -12,9 +12,7 @@ library(readr)
 library(zoo)
 ```
 
-# Background
-
-#### Graph for Megawide Construction Corp Price (MWIDE)
+# Graph for Megawide Construction Corp Price (MWIDE)
 
 ```{r}
 MWIDE <- read_csv("/cloud/project/CSV/MWIDE.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
@@ -120,7 +118,7 @@ accuracy(fc_arima_MWIDE_ts)
 accuracy(fc_MWIDE_ts1)
 ```
 
-#### Graph for NIKL
+# Graph for NIKL
 
 ```{r}
 NIKL <- read_csv("/cloud/project/CSV/NIKL.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
@@ -226,7 +224,7 @@ accuracy(fc_arima_NIKL_ts)
 accuracy(fc_NIKL_ts1)
 ```
 
-#### Graph for NOW
+# Graph for NOW
 
 ```{r}
 NOW <- read_csv("/cloud/project/CSV/NOW.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
@@ -332,7 +330,7 @@ accuracy(fc_arima_NOW_ts)
 accuracy(fc_NOW_ts1)
 ```
 
-#### Graph for ORE
+# Graph for ORE
 
 ```{r}
 ORE <- read_csv("/cloud/project/CSV/ORE.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
