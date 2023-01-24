@@ -1,0 +1,474 @@
+---
+title: "Stock Price Forecasting"
+author: "King Jezald Ramon"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+# Background (MEG DATA)
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)
+```
+
+```{r}
+MEG <- read_csv("/cloud/project/CSV/MEG.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+MEG <- ts(MEG[,2], freq=365.25/7, start=2021+15/365.25)
+MEG %>%
+  autoplot()
+```
+
+```{r}
+MEG_decomp <- decompose(na.locf(MEG), type="additive")
+autoplot(MEG_decomp)
+```
+
+```{r}
+training_MEG <- subset(MEG, end=length(MEG)-8)
+test_MEG <- subset(MEG, start=length(MEG)-8)
+fc_training_MEG<-forecast(training_MEG)
+fc_training_MEG %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_MEG)
+```
+
+```{r}
+fc_MEG<-forecast(MEG)
+fc_MEG %>%
+  forecast(h=27) %>%
+  autoplot()
+```
+
+```{r}
+fc_MEG
+```
+
+```{r}
+tail(MEG)
+min(MEG)
+max(MEG)
+which.min(MEG)
+```
+
+```{r}
+bestfit_MEG <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_MEG <- auto.arima(MEG, xreg=fourier(MEG, K=i), seasonal=FALSE)
+  if(fit_MEG$aicc < bestfit_MEG$aicc)
+    bestfit_MEG <- fit_MEG
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_MEG)
+```
+
+```{r}
+fc_arima_MEG <- forecast(bestfit_MEG, xreg=fourier(MEG, K=2, h=26))
+plot(fc_arima_MEG)
+```
+
+```{r}
+fc_arima_MEG
+```
+
+```{r}
+fit_MEG1 <- auto.arima(MEG, xreg=fourier(MEG, K=1), seasonal=FALSE)
+fit_MEG2 <- auto.arima(MEG, xreg=fourier(MEG, K=2), seasonal=FALSE)
+fit_MEG3 <- auto.arima(MEG, xreg=fourier(MEG, K=3), seasonal=FALSE)
+fit_MEG4 <- auto.arima(MEG, xreg=fourier(MEG, K=4), seasonal=FALSE)
+fit_MEG5 <- auto.arima(MEG, xreg=fourier(MEG, K=5), seasonal=FALSE)
+fit_MEG6 <- auto.arima(MEG, xreg=fourier(MEG, K=6), seasonal=FALSE)
+fit_MEG7 <- auto.arima(MEG, xreg=fourier(MEG, K=7), seasonal=FALSE)
+fit_MEG8 <- auto.arima(MEG, xreg=fourier(MEG, K=8), seasonal=FALSE)
+fit_MEG9 <- auto.arima(MEG, xreg=fourier(MEG, K=9), seasonal=FALSE)
+fit_MEG10 <- auto.arima(MEG, xreg=fourier(MEG, K=10), seasonal=FALSE)
+fit_MEG11 <- auto.arima(MEG, xreg=fourier(MEG, K=11), seasonal=FALSE)
+fit_MEG12 <- auto.arima(MEG, xreg=fourier(MEG, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_MEG1),AIC(fit_MEG2),AIC(fit_MEG3),AIC(fit_MEG4),AIC(fit_MEG5),AIC(fit_MEG6),AIC(fit_MEG7),AIC(fit_MEG8),AIC(fit_MEG9),AIC(fit_MEG10),AIC(fit_MEG11),AIC(fit_MEG12))
+plot(aics)
+```
+
+```{r}
+fc_arima_manual_MEG <- forecast(fit_MEG8, xreg=fourier(MEG, K=8, h=26))
+plot(fc_arima_manual_MEG)
+```
+
+```{r}
+fc_MEG
+```
+
+```{r}
+accuracy(fc_MEG)
+```
+
+```{r}
+accuracy(fc_arima_MEG)
+```
+
+```{r}
+accuracy(fc_MEG)
+```
+
+# 
+
+# Background (MEG DATA)
+
+```{r}
+MER <- read_csv("/cloud/project/CSV/MER.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+MER <- ts(MER[,2], freq=365.25/7, start=2021+15/365.25)
+MER %>%
+  autoplot()
+```
+
+```{r}
+MER_decomp <- decompose(na.locf(MER), type="additive")
+autoplot(MER_decomp)
+```
+
+```{r}
+training_MER <- subset(MER, end=length(MER)-8)
+test_MER <- subset(MER, start=length(MER)-8)
+fc_training_MER<-forecast(training_MER)
+fc_training_MER %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_MER)
+```
+
+```{r}
+fc_training_MER
+```
+
+```{r}
+fc_MER<-forecast(MER)
+fc_MER %>%
+forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_MER
+```
+
+```{r}
+tail(MER)
+min(MER)
+max(MER)
+which.min(MER)
+```
+
+```{r}
+bestfit_MER <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_MER <- auto.arima(MER, xreg=fourier(MER, K=i), seasonal=FALSE)
+  if(fit_MER$aicc < bestfit_MER$aicc)
+    bestfit_MER <- fit_MER
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_MER)
+```
+
+```{r}
+fc_arima_MER <- forecast(bestfit_MER, xreg=fourier(MER, K=1, h=26))
+plot(fc_arima_MER)
+```
+
+```{r}
+fc_arima_MER
+```
+
+```{r}
+fit_MER1 <- auto.arima(MER, xreg=fourier(MER, K=1), seasonal=FALSE)
+fit_MER2 <- auto.arima(MER, xreg=fourier(MER, K=2), seasonal=FALSE)
+fit_MER3 <- auto.arima(MER, xreg=fourier(MER, K=3), seasonal=FALSE)
+fit_MER4 <- auto.arima(MER, xreg=fourier(MER, K=4), seasonal=FALSE)
+fit_MER5 <- auto.arima(MER, xreg=fourier(MER, K=5), seasonal=FALSE)
+fit_MER6 <- auto.arima(MER, xreg=fourier(MER, K=6), seasonal=FALSE)
+fit_MER7 <- auto.arima(MER, xreg=fourier(MER, K=7), seasonal=FALSE)
+fit_MER8 <- auto.arima(MER, xreg=fourier(MER, K=8), seasonal=FALSE)
+fit_MER9 <- auto.arima(MER, xreg=fourier(MER, K=9), seasonal=FALSE)
+fit_MER10 <- auto.arima(MER, xreg=fourier(MER, K=10), seasonal=FALSE)
+fit_MER11 <- auto.arima(MER, xreg=fourier(MER, K=11), seasonal=FALSE)
+fit_MER12 <- auto.arima(MER, xreg=fourier(MER, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_MER1),AIC(fit_MER2),AIC(fit_MER3),AIC(fit_MER4),AIC(fit_MER5),AIC(fit_MER6),AIC(fit_MER7),AIC(fit_MER8),AIC(fit_MER9),AIC(fit_MER10),AIC(fit_MER11),AIC(fit_MER12))
+plot(aics)
+```
+
+```{r}
+fc_MER2 <- forecast(fit_MER2, xreg=fourier(MER, K=2, h=26))
+plot(fc_MER2)
+```
+
+```{r}
+fc_MER
+```
+
+```{r}
+accuracy(fc_MER)
+```
+
+```{r}
+accuracy(fc_arima_MER)
+```
+
+```{r}
+accuracy(fc_MER)
+```
+
+# (MPI DATA)
+
+```{r}
+MPI <- read_csv("/cloud/project/CSV/MPI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+MPI <- ts(MPI[,2], freq=365.25/7, start=2021+15/365.25)
+MPI %>%
+  autoplot()
+```
+
+```{r}
+MPI_decomp <- decompose(na.locf(MPI), type="additive")
+autoplot(MPI_decomp)
+```
+
+```{r}
+training_MPI <- subset(MPI, end=length(MPI)-8)
+test_MPI <- subset(MPI, start=length(MPI)-8)
+fc_training_MPI<-forecast(training_MPI)
+fc_training_MPI %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_MPI)
+```
+
+```{r}
+fc_training_MPI
+```
+
+```{r}
+fc_MPI<-forecast(MPI)
+fc_MPI %>%
+  forecast(h=27) %>%
+  autoplot()
+```
+
+```{r}
+fc_MPI
+```
+
+```{r}
+tail(MPI)
+min(MPI)
+max(MPI)
+which.min(MPI)
+```
+
+```{r}
+bestfit_MPI <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_MPI <- auto.arima(MPI, xreg=fourier(MPI, K=i), seasonal=FALSE)
+  if(fit_MPI$aicc < bestfit_MPI$aicc)
+    bestfit_MPI <- fit_MPI
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_MPI)
+```
+
+```{r}
+fc_arima_MPI <- forecast(bestfit_MPI, xreg=fourier(MPI, K=1, h=26))
+plot(fc_arima_MPI)
+```
+
+```{r}
+fc_arima_MPI
+```
+
+```{r}
+fit_MPI1 <- auto.arima(MPI, xreg=fourier(MPI, K=1), seasonal=FALSE)
+fit_MPI2 <- auto.arima(MPI, xreg=fourier(MPI, K=2), seasonal=FALSE)
+fit_MPI3 <- auto.arima(MPI, xreg=fourier(MPI, K=3), seasonal=FALSE)
+fit_MPI4 <- auto.arima(MPI, xreg=fourier(MPI, K=4), seasonal=FALSE)
+fit_MPI5 <- auto.arima(MPI, xreg=fourier(MPI, K=5), seasonal=FALSE)
+fit_MPI6 <- auto.arima(MPI, xreg=fourier(MPI, K=6), seasonal=FALSE)
+fit_MPI7 <- auto.arima(MPI, xreg=fourier(MPI, K=7), seasonal=FALSE)
+fit_MPI8 <- auto.arima(MPI, xreg=fourier(MPI, K=8), seasonal=FALSE)
+fit_MPI9 <- auto.arima(MPI, xreg=fourier(MPI, K=9), seasonal=FALSE)
+fit_MPI10 <- auto.arima(MPI, xreg=fourier(MPI, K=10), seasonal=FALSE)
+fit_MPI11 <- auto.arima(MPI, xreg=fourier(MPI, K=11), seasonal=FALSE)
+fit_MPI12 <- auto.arima(MPI, xreg=fourier(MPI, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_MPI1),AIC(fit_MPI2),AIC(fit_MPI3),AIC(fit_MPI4),AIC(fit_MPI5),AIC(fit_MPI6),AIC(fit_MPI7),AIC(fit_MPI8),AIC(fit_MPI9),AIC(fit_MPI10),AIC(fit_MPI11),AIC(fit_MPI12))
+plot(aics)
+```
+
+```{r}
+fc_MPI1 <- forecast(fit_MPI1, xreg=fourier(MPI, K=1, h=26))
+plot(fc_MPI1)
+```
+
+```{r}
+fc_MPI
+```
+
+```{r}
+accuracy(fc_MPI)
+```
+
+```{r}
+accuracy(fc_arima_MPI)
+```
+
+```{r}
+accuracy(fc_MPI)
+```
+
+# (MRC DATA)
+
+```{r}
+MRC <- read_csv("/cloud/project/CSV/MRC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+MRC <- ts(MRC[,2], freq=365.25/7, start=2021+15/365.25)
+MRC %>%
+  autoplot()
+```
+
+```{r}
+MRC_decomp <- decompose(na.locf(MRC), type="additive")
+autoplot(MRC_decomp)
+```
+
+```{r}
+training_MRC <- subset(MRC, end=length(MRC)-1)
+test_MRC <- subset(MRC, start=length(MRC)-1)
+fc_training_MRC<-forecast(training_MRC)
+fc_training_MRC %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_MRC)
+```
+
+```{r}
+fc_training_MRC
+```
+
+```{r}
+fc_MRC<-forecast(MRC)
+fc_MRC %>%
+  forecast(h=27) %>%
+  autoplot()
+```
+
+```{r}
+fc_MRC
+```
+
+```{r}
+tail(MRC)
+min(MRC)
+max(MRC)
+which.min(MRC)
+```
+
+```{r}
+bestfit_MRC <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_MRC <- auto.arima(MRC, xreg=fourier(MRC, K=i), seasonal=FALSE)
+  if(fit_MRC$aicc < bestfit_MRC$aicc)
+    bestfit_MRC <- fit_MRC
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_MRC)
+```
+
+```{r}
+fc_arima_MRC <- forecast(bestfit_MRC, xreg=fourier(MRC, K=1, h=26))
+plot(fc_arima_MRC)
+```
+
+```{r}
+fc_arima_MRC
+```
+
+```{r}
+fit_MRC1 <- auto.arima(MRC, xreg=fourier(MRC, K=1), seasonal=FALSE)
+fit_MRC2 <- auto.arima(MRC, xreg=fourier(MRC, K=2), seasonal=FALSE)
+fit_MRC3 <- auto.arima(MRC, xreg=fourier(MRC, K=3), seasonal=FALSE)
+fit_MRC4 <- auto.arima(MRC, xreg=fourier(MRC, K=4), seasonal=FALSE)
+fit_MRC5 <- auto.arima(MRC, xreg=fourier(MRC, K=5), seasonal=FALSE)
+fit_MRC6 <- auto.arima(MRC, xreg=fourier(MRC, K=6), seasonal=FALSE)
+fit_MRC7 <- auto.arima(MRC, xreg=fourier(MRC, K=7), seasonal=FALSE)
+fit_MRC8 <- auto.arima(MRC, xreg=fourier(MRC, K=8), seasonal=FALSE)
+fit_MRC9 <- auto.arima(MRC, xreg=fourier(MRC, K=9), seasonal=FALSE)
+fit_MRC10 <- auto.arima(MRC, xreg=fourier(MRC, K=10), seasonal=FALSE)
+fit_MRC11 <- auto.arima(MRC, xreg=fourier(MRC, K=11), seasonal=FALSE)
+fit_MRC12 <- auto.arima(MRC, xreg=fourier(MRC, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_MRC1),AIC(fit_MRC2),AIC(fit_MRC3),AIC(fit_MRC4),AIC(fit_MRC5),AIC(fit_MRC6),AIC(fit_MRC7),AIC(fit_MRC8),AIC(fit_MRC9),AIC(fit_MRC10),AIC(fit_MRC11),AIC(fit_MRC12))
+plot(aics)
+```
+
+```{r}
+fc_MRC1 <- forecast(fit_MRC1, xreg=fourier(MRC, K=1, h=26))
+plot(fc_MRC1)
+```
+
+```{r}
+fc_MRC
+```
+
+```{r}
+accuracy(fc_MRC)
+```
+
+```{r}
+accuracy(fc_arima_MRC)
+```
+
+```{r}
+accuracy(fc_MRC)
+```
+
+# 
