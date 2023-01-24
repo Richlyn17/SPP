@@ -14,7 +14,7 @@ library(zoo)
 
 # Background
 
-### Graph for Megawide Construction Corp Price (MWIDE)
+#### Graph for Megawide Construction Corp Price (MWIDE)
 
 ```{r}
 MWIDE <- read_csv("/cloud/project/CSV/MWIDE.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
@@ -70,7 +70,57 @@ for(i in 1:25)
 summary(bestfit_MWIDE_ts)
 ```
 
-### Graph for NIKL
+```{r}
+fc_arima_MWIDE_ts <- forecast(bestfit_MWIDE_ts, xreg=fourier(MWIDE_ts, K=1, h=26))
+plot(fc_arima_MWIDE_ts)
+```
+
+```{r}
+fc_arima_MWIDE_ts
+```
+
+```{r}
+fit_MWIDE_ts1 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=1), seasonal=FALSE)
+fit_MWIDE_ts2 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=2), seasonal=FALSE)
+fit_MWIDE_ts3 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=3), seasonal=FALSE)
+fit_MWIDE_ts4 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=4), seasonal=FALSE)
+fit_MWIDE_ts5 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=5), seasonal=FALSE)
+fit_MWIDE_ts6 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=6), seasonal=FALSE)
+fit_MWIDE_ts7 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=7), seasonal=FALSE)
+fit_MWIDE_ts8 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=8), seasonal=FALSE)
+fit_MWIDE_ts9 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=9), seasonal=FALSE)
+fit_MWIDE_ts10 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=10), seasonal=FALSE)
+fit_MWIDE_ts11 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=11), seasonal=FALSE)
+fit_MWIDE_ts12 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_MWIDE_ts1),AIC(fit_MWIDE_ts2),AIC(fit_MWIDE_ts3),AIC(fit_MWIDE_ts4),AIC(fit_MWIDE_ts5),AIC(fit_MWIDE_ts6),AIC(fit_MWIDE_ts7),AIC(fit_MWIDE_ts8),AIC(fit_MWIDE_ts9),AIC(fit_MWIDE_ts10),AIC(fit_MWIDE_ts11),AIC(fit_MWIDE_ts12))
+plot(aics)
+```
+
+```{r}
+fc_MWIDE_ts1 <- forecast(fit_MWIDE_ts1, xreg=fourier(MWIDE_ts, K=1, h=26))
+plot(fc_MWIDE_ts1)
+```
+
+```{r}
+fc_MWIDE_ts1
+```
+
+```{r}
+accuracy(fc_MWIDE_ts1)
+```
+
+```{r}
+accuracy(fc_arima_MWIDE_ts)
+```
+
+```{r}
+accuracy(fc_MWIDE_ts1)
+```
+
+#### Graph for NIKL
 
 ```{r}
 NIKL <- read_csv("/cloud/project/CSV/NIKL.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
@@ -126,7 +176,57 @@ for(i in 1:25)
 summary(bestfit_NIKL_ts)
 ```
 
-### Graph for NOW
+```{r}
+fc_arima_NIKL_ts <- forecast(bestfit_NIKL_ts, xreg=fourier(NIKL_ts, K=1, h=26))
+plot(fc_arima_NIKL_ts)
+```
+
+```{r}
+fc_arima_NIKL_ts
+```
+
+```{r}
+fit_NIKL_ts1 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=1), seasonal=FALSE)
+fit_NIKL_ts2 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=2), seasonal=FALSE)
+fit_NIKL_ts3 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=3), seasonal=FALSE)
+fit_NIKL_ts4 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=4), seasonal=FALSE)
+fit_NIKL_ts5 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=5), seasonal=FALSE)
+fit_NIKL_ts6 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=6), seasonal=FALSE)
+fit_NIKL_ts7 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=7), seasonal=FALSE)
+fit_NIKL_ts8 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=8), seasonal=FALSE)
+fit_NIKL_ts9 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=9), seasonal=FALSE)
+fit_NIKL_ts10 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=10), seasonal=FALSE)
+fit_NIKL_ts11 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=11), seasonal=FALSE)
+fit_NIKL_ts12 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_NIKL_ts1),AIC(fit_NIKL_ts2),AIC(fit_NIKL_ts3),AIC(fit_NIKL_ts4),AIC(fit_NIKL_ts5),AIC(fit_NIKL_ts6),AIC(fit_NIKL_ts7),AIC(fit_NIKL_ts8),AIC(fit_NIKL_ts9),AIC(fit_NIKL_ts10),AIC(fit_NIKL_ts11),AIC(fit_NIKL_ts12))
+plot(aics)
+```
+
+```{r}
+fc_NIKL_ts1 <- forecast(fit_NIKL_ts1, xreg=fourier(NIKL_ts, K=1, h=26))
+plot(fc_NIKL_ts1)
+```
+
+```{r}
+fc_NIKL_ts1
+```
+
+```{r}
+accuracy(fc_NIKL_ts1)
+```
+
+```{r}
+accuracy(fc_arima_NIKL_ts)
+```
+
+```{r}
+accuracy(fc_NIKL_ts1)
+```
+
+#### Graph for NOW
 
 ```{r}
 NOW <- read_csv("/cloud/project/CSV/NOW.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
@@ -182,7 +282,57 @@ for(i in 1:25)
 summary(bestfit_NOW_ts)
 ```
 
-### Graph for ORE
+```{r}
+fc_arima_NOW_ts <- forecast(bestfit_NOW_ts, xreg=fourier(NOW_ts, K=1, h=26))
+plot(fc_arima_NOW_ts)
+```
+
+```{r}
+fc_arima_NOW_ts
+```
+
+```{r}
+fit_NOW_ts1 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=1), seasonal=FALSE)
+fit_NOW_ts2 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=2), seasonal=FALSE)
+fit_NOW_ts3 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=3), seasonal=FALSE)
+fit_NOW_ts4 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=4), seasonal=FALSE)
+fit_NOW_ts5 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=5), seasonal=FALSE)
+fit_NOW_ts6 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=6), seasonal=FALSE)
+fit_NOW_ts7 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=7), seasonal=FALSE)
+fit_NOW_ts8 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=8), seasonal=FALSE)
+fit_NOW_ts9 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=9), seasonal=FALSE)
+fit_NOW_ts10 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=10), seasonal=FALSE)
+fit_NOW_ts11 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=11), seasonal=FALSE)
+fit_NOW_ts12 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_NOW_ts1),AIC(fit_NOW_ts2),AIC(fit_NOW_ts3),AIC(fit_NOW_ts4),AIC(fit_NOW_ts5),AIC(fit_NOW_ts6),AIC(fit_NOW_ts7),AIC(fit_NOW_ts8),AIC(fit_NOW_ts9),AIC(fit_NOW_ts10),AIC(fit_NOW_ts11),AIC(fit_NOW_ts12))
+plot(aics)
+```
+
+```{r}
+fc_NOW_ts1 <- forecast(fit_NOW_ts1, xreg=fourier(NOW_ts, K=1, h=26))
+plot(fc_NOW_ts1)
+```
+
+```{r}
+fc_NOW_ts1
+```
+
+```{r}
+accuracy(fc_NOW_ts1)
+```
+
+```{r}
+accuracy(fc_arima_NOW_ts)
+```
+
+```{r}
+accuracy(fc_NOW_ts1)
+```
+
+#### Graph for ORE
 
 ```{r}
 ORE <- read_csv("/cloud/project/CSV/ORE.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
@@ -238,23 +388,52 @@ for(i in 1:25)
 summary(bestfit_ORE_ts)
 ```
 
-# Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+fc_arima_ORE_ts <- forecast(bestfit_ORE_ts, xreg=fourier(ORE_ts, K=1, h=26))
+plot(fc_arima_ORE_ts)
 ```
 
-You can add options to executable code like this
-
 ```{r}
-#| echo: false
-2 * 2
+fc_arima_ORE_ts
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+fit_ORE_ts1 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=1), seasonal=FALSE)
+fit_ORE_ts2 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=2), seasonal=FALSE)
+fit_ORE_ts3 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=3), seasonal=FALSE)
+fit_ORE_ts4 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=4), seasonal=FALSE)
+fit_ORE_ts5 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=5), seasonal=FALSE)
+fit_ORE_ts6 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=6), seasonal=FALSE)
+fit_ORE_ts7 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=7), seasonal=FALSE)
+fit_ORE_ts8 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=8), seasonal=FALSE)
+fit_ORE_ts9 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=9), seasonal=FALSE)
+fit_ORE_ts10 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=10), seasonal=FALSE)
+fit_ORE_ts11 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=11), seasonal=FALSE)
+fit_ORE_ts12 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_ORE_ts1),AIC(fit_ORE_ts2),AIC(fit_ORE_ts3),AIC(fit_ORE_ts4),AIC(fit_ORE_ts5),AIC(fit_ORE_ts6),AIC(fit_ORE_ts7),AIC(fit_ORE_ts8),AIC(fit_ORE_ts9),AIC(fit_ORE_ts10),AIC(fit_ORE_ts11),AIC(fit_ORE_ts12))
+plot(aics)
+```
+
+```{r}
+fc_ORE_ts1 <- forecast(fit_ORE_ts1, xreg=fourier(ORE_ts, K=1, h=26))
+plot(fc_ORE_ts1)
+```
+
+```{r}
+fc_ORE_ts1
+```
+
+```{r}
+accuracy(fc_ORE_ts1)
+```
+
+```{r}
+accuracy(fc_arima_ORE_ts)
+```
+
+```{r}
+accuracy(fc_ORE_ts1)
+```
