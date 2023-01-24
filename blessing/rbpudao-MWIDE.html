@@ -149,10 +149,8 @@ Attaching package: 'zoo'</code></pre>
     as.Date, as.Date.numeric</code></pre>
 </div>
 </div>
-<section id="background" class="level1">
-<h1>Background</h1>
-<section id="graph-for-megawide-construction-corp-price-mwide" class="level4">
-<h4 class="anchored" data-anchor-id="graph-for-megawide-construction-corp-price-mwide">Graph for Megawide Construction Corp Price (MWIDE)</h4>
+<section id="graph-for-megawide-construction-corp-price-mwide" class="level1">
+<h1>Graph for Megawide Construction Corp Price (MWIDE)</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>MWIDE <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/MWIDE.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>MWIDE_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(MWIDE[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">177</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
@@ -485,8 +483,8 @@ Training set 0.02906471</code></pre>
 </div>
 </div>
 </section>
-<section id="graph-for-nikl" class="level4">
-<h4 class="anchored" data-anchor-id="graph-for-nikl">Graph for NIKL</h4>
+<section id="graph-for-nikl" class="level1">
+<h1>Graph for NIKL</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>NIKL <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/NIKL.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>NIKL_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(NIKL[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">159</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
@@ -819,8 +817,8 @@ Training set -5.659597e-05</code></pre>
 </div>
 </div>
 </section>
-<section id="graph-for-now" class="level4">
-<h4 class="anchored" data-anchor-id="graph-for-now">Graph for NOW</h4>
+<section id="graph-for-now" class="level1">
+<h1>Graph for NOW</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>NOW <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/NOW.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>NOW_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(NOW[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">158</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
@@ -1156,8 +1154,8 @@ Training set 0.001670264</code></pre>
 </div>
 </div>
 </section>
-<section id="graph-for-ore" class="level4">
-<h4 class="anchored" data-anchor-id="graph-for-ore">Graph for ORE</h4>
+<section id="graph-for-ore" class="level1">
+<h1>Graph for ORE</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>ORE <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/ORE.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
 <span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>ORE_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(ORE[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">247</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
@@ -1489,7 +1487,6 @@ Training set -0.001873041 0.06486965 0.04181878 -0.4672169 4.475643 0.1929825
 Training set -1.051051e-05</code></pre>
 </div>
 </div>
-</section>
 </section>
 
 </main>
