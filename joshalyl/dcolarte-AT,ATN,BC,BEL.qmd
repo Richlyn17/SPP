@@ -84,11 +84,61 @@ which.min(AT_ts)
 bestfit_AT <- list(aicc=Inf)
 for(i in 1:25)
 {
-  fit_AT_ts <- auto.arima(AT_ts, xreg=fourier(AT, K=i), seasonal=FALSE)
-  if(fit_AT_ts$aicc < bestfit_AT$aicc)
+  fit_AT <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=i), seasonal=FALSE)
+  if(fit_AT$aicc < bestfit_AT$aicc)
     bestfit_AT <- fit_AT
   else break;
 }
+```
+
+```{r}
+summary(bestfit_AT)
+```
+
+```{r}
+fc_arima_AT <- forecast(bestfit_AT, xreg=fourier(AT_ts, K=1, h=26))
+plot(fc_arima_AT)
+```
+
+```{r}
+fc_arima_AT
+```
+
+```{r}
+fit_AT1 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=1), seasonal=FALSE)
+fit_AT2 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=2), seasonal=FALSE)
+fit_AT3 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=3), seasonal=FALSE)
+fit_AT4 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=4), seasonal=FALSE)
+fit_AT5 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=5), seasonal=FALSE)
+fit_AT6 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=6), seasonal=FALSE)
+fit_AT7 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=7), seasonal=FALSE)
+fit_AT8 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=8), seasonal=FALSE)
+fit_AT9 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=9), seasonal=FALSE)
+fit_AT10 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=10), seasonal=FALSE)
+fit_AT11 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=11), seasonal=FALSE)
+fit_AT12 <- auto.arima(AT_ts, xreg=fourier(AT_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_AT1),AIC(fit_AT2),AIC(fit_AT3),AIC(fit_AT4),AIC(fit_AT5),AIC(fit_AT6),AIC(fit_AT7),AIC(fit_AT8),AIC(fit_AT9),AIC(fit_AT10),AIC(fit_AT11),AIC(fit_AT12))
+plot(aics)
+```
+
+```{r}
+fc_arima__manual_AT <- forecast(fit_AT1, xreg=fourier(AT_ts, K=1, h=26))
+plot(fc_arima__manual_AT)
+```
+
+```{r}
+fc_arima__manual_AT
+```
+
+```{r}
+accuracy(fc_AT)
+```
+
+```{r}
+accuracy(fc_arima__manual_AT)
 ```
 
 # ATN data
@@ -136,6 +186,67 @@ max(ATN_ts)
 which.min(ATN_ts)
 ```
 
+```{r}
+bestfit_ATN <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_ATN <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=i), seasonal=FALSE)
+  if(fit_ATN$aicc < bestfit_ATN$aicc)
+    bestfit_ATN <- fit_ATN
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_ATN)
+```
+
+```{r}
+fc_arima_ATN <- forecast(bestfit_ATN, xreg=fourier(ATN_ts, K=1, h=26))
+plot(fc_arima_ATN)
+```
+
+```{r}
+fc_arima_ATN
+```
+
+```{r}
+fit_ATN1 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=1), seasonal=FALSE)
+fit_ATN2 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=2), seasonal=FALSE)
+fit_ATN3 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=3), seasonal=FALSE)
+fit_ATN4 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=4), seasonal=FALSE)
+fit_ATN5 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=5), seasonal=FALSE)
+fit_ATN6 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=6), seasonal=FALSE)
+fit_ATN7 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=7), seasonal=FALSE)
+fit_ATN8 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=8), seasonal=FALSE)
+fit_ATN9 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=9), seasonal=FALSE)
+fit_ATN10 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=10), seasonal=FALSE)
+fit_ATN11 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=11), seasonal=FALSE)
+fit_ATN12 <- auto.arima(ATN_ts, xreg=fourier(ATN_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_ATN1),AIC(fit_ATN2),AIC(fit_ATN3),AIC(fit_ATN4),AIC(fit_ATN5),AIC(fit_ATN6),AIC(fit_ATN7),AIC(fit_ATN8),AIC(fit_ATN9),AIC(fit_ATN10),AIC(fit_ATN11),AIC(fit_ATN12))
+plot(aics)
+```
+
+```{r}
+fc_arima__manual_ATN <- forecast(fit_ATN4, xreg=fourier(ATN_ts, K=4, h=26))
+plot(fc_arima__manual_ATN)
+```
+
+```{r}
+fc_arima__manual_ATN
+```
+
+```{r}
+accuracy(fc_ATN)
+```
+
+```{r}
+accuracy(fc_arima__manual_ATN)
+```
+
 # BC data
 
 ```{r}
@@ -181,6 +292,67 @@ max(BC_ts)
 which.min(BC_ts)
 ```
 
+```{r}
+bestfit_BC <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_BC <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=i), seasonal=FALSE)
+  if(fit_BC$aicc < bestfit_BC$aicc)
+    bestfit_BC <- fit_BC
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_BC)
+```
+
+```{r}
+fc_arima_BC <- forecast(bestfit_BC, xreg=fourier(BC_ts, K=1, h=26))
+plot(fc_arima_BC)
+```
+
+```{r}
+fc_arima_BC
+```
+
+```{r}
+fit_BC1 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=1), seasonal=FALSE)
+fit_BC2 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=2), seasonal=FALSE)
+fit_BC3 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=3), seasonal=FALSE)
+fit_BC4 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=4), seasonal=FALSE)
+fit_BC5 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=5), seasonal=FALSE)
+fit_BC6 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=6), seasonal=FALSE)
+fit_BC7 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=7), seasonal=FALSE)
+fit_BC8 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=8), seasonal=FALSE)
+fit_BC9 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=9), seasonal=FALSE)
+fit_BC10 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=10), seasonal=FALSE)
+fit_BC11 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=11), seasonal=FALSE)
+fit_BC12 <- auto.arima(BC_ts, xreg=fourier(BC_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_BC1),AIC(fit_BC2),AIC(fit_BC3),AIC(fit_BC4),AIC(fit_BC5),AIC(fit_BC6),AIC(fit_BC7),AIC(fit_BC8),AIC(fit_BC9),AIC(fit_BC10),AIC(fit_BC11),AIC(fit_BC12))
+plot(aics)
+```
+
+```{r}
+fc_arima__manual_BC <- forecast(fit_BC1, xreg=fourier(BC_ts, K=1, h=26))
+plot(fc_arima__manual_BC)
+```
+
+```{r}
+fc_arima__manual_BC
+```
+
+```{r}
+accuracy(fc_BC)
+```
+
+```{r}
+accuracy(fc_arima__manual_BC)
+```
+
 # BEL data
 
 ```{r}
@@ -224,4 +396,65 @@ tail(BEL_ts)
 min(BEL_ts)
 max(BEL_ts)
 which.min(BEL_ts)
+```
+
+```{r}
+bestfit_BEL <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_BEL <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=i), seasonal=FALSE)
+  if(fit_BEL$aicc < bestfit_BEL$aicc)
+    bestfit_BEL <- fit_BEL
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_BEL)
+```
+
+```{r}
+fc_arima_BEL <- forecast(bestfit_BEL, xreg=fourier(BEL_ts, K=1, h=26))
+plot(fc_arima_BEL)
+```
+
+```{r}
+fc_arima_BEL
+```
+
+```{r}
+fit_BEL1 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=1), seasonal=FALSE)
+fit_BEL2 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=2), seasonal=FALSE)
+fit_BEL3 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=3), seasonal=FALSE)
+fit_BEL4 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=4), seasonal=FALSE)
+fit_BEL5 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=5), seasonal=FALSE)
+fit_BEL6 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=6), seasonal=FALSE)
+fit_BEL7 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=7), seasonal=FALSE)
+fit_BEL8 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=8), seasonal=FALSE)
+fit_BEL9 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=9), seasonal=FALSE)
+fit_BEL10 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=10), seasonal=FALSE)
+fit_BEL11 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=11), seasonal=FALSE)
+fit_BEL12 <- auto.arima(BEL_ts, xreg=fourier(BEL_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_BEL1),AIC(fit_BEL2),AIC(fit_BEL3),AIC(fit_BEL4),AIC(fit_BEL5),AIC(fit_BEL6),AIC(fit_BEL7),AIC(fit_BEL8),AIC(fit_BEL9),AIC(fit_BEL10),AIC(fit_BEL11),AIC(fit_BEL12))
+plot(aics)
+```
+
+```{r}
+fc_arima__manual_BEL <- forecast(fit_BEL1, xreg=fourier(BEL_ts, K=1, h=26))
+plot(fc_arima__manual_BEL)
+```
+
+```{r}
+fc_arima__manual_BEL
+```
+
+```{r}
+accuracy(fc_BEL)
+```
+
+```{r}
+accuracy(fc_arima__manual_BEL)
 ```
