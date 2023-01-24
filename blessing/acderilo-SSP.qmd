@@ -98,7 +98,6 @@ plot(aics)
 fc_arima_man_SSP <- forecast(fit_SSP1, xreg=fourier(SSP, K=1, h=26))
 plot(fc_arima_man_SSP)
 ```
-
 ```{r}
 fc_arima_man_SSP1
 ```
