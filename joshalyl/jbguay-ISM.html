@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jennifer B. Guay">
+
+<title>Stockprice Forcasting</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="jbguay-ISM_files/libs/clipboard/clipboard.min.js"></script>
+<script src="jbguay-ISM_files/libs/quarto-html/quarto.js"></script>
+<script src="jbguay-ISM_files/libs/quarto-html/popper.min.js"></script>
+<script src="jbguay-ISM_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="jbguay-ISM_files/libs/quarto-html/anchor.min.js"></script>
+<link href="jbguay-ISM_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="jbguay-ISM_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="jbguay-ISM_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="jbguay-ISM_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="jbguay-ISM_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Stockprice Forcasting</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jennifer B. Guay </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">BACKGROUND</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ISM_ts <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/RProject/SEC MATH 17/SPP/CSV/ISM.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ISM_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(ISM_ts[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">128</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ISM_ts <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbguay-ISM_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ISM_ts_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(ISM_ts), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(ISM_ts_decomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbguay-ISM_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>training_ISM_ts <span class="ot">&lt;-</span> <span class="fu">subset</span>(ISM_ts, <span class="at">end=</span><span class="fu">length</span>(ISM_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>test_ISM_ts <span class="ot">&lt;-</span> <span class="fu">subset</span>(ISM_ts, <span class="at">start=</span><span class="fu">length</span>(ISM_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>fc_training_ISM_ts <span class="ot">&lt;-</span> <span class="fu">forecast</span>(training_ISM_ts)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>fc_training_ISM_ts <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast    Lo 80    Hi 80     Lo 95    Hi 95
+2022.978       2.920402 2.418769 3.422035 2.1532204 3.687583
+2022.997       2.866904 2.147093 3.586715 1.7660478 3.967760
+2023.016       3.294289 2.399860 4.188717 1.9263788 4.662198
+2023.036       3.480235 2.432504 4.527967 1.8778683 5.082603
+2023.055       3.035225 1.847016 4.223434 1.2180163 4.852434
+2023.074       3.103425 1.783272 4.423577 1.0844254 5.122424
+2023.093       3.152280 1.706203 4.598357 0.9406964 5.363864
+2023.112       3.311495 1.743895 4.879094 0.9140584 5.708932
+2023.131       3.258916 1.573086 4.944745 0.6806614 5.837170
+2023.151       3.489207 1.687642 5.290773 0.7339505 6.244464</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fc_training_ISM_ts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast        Lo 80     Hi 80       Lo 95     Hi 95
+2022.978       2.920402  2.418768823  3.422035   2.1532204  3.687583
+2022.997       2.866904  2.147092839  3.586715   1.7660478  3.967760
+2023.016       3.294289  2.399860438  4.188717   1.9263788  4.662198
+2023.036       3.480235  2.432503885  4.527967   1.8778683  5.082603
+2023.055       3.035225  1.847016177  4.223434   1.2180163  4.852434
+2023.074       3.103425  1.783271989  4.423577   1.0844254  5.122424
+2023.093       3.152280  1.706203308  4.598357   0.9406964  5.363864
+2023.112       3.311495  1.743895472  4.879094   0.9140584  5.708932
+2023.131       3.258916  1.573085801  4.944745   0.6806614  5.837170
+2023.151       3.489207  1.687641738  5.290773   0.7339505  6.244464
+2023.170       4.067663  2.152260426  5.983066   1.1383076  6.997018
+2023.189       4.542503  2.514704735  6.570301   1.4412532  7.643753
+2023.208       4.494660  2.355547932  6.633773   1.2231702  7.766151
+2023.227       4.504276  2.254641417  6.753911   1.0637568  7.944795
+2023.246       4.453444  2.093843102  6.813044   0.8447460  8.062141
+2023.266       4.849280  2.380074379  7.318486   1.0729557  8.625605
+2023.285       5.246041  2.667425472  7.824656   1.3023891  9.189692
+2023.304       5.476103  2.788135522  8.164070   1.3652116  9.586994
+2023.323       5.103559  2.306176659  7.900941   0.8253321  9.381785
+2023.342       4.947206  2.040243059  7.854169   0.5013898  9.393022
+2023.361       4.118351  1.101550510  7.135151  -0.4954471  8.732149
+2023.381       3.838092  0.711118834  6.965066  -0.9442009  8.620386
+2023.400       4.033170  0.795616637  7.270722  -0.9182403  8.984579
+2023.419       4.126942  0.778340753  7.475543  -0.9943017  9.248186
+2023.438       4.152617  0.692441919  7.612791  -1.1392639  9.444497
+2023.457       4.367507  0.795183176  7.939832  -1.0958910  9.830906
+2023.476       4.392776  0.707680456  8.077872  -1.2430913 10.028644
+2023.496       4.393579  0.595048036  8.192110  -1.4157729 10.202931
+2023.515       4.457307  0.544638062  8.369976  -1.5266038 10.441218
+2023.534       4.378531  0.350985954  8.406075  -1.7810674 10.538129
+2023.553       4.512617  0.369425907  8.655808  -1.8238469 10.849081
+2023.572       4.519621  0.259982296  8.779259  -1.9949340 11.034175
+2023.591       4.766971  0.390056516  9.143886  -1.9269423 11.460885
+2023.611       4.810404  0.315356149  9.305451  -2.0641783 11.684986
+2023.630       4.997848  0.383787074  9.611909  -2.0587492 12.054445
+2023.649       5.211460  0.477481974  9.945439  -2.0285349 12.451456
+2023.668       5.088445  0.233622486  9.943268  -2.3363654 12.513256
+2023.687       4.980389  0.003774803  9.957004  -2.6306858 12.591464
+2023.706       4.956453 -0.142921366 10.055827  -2.8423670 12.755273
+2023.726       4.756459 -0.466662255  9.979579  -3.2316154 12.744533
+2023.745       4.693331 -0.654542184 10.041204  -3.4855351 12.872197
+2023.764       4.751569 -0.722079031 10.225217  -3.6196533 13.122792
+2023.783       4.947268 -0.653195755 10.547731  -3.6179021 13.512438
+2023.802       5.069094 -0.659241151 10.797430  -3.6916388 13.829827
+2023.821       5.315514 -0.541766337 11.172794  -3.6424231 14.273451
+2023.841       5.376161 -0.611151400 11.363474  -3.7806433 14.532966
+2023.860       5.484342 -0.634106435 11.602791  -3.8730174 14.841701
+2023.879       5.473147 -0.777554992 11.723849  -4.0864768 15.032771
+2023.898       5.460504 -0.923584253 11.844591  -4.3031162 15.224123
+2023.917       5.577144 -0.941476182 12.095763  -4.3922250 15.546512
+2023.936       5.744602 -0.909709703 12.398914  -4.4322895 15.921493
+2023.956       5.766950 -1.024227155 12.558127  -4.6192591 16.153159
+2023.975       6.077338 -0.851891836 13.006567  -4.5200043 16.674679
+2023.994       6.023840 -1.044641789 13.092321  -4.7864699 16.834149
+2024.013       6.451224 -0.757722346 13.660171  -4.5739082 17.476357
+2024.032       6.637171 -0.713466296 13.987809  -4.6046587 17.879001
+2024.051       6.192161 -1.301405577 13.685728  -5.2682601 17.652582
+2024.070       6.260360 -1.377386383 13.898107  -5.4205652 17.941286
+2024.090       6.309216 -1.473974142 14.092406  -5.5941461 18.212578
+2024.109       6.468431 -1.461478503 14.398340  -5.6593188 18.596180
+2024.128       6.415851 -1.662065075 14.493768  -5.9382557 18.769958
+2024.147       6.646143 -1.581080651 14.873367  -5.9363098 19.228596
+2024.166       7.224599 -1.153244793 15.602442  -5.5882072 20.037405
+2024.185       7.699439 -0.830349233 16.229226  -5.3457462 20.744623
+2024.205       7.651596 -1.031472751 16.334665  -5.6280118 20.931204
+2024.224       7.661212 -1.176486958 16.498910  -5.8548820 21.177305
+2024.243       7.610379 -1.383309957 16.604069  -6.1442815 21.365040
+2024.262       8.006216 -1.144836811 17.157269  -5.9891116 22.001544
+2024.281       8.402976 -0.906825172 17.712778  -5.8351363 22.641089
+2024.300       8.633038 -0.836908587 18.102985  -5.8499957 23.116073
+2024.320       8.260494 -1.371007476 17.891996  -6.4696166 22.990605
+2024.339       8.104142 -1.690336313 17.898620  -6.8752198 23.083503
+2024.358       7.275286 -2.683601156 17.234174  -7.9555178 22.506091
+2024.377       6.995028 -3.129714945 17.119771  -8.4894301 22.479486
+2024.396       7.190105 -3.101950957 17.482161  -8.5502364 22.930447
+2024.415       7.283878 -3.176961914 17.744717  -8.7145959 23.282351
+2024.435       7.309552 -3.321553143 17.940658  -8.9493204 23.568425
+2024.454       7.524443 -3.278423225 18.327309  -8.9971152 24.046001
+2024.473       7.549712 -3.426422617 18.525846  -9.2368372 24.336261
+2024.492       7.550515 -3.600407561 18.701437  -9.5033493 24.604379
+2024.511       7.614243 -3.713000008 18.941485  -9.7092801 24.937766
+2024.530       7.535466 -3.969641760 19.040574 -10.0600781 25.131011
+2024.550       7.669553 -4.014978588 19.354084 -10.2003958 25.539501
+2024.569       7.676556 -4.188968493 19.542081 -10.4701979 25.823311
+2024.588       7.923907 -4.124194596 19.972009 -10.5020744 26.349889
+2024.607       7.967339 -4.264935721 20.199614 -10.7403110 26.674990
+2024.626       8.154784 -4.263274086 20.572841 -10.8369967 27.146564
+2024.645       8.368396 -4.237066615 20.973859 -10.9099955 27.646788
+2024.665       8.245381 -4.549122632 21.039884 -11.3221236 27.812885
+2024.684       8.137325 -4.847868123 21.122518 -11.7218142 27.996464
+2024.703       8.113389 -5.064156656 21.290934 -12.0399277 28.266705
+2024.722       7.913394 -5.458178742 21.284967 -12.5366619 28.363451
+2024.741       7.850266 -5.717023878 21.417557 -12.8991135 28.599646
+2024.760       7.908505 -5.856205942 21.673216 -13.1428037 28.959813
+2024.780       8.104203 -5.859644643 22.068052 -13.2516593 29.460066
+2024.799       8.226030 -5.938686215 22.390746 -13.4370341 29.889094
+2024.818       8.472449 -5.894879843 22.839779 -13.5004845 30.445383
+2024.837       8.533097 -6.038604258 23.104798 -13.7523969 30.818591
+2024.856       8.641278 -6.136568737 23.419124 -13.9594881 31.242044
+2024.875       8.630083 -6.355696500 23.615862 -14.2886888 31.548854
+2024.895       8.617439 -6.578074857 23.812953 -14.6220941 31.856973
+2024.914       8.734079 -6.672986324 24.141145 -14.8289942 32.297153
+2024.933       8.901538 -6.718910769 24.521986 -14.9878767 32.790952
+2024.952       8.923886 -6.911791842 24.759563 -15.2946931 33.142464</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>bestfit_ISM_ts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  fit_ISM_ts <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_ISM_ts<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_ISM_ts<span class="sc">$</span>aicc)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    bestfit_ISM_ts <span class="ot">&lt;-</span> fit_ISM_ts</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_ISM_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: ISM_ts 
+Regression with ARIMA(0,1,1) errors 
+
+Coefficients:
+         ma1   drift    S1-52   C1-52
+      0.2444  0.0045  -0.1083  0.3139
+s.e.  0.0467  0.0282   0.3318  0.3296
+
+sigma^2 = 0.2097:  log likelihood = -254.71
+AIC=519.42   AICc=519.57   BIC=539.44
+
+Training set error measures:
+                       ME      RMSE       MAE        MPE     MAPE       MASE
+Training set -0.001339119 0.4550056 0.2243287 -0.1925597 5.568789 0.08458887
+                    ACF1
+Training set -0.05004525</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fc_arima_ISM_ts <span class="ot">&lt;-</span> <span class="fu">forecast</span>(bestfit_ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_ISM_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbguay-ISM_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>fc_arima_ISM_ts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast       Lo 80    Hi 80       Lo 95    Hi 95
+2023.131       2.965656  2.37883634 3.552477  2.06819253 3.863120
+2023.151       3.000532  2.06371832 3.937345  1.56779931 4.433264
+2023.170       3.032068  1.84426304 4.219873  1.21547710 4.848659
+2023.189       3.059874  1.66554909 4.454199  0.92743809 5.192310
+2023.208       3.083612  1.50963532 4.657589  0.67642230 5.490802
+2023.227       3.103004  1.36787745 4.838131  0.44935689 5.756651
+2023.246       3.117834  1.23530236 5.000366  0.23875025 5.996918
+2023.266       3.127953  1.10874812 5.147157  0.03984578 6.216060
+2023.285       3.133279  0.98608307 5.280474 -0.15057355 6.417131
+2023.304       3.133800  0.86582501 5.401775 -0.33476833 6.602368
+2023.323       3.129574  0.74693468 5.512214 -0.51435849 6.773507
+2023.342       3.120728  0.62869434 5.612762 -0.69050865 6.931965
+2023.361       3.107455  0.51063122 5.704279 -0.86404424 7.078954
+2023.381       3.090012  0.39246617 5.787558 -1.03552849 7.215553
+2023.400       3.068718  0.27407720 5.863358 -1.20531619 7.342752
+2023.419       3.043945  0.15547212 5.932419 -1.37359324 7.461484
+2023.438       3.016119  0.03676675 5.995471 -1.54040699 7.572645
+2023.457       2.985707 -0.08183320 6.053246 -1.70569067 7.677104
+2023.476       2.953214 -0.20004783 6.106476 -1.86928393 7.775712
+2023.496       2.919178 -0.31753717 6.155892 -2.03095050 7.869306
+2023.515       2.884155 -0.43391429 6.202224 -2.19039411 7.958704
+2023.534       2.848719 -0.54875744 6.246195 -2.34727278 8.044711
+2023.553       2.813448 -0.66162167 6.288517 -2.50121225 8.128108
+2023.572       2.778917 -0.77204981 6.329885 -2.65181830 8.209653
+2023.591       2.745693 -0.87958297 6.370970 -2.79868841 8.290075
+2023.611       2.714322 -0.98377051 6.412415 -2.94142262 8.370067</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fit_ISM1 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">1</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>fit_ISM2 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">2</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>fit_ISM3 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">3</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>fit_ISM4 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">4</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>fit_ISM5 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">5</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>fit_ISM6 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">6</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>fit_ISM7 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">7</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>fit_ISM8 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">8</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>fit_ISM9 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">9</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>fit_ISM10 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">10</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>fit_ISM11 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">11</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>fit_ISM12 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(ISM_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">12</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>aics<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">AIC</span>(fit_ISM1),<span class="fu">AIC</span>(fit_ISM2),<span class="fu">AIC</span>(fit_ISM3),<span class="fu">AIC</span>(fit_ISM4),<span class="fu">AIC</span>(fit_ISM5),<span class="fu">AIC</span>(fit_ISM6),<span class="fu">AIC</span>(fit_ISM7),<span class="fu">AIC</span>(fit_ISM8),<span class="fu">AIC</span>(fit_ISM9),<span class="fu">AIC</span>(fit_ISM10),<span class="fu">AIC</span>(fit_ISM11),<span class="fu">AIC</span>(fit_ISM12))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbguay-ISM_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_ISM <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_ISM1, <span class="at">xreg=</span><span class="fu">fourier</span>(ISM_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_man_ISM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbguay-ISM_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_ISM</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast       Lo 80    Hi 80       Lo 95    Hi 95
+2023.131       2.965656  2.37883634 3.552477  2.06819253 3.863120
+2023.151       3.000532  2.06371832 3.937345  1.56779931 4.433264
+2023.170       3.032068  1.84426304 4.219873  1.21547710 4.848659
+2023.189       3.059874  1.66554909 4.454199  0.92743809 5.192310
+2023.208       3.083612  1.50963532 4.657589  0.67642230 5.490802
+2023.227       3.103004  1.36787745 4.838131  0.44935689 5.756651
+2023.246       3.117834  1.23530236 5.000366  0.23875025 5.996918
+2023.266       3.127953  1.10874812 5.147157  0.03984578 6.216060
+2023.285       3.133279  0.98608307 5.280474 -0.15057355 6.417131
+2023.304       3.133800  0.86582501 5.401775 -0.33476833 6.602368
+2023.323       3.129574  0.74693468 5.512214 -0.51435849 6.773507
+2023.342       3.120728  0.62869434 5.612762 -0.69050865 6.931965
+2023.361       3.107455  0.51063122 5.704279 -0.86404424 7.078954
+2023.381       3.090012  0.39246617 5.787558 -1.03552849 7.215553
+2023.400       3.068718  0.27407720 5.863358 -1.20531619 7.342752
+2023.419       3.043945  0.15547212 5.932419 -1.37359324 7.461484
+2023.438       3.016119  0.03676675 5.995471 -1.54040699 7.572645
+2023.457       2.985707 -0.08183320 6.053246 -1.70569067 7.677104
+2023.476       2.953214 -0.20004783 6.106476 -1.86928393 7.775712
+2023.496       2.919178 -0.31753717 6.155892 -2.03095050 7.869306
+2023.515       2.884155 -0.43391429 6.202224 -2.19039411 7.958704
+2023.534       2.848719 -0.54875744 6.246195 -2.34727278 8.044711
+2023.553       2.813448 -0.66162167 6.288517 -2.50121225 8.128108
+2023.572       2.778917 -0.77204981 6.329885 -2.65181830 8.209653
+2023.591       2.745693 -0.87958297 6.370970 -2.79868841 8.290075
+2023.611       2.714322 -0.98377051 6.412415 -2.94142262 8.370067</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_arima_man_ISM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       ME      RMSE       MAE        MPE     MAPE       MASE
+Training set -0.001339119 0.4550056 0.2243287 -0.1925597 5.568789 0.08458887
+                    ACF1
+Training set -0.05004525</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
