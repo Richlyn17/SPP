@@ -14,35 +14,6 @@ library(zoo)
 
 # Background
 
-## Stock Price 
-
-The term stock price refers to the current price that a share of stock is trading for on the market. Every publicly-traded company, when its shares are issued, is given a price an assignment of their value that ideally reflects the value of the company itself. The price of a stock will go up and down in relation to a number of different factors, including changes within the economy as a whole, changes within industries, political events, war, and environmental changes. Stock prices change everyday by market forces. By this we mean that share prices change because of supply and demand. If more people want to buy a stock demand than sell it supply, then the price moves up.
-
-Aside from the other things that make any stock price change, there can be issues within a company that cause its stock price to move in either direction.
-
-#### **1. Law of supply and demand**
-
-If a company produces a good that not many others produce or a good that is highly desired or necessary, the price of its stock will climb because the demand is high. When the supply of the good balances out with the demand, stock prices will tend to plateau. If the supply is greater than the demand, the company\'s share price will likely drop.
-
-It also depends on how effectively and uniquely the company produces the good. If they create a variation on an old standard, their share price may stay the same or increase even if supply is high.
-
-#### **2. Management or production changes**
-
-Changes in management or production can also cause a company\'s share price to rise or fall. It depends on how effectively and efficiently the company is managed and goods are produced. Changes to the management team, style, or how goods are produced can boost efficiency and thus overall effectiveness -- increasing profits and causing the share price to rise. However, negative changes can result in the exact opposite effect.
-
-#### **3. Mention of the company\'s name**
-
-One other point of note that can significantly affect the stock price is the mention of the company\'s name in the news, on social media or by word of mouth.
-
-### **Stock Price Changes includes the following Company** 
-
-### 
-1. Megawide Construction Corporation (MWIDE)
-
-Megawide Construction Corporation is engaged in the general construction business. The Company's business includes constructing, enlarging, repairing, or engaging in any work upon buildings, houses and condominium, roads, plants, bridges, piers, waterworks, railroads and other structures, and to own, use and develop real estate of various kinds. Its segments are Construction and Airport Operations. The Construction segment is engaged in the general construction business, which involves site development, earthworks, structural and civil works, masonry works, and architectural finishes, electrical works, plumbing and sanitary works, fire protection works and mechanical works. The Airport Operations segment is engaged in the business of building, rehabilitating, renovating, constructing, developing, operating, and maintaining the Mactan Cebu International Airport, including the commercial assets thereof and various allied business for the operation and maintenance of the airport facility.
-
-MWIDE grew its infrastructure segment from 5% to 17% of revenues in 2021, and is looking to grow the segment even further this year. MWIDE\'s focus on this segment is supported by its observation that infrastructure development has remained strong through different \"cycles\" of the economy, and that the Marcos administration appears willing to maintain infrastructure development as a top priority.
-
 #### Graph for Megawide Construction Corp Price (MWIDE)
 
 ```{r}
@@ -99,15 +70,55 @@ for(i in 1:25)
 summary(bestfit_MWIDE_ts)
 ```
 
-### 2.  Nickel Asia Corporation (NIKL) 
+```{r}
+fc_arima_MWIDE_ts <- forecast(bestfit_MWIDE_ts, xreg=fourier(MWIDE_ts, K=1, h=26))
+plot(fc_arima_MWIDE_ts)
+```
 
-Nickel Asia Corporation (NIKL) was incorporated on July 24, 2008 with the Securities and Exchange Commission primarily to engage in the business of mining of all kinds of ore, metals, and minerals and in the business of generation, transmission, distribution and supply of electricity to cities and other localities.\
-\
-The nickel market has been suffering from low liquidity since earlier this year. On 8 March, nickel prices rose more than 250%, following fears of the disruption of nickel supplies due to the Russian invasion of Ukraine. Russia is the third largest global nickel producer, with over 200,000 tonnes of output in 2021, or 7.5% of global production. The LME then suspended trading after the short squeeze, a controversial decision for which the LME is now being sued in British court. "A lack of risk capital lowers market participation, driving down liquidity and exacerbating volatility, and further discouraging potential lenders and investors, reinforcing lower participation and higher volatility," said Goldman Sachs at the time.
+```{r}
+fc_arima_MWIDE_ts
+```
 
-Now, small changes in the physical market can lead to big shifts in trading. Data from the LME already shows that average monthly nickel trading volumes (excluding unallocated trade) have gone down since March. October showed the lowest average so far, with volumes of 32,811. In January, volumes were still up to 83,827. nickel production is forecasted to grow around 3.4% a year to 3,281kt in 2026, according to GlobalData, growing at similar levels to forecasted consumption for 2026. That puts the nickel market in a better position than some other critical minerals, which are expected to experience shortages leading up to 2030.
+```{r}
+fit_MWIDE_ts1 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=1), seasonal=FALSE)
+fit_MWIDE_ts2 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=2), seasonal=FALSE)
+fit_MWIDE_ts3 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=3), seasonal=FALSE)
+fit_MWIDE_ts4 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=4), seasonal=FALSE)
+fit_MWIDE_ts5 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=5), seasonal=FALSE)
+fit_MWIDE_ts6 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=6), seasonal=FALSE)
+fit_MWIDE_ts7 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=7), seasonal=FALSE)
+fit_MWIDE_ts8 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=8), seasonal=FALSE)
+fit_MWIDE_ts9 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=9), seasonal=FALSE)
+fit_MWIDE_ts10 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=10), seasonal=FALSE)
+fit_MWIDE_ts11 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=11), seasonal=FALSE)
+fit_MWIDE_ts12 <- auto.arima(MWIDE_ts, xreg=fourier(MWIDE_ts, K=12), seasonal=FALSE)
+```
 
-In the most recent nickel price news, the metal had been on a bull run which began in the final quarter of 2021, As 2022 comes to a close, nickel has emerged as the clear winner among base metals that have survived a volatile year.
+```{r}
+aics<-c(AIC(fit_MWIDE_ts1),AIC(fit_MWIDE_ts2),AIC(fit_MWIDE_ts3),AIC(fit_MWIDE_ts4),AIC(fit_MWIDE_ts5),AIC(fit_MWIDE_ts6),AIC(fit_MWIDE_ts7),AIC(fit_MWIDE_ts8),AIC(fit_MWIDE_ts9),AIC(fit_MWIDE_ts10),AIC(fit_MWIDE_ts11),AIC(fit_MWIDE_ts12))
+plot(aics)
+```
+
+```{r}
+fc_MWIDE_ts1 <- forecast(fit_MWIDE_ts1, xreg=fourier(MWIDE_ts, K=1, h=26))
+plot(fc_MWIDE_ts1)
+```
+
+```{r}
+fc_MWIDE_ts1
+```
+
+```{r}
+accuracy(fc_MWIDE_ts1)
+```
+
+```{r}
+accuracy(fc_arima_MWIDE_ts)
+```
+
+```{r}
+accuracy(fc_MWIDE_ts1)
+```
 
 #### Graph for NIKL
 
@@ -165,15 +176,55 @@ for(i in 1:25)
 summary(bestfit_NIKL_ts)
 ```
 
-### 3. Service Now Corporation (NOW)
+```{r}
+fc_arima_NIKL_ts <- forecast(bestfit_NIKL_ts, xreg=fourier(NIKL_ts, K=1, h=26))
+plot(fc_arima_NIKL_ts)
+```
 
-Now Corp. engages in the provision of telecommunications, media, and technology products and services. It operates through the following segments: Software Licenses and Services, IT Manpower and Resource Augmentation, and Broadband and Wireless Cable TV Services. The Software Licenses and Services segment offers software and IT-enabled services. The IT Manpower and Resource Augmentation segment focuses in consulting, technical advice, and professional advisory services to persons, firms, association, corporations, partnerships, and other entities. The Broadband and Wireless Cable TV Services segment gives broadband service to the underserved and unserved large enterprises such as schools, hospitals, high-end residential buildings, and commercial buildings with multiple BPO locators. The company was founded on June 5, 1996 and is headquartered in Makati, Philippines.
+```{r}
+fc_arima_NIKL_ts
+```
 
-Shares of ServiceNow (NOW 0.39%) were pulling back last month on a broad sell-off in tech stocks, as a strong first-quarter earnings report wasn't enough to counteract the shifting market sentiment. According to data from S&P Global Market Intelligence, the stock finished the month down 14%. There was little news out on Service Now through the first three weeks of the month, and the stock tracked with the slide in the Nasdaq as investors reacted to news that interest rates could rise faster than expected, with the Federal Reserve seeking to bring inflation to heel and cool off the economy.
+```{r}
+fit_NIKL_ts1 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=1), seasonal=FALSE)
+fit_NIKL_ts2 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=2), seasonal=FALSE)
+fit_NIKL_ts3 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=3), seasonal=FALSE)
+fit_NIKL_ts4 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=4), seasonal=FALSE)
+fit_NIKL_ts5 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=5), seasonal=FALSE)
+fit_NIKL_ts6 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=6), seasonal=FALSE)
+fit_NIKL_ts7 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=7), seasonal=FALSE)
+fit_NIKL_ts8 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=8), seasonal=FALSE)
+fit_NIKL_ts9 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=9), seasonal=FALSE)
+fit_NIKL_ts10 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=10), seasonal=FALSE)
+fit_NIKL_ts11 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=11), seasonal=FALSE)
+fit_NIKL_ts12 <- auto.arima(NIKL_ts, xreg=fourier(NIKL_ts, K=12), seasonal=FALSE)
+```
 
-Service Now stock actually jumped 8.1% on April 28, after the company delivered a strong first-quarter earnings report. Revenue increased 27% to \$1.72 billion, matching estimates, and remaining performance operations jumped 29% to \$5.69 billion, showing a strong backlog.
+```{r}
+aics<-c(AIC(fit_NIKL_ts1),AIC(fit_NIKL_ts2),AIC(fit_NIKL_ts3),AIC(fit_NIKL_ts4),AIC(fit_NIKL_ts5),AIC(fit_NIKL_ts6),AIC(fit_NIKL_ts7),AIC(fit_NIKL_ts8),AIC(fit_NIKL_ts9),AIC(fit_NIKL_ts10),AIC(fit_NIKL_ts11),AIC(fit_NIKL_ts12))
+plot(aics)
+```
 
-Profitability was also impressive, with a 25% operating margin, and adjusted earnings per share jumped from \$0.37 to \$1.73, ahead of estimates at \$1.70. "Service Now delivered another outstanding performance that beat expectations across the board," CEO Bill McDermott said. "We are in a sustained demand environment. Companies are investing with a sense of urgency in technologies that get them to the right outcomes, fast."
+```{r}
+fc_NIKL_ts1 <- forecast(fit_NIKL_ts1, xreg=fourier(NIKL_ts, K=1, h=26))
+plot(fc_NIKL_ts1)
+```
+
+```{r}
+fc_NIKL_ts1
+```
+
+```{r}
+accuracy(fc_NIKL_ts1)
+```
+
+```{r}
+accuracy(fc_arima_NIKL_ts)
+```
+
+```{r}
+accuracy(fc_NIKL_ts1)
+```
 
 #### Graph for NOW
 
@@ -231,11 +282,55 @@ for(i in 1:25)
 summary(bestfit_NOW_ts)
 ```
 
-### 4. Ore Corporation Limited
+```{r}
+fc_arima_NOW_ts <- forecast(bestfit_NOW_ts, xreg=fourier(NOW_ts, K=1, h=26))
+plot(fc_arima_NOW_ts)
+```
 
-OreCorp Limited is an Australia-based development and exploration company. The Company is focused on its mineral exploration for gold and precious metals. Its lead projects is the Nyanzaga Gold Project in northwest Tanzania. The Nyanzaga Project is a gold development project with considerable drilling and associated mining information consisting of the granted special mining lease (SML), which covers 23.4 km2 (square kilometer) and encompasses the Nyanzaga and Kilimani deposits, and 13 active prospecting licenses and one prospecting license application covering approximately 153 km2. The project is situated approximately 60 kilometers southwest of Mwanza and 35 kilometers northeast of the Bulyanhulu gold mine.
+```{r}
+fc_arima_NOW_ts
+```
 
-Year on year Orecorp Ltd's revenues fell -26.68% from 206.91k to 151.70k. This along with an increase in selling, general and administrative costs has contributed to a reduction in net income from a loss of 9.24m to a larger loss of 26.85m. On Tuesday, Orecorp Ltd (ORR:ASX) closed at 0.43, 38.71% above the 52 week low of 0.31 set on Nov 08, 2022.
+```{r}
+fit_NOW_ts1 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=1), seasonal=FALSE)
+fit_NOW_ts2 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=2), seasonal=FALSE)
+fit_NOW_ts3 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=3), seasonal=FALSE)
+fit_NOW_ts4 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=4), seasonal=FALSE)
+fit_NOW_ts5 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=5), seasonal=FALSE)
+fit_NOW_ts6 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=6), seasonal=FALSE)
+fit_NOW_ts7 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=7), seasonal=FALSE)
+fit_NOW_ts8 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=8), seasonal=FALSE)
+fit_NOW_ts9 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=9), seasonal=FALSE)
+fit_NOW_ts10 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=10), seasonal=FALSE)
+fit_NOW_ts11 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=11), seasonal=FALSE)
+fit_NOW_ts12 <- auto.arima(NOW_ts, xreg=fourier(NOW_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_NOW_ts1),AIC(fit_NOW_ts2),AIC(fit_NOW_ts3),AIC(fit_NOW_ts4),AIC(fit_NOW_ts5),AIC(fit_NOW_ts6),AIC(fit_NOW_ts7),AIC(fit_NOW_ts8),AIC(fit_NOW_ts9),AIC(fit_NOW_ts10),AIC(fit_NOW_ts11),AIC(fit_NOW_ts12))
+plot(aics)
+```
+
+```{r}
+fc_NOW_ts1 <- forecast(fit_NOW_ts1, xreg=fourier(NOW_ts, K=1, h=26))
+plot(fc_NOW_ts1)
+```
+
+```{r}
+fc_NOW_ts1
+```
+
+```{r}
+accuracy(fc_NOW_ts1)
+```
+
+```{r}
+accuracy(fc_arima_NOW_ts)
+```
+
+```{r}
+accuracy(fc_NOW_ts1)
+```
 
 #### Graph for ORE
 
@@ -293,4 +388,52 @@ for(i in 1:25)
 summary(bestfit_ORE_ts)
 ```
 
-# 
+```{r}
+fc_arima_ORE_ts <- forecast(bestfit_ORE_ts, xreg=fourier(ORE_ts, K=1, h=26))
+plot(fc_arima_ORE_ts)
+```
+
+```{r}
+fc_arima_ORE_ts
+```
+
+```{r}
+fit_ORE_ts1 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=1), seasonal=FALSE)
+fit_ORE_ts2 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=2), seasonal=FALSE)
+fit_ORE_ts3 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=3), seasonal=FALSE)
+fit_ORE_ts4 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=4), seasonal=FALSE)
+fit_ORE_ts5 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=5), seasonal=FALSE)
+fit_ORE_ts6 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=6), seasonal=FALSE)
+fit_ORE_ts7 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=7), seasonal=FALSE)
+fit_ORE_ts8 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=8), seasonal=FALSE)
+fit_ORE_ts9 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=9), seasonal=FALSE)
+fit_ORE_ts10 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=10), seasonal=FALSE)
+fit_ORE_ts11 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=11), seasonal=FALSE)
+fit_ORE_ts12 <- auto.arima(ORE_ts, xreg=fourier(ORE_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_ORE_ts1),AIC(fit_ORE_ts2),AIC(fit_ORE_ts3),AIC(fit_ORE_ts4),AIC(fit_ORE_ts5),AIC(fit_ORE_ts6),AIC(fit_ORE_ts7),AIC(fit_ORE_ts8),AIC(fit_ORE_ts9),AIC(fit_ORE_ts10),AIC(fit_ORE_ts11),AIC(fit_ORE_ts12))
+plot(aics)
+```
+
+```{r}
+fc_ORE_ts1 <- forecast(fit_ORE_ts1, xreg=fourier(ORE_ts, K=1, h=26))
+plot(fc_ORE_ts1)
+```
+
+```{r}
+fc_ORE_ts1
+```
+
+```{r}
+accuracy(fc_ORE_ts1)
+```
+
+```{r}
+accuracy(fc_arima_ORE_ts)
+```
+
+```{r}
+accuracy(fc_ORE_ts1)
+```
