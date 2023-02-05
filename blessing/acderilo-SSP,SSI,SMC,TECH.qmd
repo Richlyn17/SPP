@@ -1,0 +1,499 @@
+---
+title: "Stock Price Forecasting"
+author: "Aileene Derilo"
+format: html
+editor: visual
+---
+
+# Background
+
+The stock market is a group of buyers and sellers of securities that is separated into private, open, and mixed ownership stock exchanges. It is the foundation of every economy, and the main goals of any investment in the stock market are to maximize profits and reduce risks . As a result, nations must improve their stock markets since they are linked to economic progress.
+
+Investing in the stock market could lead to a quick return on investment; therefore, stock market forecasting is one of the best strategies to achieve a profit. Technically speaking, R is a great fit for stock and investing analysis. To assess stocks and investments, this project makes use of basic R as well as the quantmod and ggplot2 libraries.
+
+# (SSP Data)
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)
+```
+
+```{r}
+SSP <- read_csv("/cloud/project/CSV/SSP.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+SSP <- ts(SSP[,2], freq=365.25/7, start=2021+15/365.25)
+SSP %>%
+  autoplot()
+```
+
+```{r}
+SSP_decomp <- decompose(na.locf(SSP), type="additive")
+autoplot(SSP_decomp)
+```
+
+```{r}
+training_SSP <- subset(SSP, end=length(SSP)-8)
+test_SSP <- subset(SSP, start=length(SSP)-8)
+fc_training_SSP <- forecast(training_SSP)
+fc_training_SSP %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_SSP)
+
+```
+
+```{r}
+fc_SSP <-forecast(SSP)
+fc_SSP %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_SSP
+```
+
+```{r}
+tail(SSP)
+min(SSP)
+max(SSP)
+which.min(SSP)
+```
+
+```{r}
+bestfit_SSP <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_SSP <- auto.arima(SSP, xreg=fourier(SSP, K=i), seasonal=FALSE)
+  if(fit_SSP$aicc < bestfit_SSP$aicc)
+    bestfit_SSP <- fit_SSP
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_SSP)
+```
+
+```{r}
+fc_arima_SSP <- forecast(bestfit_SSP, xreg=fourier(SSP, K=1, h=26))
+plot(fc_arima_SSP)
+```
+
+```{r}
+fit_SSP1 <- auto.arima(SSP, xreg=fourier(SSP, K=1), seasonal=FALSE)
+fit_SSP2 <- auto.arima(SSP, xreg=fourier(SSP, K=2), seasonal=FALSE)
+fit_SSP3 <- auto.arima(SSP, xreg=fourier(SSP, K=3), seasonal=FALSE)
+fit_SSP4 <- auto.arima(SSP, xreg=fourier(SSP, K=4), seasonal=FALSE)
+fit_SSP5 <- auto.arima(SSP, xreg=fourier(SSP, K=5), seasonal=FALSE)
+fit_SSP6 <- auto.arima(SSP, xreg=fourier(SSP, K=6), seasonal=FALSE)
+fit_SSP7 <- auto.arima(SSP, xreg=fourier(SSP, K=7), seasonal=FALSE)
+fit_SSP8 <- auto.arima(SSP, xreg=fourier(SSP, K=8), seasonal=FALSE)
+fit_SSP9 <- auto.arima(SSP, xreg=fourier(SSP, K=9), seasonal=FALSE)
+fit_SSP10 <- auto.arima(SSP, xreg=fourier(SSP, K=10), seasonal=FALSE)
+fit_SSP11 <- auto.arima(SSP, xreg=fourier(SSP, K=11), seasonal=FALSE)
+fit_SSP12 <- auto.arima(SSP, xreg=fourier(SSP, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_SSP1),AIC(fit_SSP2),AIC(fit_SSP3),AIC(fit_SSP4),AIC(fit_SSP5),AIC(fit_SSP6),AIC(fit_SSP7),AIC(fit_SSP8),AIC(fit_SSP9),AIC(fit_SSP10),AIC(fit_SSP11),AIC(fit_SSP12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_SSP <- forecast(fit_SSP1, xreg=fourier(SSP, K=1, h=26))
+plot(fc_arima_man_SSP)
+```
+
+```{r}
+fc_arima_man_SSP
+```
+
+```{r}
+accuracy(fc_SSP)
+```
+
+```{r}
+accuracy(fc_arima_SSP)
+```
+
+```{r}
+accuracy(fc_arima_man_SSP)
+```
+
+# (TECH Data)
+
+```{r}
+TECH <- read_csv("/cloud/project/CSV/TECH.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+TECH <- ts(TECH[,2], freq=365.25/7, start=2021+15/365.25)
+TECH %>%
+  autoplot()
+```
+
+```{r}
+TECH_decomp <- decompose(na.locf(SSP), type="additive")
+autoplot(TECH_decomp)
+```
+
+```{r}
+training_TECH <- subset(TECH, end=length(TECH)-8)
+test_TECH <- subset(TECH, start=length(TECH)-8)
+fc_training_TECH <- forecast(training_TECH)
+fc_training_TECH %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_TECH)
+```
+
+```{r}
+fc_TECH <-forecast(TECH)
+fc_TECH %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_TECH
+```
+
+```{r}
+tail(TECH)
+min(TECH)
+max(TECH)
+which.min(TECH)
+```
+
+```{r}
+bestfit_TECH <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_TECH <- auto.arima(TECH, xreg=fourier(TECH, K=i), seasonal=FALSE)
+  if(fit_TECH$aicc < bestfit_TECH$aicc)
+    bestfit_TECH <- fit_TECH
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_TECH)
+```
+
+```{r}
+fc_arima_TECH <- forecast(bestfit_TECH, xreg=fourier(TECH, K=1, h=26))
+plot(fc_arima_TECH)
+```
+
+```{r}
+fit_TECH1 <- auto.arima(TECH, xreg=fourier(TECH, K=1), seasonal=FALSE)
+fit_TECH2 <- auto.arima(TECH, xreg=fourier(TECH, K=2), seasonal=FALSE)
+fit_TECH3 <- auto.arima(TECH, xreg=fourier(TECH, K=3), seasonal=FALSE)
+fit_TECH4 <- auto.arima(TECH, xreg=fourier(TECH, K=4), seasonal=FALSE)
+fit_TECH5 <- auto.arima(TECH, xreg=fourier(TECH, K=5), seasonal=FALSE)
+fit_TECH6 <- auto.arima(TECH, xreg=fourier(TECH, K=6), seasonal=FALSE)
+fit_TECH7 <- auto.arima(TECH, xreg=fourier(TECH, K=7), seasonal=FALSE)
+fit_TECH8 <- auto.arima(TECH, xreg=fourier(TECH, K=8), seasonal=FALSE)
+fit_TECH9 <- auto.arima(TECH, xreg=fourier(TECH, K=9), seasonal=FALSE)
+fit_TECH10 <- auto.arima(TECH, xreg=fourier(TECH, K=10), seasonal=FALSE)
+fit_TECH11 <- auto.arima(TECH, xreg=fourier(TECH, K=11), seasonal=FALSE)
+fit_TECH12 <- auto.arima(TECH, xreg=fourier(TECH, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_TECH1),AIC(fit_TECH2),AIC(fit_TECH3),AIC(fit_TECH4),AIC(fit_TECH5),AIC(fit_TECH6),AIC(fit_TECH7),AIC(fit_TECH8),AIC(fit_TECH9),AIC(fit_TECH10),AIC(fit_TECH11),AIC(fit_TECH12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_TECH <- forecast(fit_TECH1, xreg=fourier(TECH, K=1, h=26))
+plot(fc_arima_man_TECH)
+```
+
+```{r}
+fc_arima_man_TECH
+```
+
+```{r}
+accuracy(fc_TECH)
+```
+
+```{r}
+accuracy(fc_arima_TECH)
+```
+
+```{r}
+accuracy(fc_arima_man_TECH)
+```
+
+# (SSI Data)
+
+```{r}
+SSI <- read_csv("/cloud/project/CSV/SSI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+
+SSI <- ts(SSI[,2], freq=365.25/7, start=2021+15/365.25)
+
+SSI %>%
+
+  autoplot()
+```
+
+```{r}
+SSI_decomp <- decompose(na.locf(SSI), type="additive")
+
+autoplot(SSI_decomp)
+```
+
+```{r}
+training_SSI <- subset(SSI, end=length(SSI)-8)
+
+test_SSI <- subset(SSI, start=length(SSI)-8)
+
+fc_training_SSI <- forecast(training_SSI)
+
+fc_training_SSI %>%
+
+  forecast(h=60) %>%
+
+  autoplot() +autolayer(test_SSI)
+```
+
+```{r}
+fc_SSI <-forecast(SSI)
+
+fc_SSI %>%
+
+  forecast(h=20) %>%
+
+  autoplot()
+```
+
+```{r}
+fc_SSI
+```
+
+```{r}
+tail(SSI)
+
+min(SSI)
+
+max(SSI)
+
+which.min(SSI)
+```
+
+```{r}
+bestfit_SSI <- list(aicc=Inf)
+
+for(i in 1:25)
+
+{
+
+  fit_SSI <- auto.arima(SSI, xreg=fourier(SSI, K=i), seasonal=FALSE)
+
+  if(fit_SSI$aicc < bestfit_SSI$aicc)
+
+    bestfit_SSI <- fit_SSI
+
+  else break;
+
+}
+```
+
+```{r}
+summary(bestfit_SSI)
+```
+
+```{r}
+fc_arima_SSI <- forecast(bestfit_SSI, xreg=fourier(SSI, K=1, h=26))
+
+plot(fc_arima_SSI)
+```
+
+```{r}
+fit_SSI1 <- auto.arima(SSI, xreg=fourier(SSI, K=1), seasonal=FALSE)
+
+fit_SSI2 <- auto.arima(SSI, xreg=fourier(SSI, K=2), seasonal=FALSE)
+
+fit_SSI3 <- auto.arima(SSI, xreg=fourier(SSI, K=3), seasonal=FALSE)
+
+fit_SSI4 <- auto.arima(SSI, xreg=fourier(SSI, K=4), seasonal=FALSE)
+
+fit_SSI5 <- auto.arima(SSI, xreg=fourier(SSI, K=5), seasonal=FALSE)
+
+fit_SSI6 <- auto.arima(SSI, xreg=fourier(SSI, K=6), seasonal=FALSE)
+
+fit_SSI7 <- auto.arima(SSI, xreg=fourier(SSI, K=7), seasonal=FALSE)
+
+fit_SSI8 <- auto.arima(SSI, xreg=fourier(SSI, K=8), seasonal=FALSE)
+
+fit_SSI9 <- auto.arima(SSI, xreg=fourier(SSI, K=9), seasonal=FALSE)
+
+fit_SSI10 <- auto.arima(SSI, xreg=fourier(SSI, K=10), seasonal=FALSE)
+
+fit_SSI11 <- auto.arima(SSI, xreg=fourier(SSI, K=11), seasonal=FALSE)
+
+fit_SSI12 <- auto.arima(SSI, xreg=fourier(SSI, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_SSI1),AIC(fit_SSI2),AIC(fit_SSI3),AIC(fit_SSI4),AIC(fit_SSI5),AIC(fit_SSI6),AIC(fit_SSI7),AIC(fit_SSI8),AIC(fit_SSI9),AIC(fit_SSI10),AIC(fit_SSI11),AIC(fit_SSI12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_SSI <- forecast(fit_SSI1, xreg=fourier(SSI, K=1, h=26))
+
+plot(fc_arima_man_SSI)
+```
+
+```{r}
+fc_arima_man_SSI
+```
+
+```{r}
+accuracy(fc_SSI)
+```
+
+```{r}
+accuracy(fc_arima_SSI)
+```
+
+```{r}
+accuracy(fc_arima_man_SSI)
+```
+
+# (SMC Data)
+
+```{r}
+SMC <- read_csv("/cloud/project/CSV/SMC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+
+SMC <- ts(SMC[,2], freq=365.25/7, start=2021+15/365.25)
+
+SMC %>%
+
+  autoplot()
+```
+
+```{r}
+SMC_decomp <- decompose(na.locf(SMC), type="additive")
+
+autoplot(SMC_decomp)
+```
+
+```{r}
+training_SMC <- subset(SMC, end=length(SMC)-8)
+
+test_SMC <- subset(SMC, start=length(SMC)-8)
+
+fc_training_SMC <- forecast(training_SMC)
+
+fc_training_SMC %>%
+
+  forecast(h=60) %>%
+
+  autoplot() +autolayer(test_SMC)
+```
+
+```{r}
+fc_SMC <-forecast(SMC)
+
+fc_SMC %>%
+
+  forecast(h=20) %>%
+
+  autoplot()
+```
+
+```{r}
+fc_SMC
+```
+
+```{r}
+tail(SMC)
+
+min(SMC)
+
+max(SMC)
+
+which.min(SMC)
+```
+
+```{r}
+bestfit_SMC <- list(aicc=Inf)
+
+for(i in 1:25)
+
+{
+
+  fit_SMC <- auto.arima(SMC, xreg=fourier(SMC, K=i), seasonal=FALSE)
+
+  if(fit_SMC$aicc < bestfit_SMC$aicc)
+
+    bestfit_SMC <- fit_SMC
+
+  else break;
+
+}
+```
+
+```{r}
+summary(bestfit_SMC)
+```
+
+```{r}
+fc_arima_SMC <- forecast(bestfit_SMC, xreg=fourier(SMC, K=1, h=26))
+
+plot(fc_arima_SMC)
+```
+
+```{r}
+fit_SMC1 <- auto.arima(SMC, xreg=fourier(SMC, K=1), seasonal=FALSE)
+
+fit_SMC2 <- auto.arima(SMC, xreg=fourier(SMC, K=2), seasonal=FALSE)
+
+fit_SMC3 <- auto.arima(SMC, xreg=fourier(SMC, K=3), seasonal=FALSE)
+
+fit_SMC4 <- auto.arima(SMC, xreg=fourier(SMC, K=4), seasonal=FALSE)
+
+fit_SMC5 <- auto.arima(SMC, xreg=fourier(SMC, K=5), seasonal=FALSE)
+
+fit_SMC6 <- auto.arima(SMC, xreg=fourier(SMC, K=6), seasonal=FALSE)
+
+fit_SMC7 <- auto.arima(SMC, xreg=fourier(SMC, K=7), seasonal=FALSE)
+
+fit_SMC8 <- auto.arima(SMC, xreg=fourier(SMC, K=8), seasonal=FALSE)
+
+fit_SMC9 <- auto.arima(SMC, xreg=fourier(SMC, K=9), seasonal=FALSE)
+
+fit_SMC10 <- auto.arima(SMC, xreg=fourier(SMC, K=10), seasonal=FALSE)
+
+fit_SMC11 <- auto.arima(SMC, xreg=fourier(SMC, K=11), seasonal=FALSE)
+
+fit_SMC12 <- auto.arima(SMC, xreg=fourier(SMC, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_SMC1),AIC(fit_SMC2),AIC(fit_SMC3),AIC(fit_SMC4),AIC(fit_SMC5),AIC(fit_SMC6),AIC(fit_SMC7),AIC(fit_SMC8),AIC(fit_SMC9),AIC(fit_SMC10),AIC(fit_SMC11),AIC(fit_SMC12))
+
+plot(aics)
+```
+
+```{r}
+fc_arima_man_SMC <- forecast(fit_SMC1, xreg=fourier(SMC, K=1, h=26))
+
+plot(fc_arima_man_SMC)
+```
+
+```{r}
+fc_arima_man_SMC
+```
+
+```{r}
+accuracy(fc_SMC)
+```
+
+```{r}
+accuracy(fc_arima_SMC)
+```
+
+```{r}
+accuracy(fc_arima_man_SMC)
+```
