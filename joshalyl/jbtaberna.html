@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joshalyl Taberna">
+
+<title>Stock Price Forcasting</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="jbtaberna_files/libs/clipboard/clipboard.min.js"></script>
+<script src="jbtaberna_files/libs/quarto-html/quarto.js"></script>
+<script src="jbtaberna_files/libs/quarto-html/popper.min.js"></script>
+<script src="jbtaberna_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="jbtaberna_files/libs/quarto-html/anchor.min.js"></script>
+<link href="jbtaberna_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="jbtaberna_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="jbtaberna_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="jbtaberna_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="jbtaberna_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Stock Price Forcasting</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joshalyl Taberna </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+</div>
+</section>
+<section id="bsc.csv" class="level1">
+<h1>BSC.csv</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>BSC <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/BSC.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>BSC_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(BSC[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">128</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>BSC_ts <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>BSC_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(BSC_ts), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(BSC_decomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>training_BSC <span class="ot">&lt;-</span> <span class="fu">subset</span>(BSC_ts, <span class="at">end=</span><span class="fu">length</span>(BSC_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>test_BSC <span class="ot">&lt;-</span> <span class="fu">subset</span>(BSC_ts, <span class="at">start=</span><span class="fu">length</span>(BSC_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>fc_training_BSC<span class="ot">&lt;-</span><span class="fu">forecast</span>(training_BSC)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>fc_training_BSC <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">60</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_BSC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fc_training_BSC</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast         Lo 80     Hi 80        Lo 95     Hi 95
+2022.537      0.2999359  0.2393072765 0.3605645  0.207212432 0.3926593
+2022.556      0.3397127  0.2593150515 0.4201103  0.216755111 0.4626703
+2022.576      0.3264675  0.2301050868 0.4228298  0.179093925 0.4738410
+2022.595      0.3297716  0.2195807362 0.4399624  0.161249223 0.4982940
+2022.614      0.3285860  0.2059762186 0.4511957  0.141070546 0.5161014
+2022.633      0.3159945  0.1819814653 0.4500076  0.111039233 0.5209498
+2022.652      0.3316753  0.1870325492 0.4763180  0.110463316 0.5528872
+2022.671      0.3402576  0.1855979040 0.4949173  0.103725994 0.5767893
+2022.691      0.3393380  0.1751604760 0.5035156  0.088250119 0.5904260
+2022.710      0.3714227  0.1981429100 0.5447026  0.106414104 0.6364314
+2022.729      0.3613351  0.1793049718 0.5433652  0.082944052 0.6397261
+2022.748      0.3617025  0.1712244356 0.5521806  0.070391419 0.6530137
+2022.767      0.3439029  0.1452393804 0.5425665  0.040073255 0.6477326
+2022.786      0.5365623  0.3299435339 0.7431811  0.220566167 0.8525584
+2022.806      0.5031649  0.2887944347 0.7175355  0.175313543 0.8310163
+2022.825      0.4518446  0.2299034278 0.6737858  0.112414868 0.7912743
+2022.844      0.4673748  0.2380250567 0.6967245  0.116614635 0.8181350
+2022.863      0.4821783  0.2455658500 0.7187908  0.120310763 0.8440459
+2022.882      0.4992173  0.2554737942 0.7429607  0.126443798 0.8719907
+2022.901      0.4625010  0.2117460875 0.7132559  0.079004457 0.8459975
+2022.921      0.4625805  0.2049229503 0.7202381  0.068527272 0.8566338
+2022.940      0.4074742  0.1430132574 0.6719351  0.003016093 0.8119323
+2022.959      0.3639359  0.0927624444 0.6351093 -0.050788109 0.7786599
+2022.978      0.3956851  0.1178824357 0.6734877 -0.029177398 0.8205475
+2022.997      0.4008606  0.1165053092 0.6852159 -0.034023280 0.8357444
+2023.016      0.4124054  0.1215679708 0.7032429 -0.032392078 0.8572029
+2023.036      0.4232558  0.1260011050 0.7205105 -0.031356036 0.8778677
+2023.055      0.4034169  0.0998047939 0.7070290 -0.060917734 0.8677515
+2023.074      0.3849326  0.0750184179 0.6948467 -0.089040220 0.8589053
+2023.093      0.3589954  0.0428303108 0.6751605 -0.124537386 0.8425282
+2023.112      0.3622481  0.0398792821 0.6846169 -0.130772469 0.8552687
+2023.131      0.3748689  0.0463400603 0.7033978 -0.127572624 0.8773105
+2023.151      0.3762870  0.0416384838 0.7109356 -0.135513755 0.8880878
+2023.170      0.3905405  0.0498096629 0.7312714 -0.130562366 0.9116434
+2023.189      0.3712716  0.0244928836 0.7180503 -0.159080671 0.9016238
+2023.208      0.3717612  0.0189665752 0.7245559 -0.167791639 0.9113141
+2023.227      0.3577742 -0.0010070137 0.7165554 -0.190934323 0.9064828
+2023.246      0.3654592  0.0007185398 0.7301999 -0.192363522 0.9232820
+2023.266      0.3547132 -0.0159620288 0.7253884 -0.212185643 0.9216120
+2023.285      0.3417780 -0.0348088572 0.7183649 -0.234161898 0.9177179
+2023.304      0.3270909 -0.0553866119 0.7095684 -0.257857964 0.9120397
+2023.323      0.3098161 -0.0785328675 0.6981650 -0.284112369 0.9037445
+2023.342      0.3160026 -0.0782002446 0.7102055 -0.286878633 0.9188839
+2023.361      0.3157119 -0.0843289891 0.7157528 -0.296097854 0.9275217
+2023.381      0.3194026 -0.0864620041 0.7252672 -0.301313741 0.9401189
+2023.400      0.3294837 -0.0821916934 0.7411590 -0.300119464 0.9590868
+2023.419      0.3319994 -0.0854751817 0.7494740 -0.306472874 0.9704717
+2023.438      0.3249364 -0.0983272064 0.7481999 -0.322389401 0.9722621
+2023.457      0.2950129 -0.1340306134 0.7240565 -0.361152552 0.9511784
+2023.476      0.2995998 -0.1352159642 0.7344155 -0.365393517 0.9645931
+2023.496      0.2872854 -0.1532959250 0.7278666 -0.386525564 0.9610963
+2023.515      0.3018288 -0.1445124650 0.7481700 -0.380791239 0.9844488
+2023.534      0.2999359 -0.1521607662 0.7520325 -0.391486275 0.9913580
+2023.553      0.3397127 -0.1181358392 0.7975612 -0.360506212 1.0399316
+2023.572      0.3264675 -0.1371303758 0.7900653 -0.382544249 1.0354792
+2023.591      0.3297716 -0.1395739108 0.7991171 -0.388030410 1.0475736
+2023.611      0.3285860 -0.1465064388 0.8036783 -0.398005159 1.0551771
+2023.630      0.3159945 -0.1648448451 0.7968339 -0.419385835 1.0513749
+2023.649      0.3316753 -0.1549120036 0.8182626 -0.412495749 1.0758463
+2023.668      0.3402576 -0.1520792662 0.8325945 -0.412706672 1.0932219
+2023.687      0.3393380 -0.1587509361 0.8374270 -0.422423318 1.1010994
+2023.706      0.3714227 -0.1324215577 0.8752671 -0.399140623 1.1419861
+2023.726      0.3613351 -0.1482684939 0.8709387 -0.418036332 1.1407065
+2023.745      0.3617025 -0.1536649547 0.8770700 -0.426484025 1.1498891
+2023.764      0.3439029 -0.1772338100 0.8650397 -0.453106931 1.1409128
+2023.783      0.5365623  0.0096503476 1.0634742 -0.269279990 1.3424046
+2023.802      0.5031649 -0.0295288477 1.0358587 -0.311519906 1.3178498
+2023.821      0.4518446 -0.0866382716 0.9903275 -0.371693885 1.2753831
+2023.841      0.4673748 -0.0769049963 1.0116546 -0.365029317 1.2997789
+2023.860      0.4821783 -0.0679068191 1.0322635 -0.359104313 1.3234610
+2023.879      0.4992173 -0.0566822734 1.0551168 -0.350957710 1.3493922
+2023.898      0.4625010 -0.0992224766 1.0242245 -0.396580921 1.3215829
+2023.917      0.4625805 -0.1049770096 1.0301380 -0.405423817 1.3305849
+2023.936      0.4074742 -0.1659280399 0.9808764 -0.469468848 1.2844172
+2023.956      0.3639359 -0.2153222200 0.9431940 -0.521962943 1.2498347
+2023.975      0.3956851 -0.1894406004 0.9808107 -0.499187422 1.2905576
+2023.994      0.4008606 -0.1901448370 0.9918660 -0.503004208 1.3047254
+2024.013      0.4124054 -0.1844924102 1.0093033 -0.500471038 1.3252819
+2024.032      0.4232558 -0.1795475863 1.0260592 -0.498652434 1.3451641
+2024.051      0.4034169 -0.2053057258 1.0121395 -0.527544006 1.3343778
+2024.070      0.3849326 -0.2297233203 0.9995884 -0.555102489 1.3249676
+2024.090      0.3589954 -0.2616082860 0.9795991 -0.590136041 1.3081269
+2024.109      0.3622481 -0.2643183961 0.9888146 -0.596002671 1.3204989
+2024.128      0.3748689 -0.2576758004 1.0074137 -0.592524760 1.3422626
+2024.147      0.3762870 -0.2622518012 1.0148259 -0.600273839 1.3528479
+2024.166      0.3905405 -0.2540086629 1.0350897 -0.595212398 1.3762935
+2024.185      0.3712716 -0.2793046845 1.0218479 -0.623698958 1.3662421
+2024.205      0.3717612 -0.2848592100 1.0283817 -0.632453079 1.3759756
+2024.224      0.3577742 -0.3049079338 1.0204564 -0.655710672 1.3712591
+2024.243      0.3654592 -0.3033025295 1.0342210 -0.657323623 1.3882421
+2024.262      0.3547132 -0.3201464969 1.0295729 -0.677395641 1.3868220
+2024.281      0.3417780 -0.3391983356 1.0227543 -0.699685432 1.3832414
+2024.300      0.3270909 -0.3600211883 1.0142029 -0.723756344 1.3779381
+2024.320      0.3098161 -0.3834512109 1.0030833 -0.750444733 1.3700768
+2024.339      0.3160026 -0.3834397011 1.0154449 -0.753702097 1.3857073
+2024.358      0.3157119 -0.3899256697 1.0213495 -0.763467645 1.3948915
+2024.377      0.3194026 -0.3924508649 1.0312560 -0.769283320 1.4080885
+2024.396      0.3294837 -0.3886066101 1.0475739 -0.768740639 1.4277080
+2024.415      0.3319994 -0.3923490176 1.0563478 -0.775795906 1.4397947
+2024.435      0.3249364 -0.4056918754 1.0555646 -0.792463097 1.4423358
+2024.454      0.2950129 -0.4419171383 1.0319430 -0.832024358 1.4220502
+2024.473      0.2995998 -0.4436545304 1.0428541 -0.837109597 1.4363092
+2024.492      0.2872854 -0.4623159308 1.0368866 -0.859130880 1.4337016
+2024.511      0.3018288 -0.4541425676 1.0578001 -0.854329617 1.4579871</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fc_BSC<span class="ot">&lt;-</span><span class="fu">forecast</span>(BSC_ts)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fc_BSC <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fc_BSC</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast        Lo 80     Hi 80        Lo 95     Hi 95
+2022.691      0.3007584  0.246986689 0.3545301  0.218521657 0.3829952
+2022.710      0.3328932  0.261593324 0.4041931  0.223849432 0.4419370
+2022.729      0.3228567  0.237402927 0.4083104  0.192166449 0.4535469
+2022.748      0.3232752  0.225562837 0.4209876  0.173837022 0.4727134
+2022.767      0.3055280  0.196807684 0.4142483  0.139254628 0.4718014
+2022.786      0.4982398  0.379412774 0.6170667  0.316509569 0.6799699
+2022.806      0.4648960  0.336649076 0.5931430  0.268759247 0.6610328
+2022.825      0.4136293  0.276506289 0.5507523  0.203917758 0.6233408
+2022.844      0.4292139  0.283658052 0.5747698  0.206605438 0.6518224
+2022.863      0.4441470  0.290527359 0.5977666  0.209206045 0.6790879
+2022.882      0.4609490  0.299578322 0.6223197  0.214153829 0.7077442
+2022.901      0.4243595  0.255506264 0.5932127  0.166120768 0.6825982
+2022.921      0.4239918  0.247889432 0.6000942  0.154666453 0.6933172
+2022.940      0.3687268  0.185579863 0.5518737  0.088627734 0.6488259
+2022.959      0.3250314  0.135020887 0.5150419  0.034435388 0.6156274
+2022.978      0.3566235  0.159910453 0.5533366  0.055776844 0.6574702
+2022.997      0.3618556  0.158584189 0.5651270  0.050978810 0.6727324
+2023.016      0.3732328  0.163532839 0.5829327  0.052524398 0.6939412
+2023.036      0.3834130  0.167401809 0.5994241  0.053052411 0.7137735
+2023.055      0.3637305  0.141514631 0.5859465  0.023880631 0.7035805
+2023.074      0.3451098  0.116786098 0.5734336 -0.004081194 0.6943009
+2023.093      0.3190363  0.084693241 0.5533794 -0.039360490 0.6774331
+2023.112      0.3221505  0.081869133 0.5624319 -0.045328145 0.6896292
+2023.131      0.3346328  0.088487498 0.5807782 -0.041813973 0.7110796
+2023.151      0.3359093  0.083968333 0.5878502 -0.049401153 0.7212197
+2023.170      0.3500212  0.092347516 0.6076948 -0.044056674 0.7440990
+2023.189      0.3306096  0.067261242 0.5939579 -0.072146935 0.7333660
+2023.208      0.3309566  0.061987140 0.5999260 -0.080396669 0.7423098
+2023.227      0.3168263  0.042285236 0.5913673 -0.103048004 0.7367005
+2023.246      0.3243680  0.044301146 0.6044349 -0.103957299 0.7526933
+2023.266      0.3134787  0.027928293 0.5990290 -0.123232942 0.7501903
+2023.285      0.3004001  0.009405458 0.5913948 -0.144637824 0.7454381
+2023.304      0.2855697 -0.010833031 0.5819724 -0.167739161 0.7388786
+2023.323      0.2681722 -0.033605068 0.5699494 -0.193356278 0.7297006
+2023.342      0.2742157 -0.032904982 0.5813363 -0.195484833 0.7439162
+2023.361      0.2737819 -0.038653437 0.5862173 -0.204046730 0.7516106
+2023.381      0.2773292 -0.040394366 0.5950527 -0.208587055 0.7632454
+2023.400      0.2872668 -0.035720398 0.6102541 -0.206699518 0.7812332
+2023.419      0.2896387 -0.038589665 0.6178671 -0.212343266 0.7916207
+2023.438      0.2824318 -0.051016926 0.6158805 -0.227534008 0.7923976
+2023.457      0.2523473 -0.086302614 0.5909973 -0.265573072 0.7702678
+2023.476      0.2567732 -0.087060551 0.6006069 -0.269075124 0.7826214
+2023.496      0.2443154 -0.104686101 0.5933169 -0.289436325 0.7780671
+2023.515      0.2587154 -0.095439241 0.6128701 -0.282917405 0.8003483
+2023.534      0.2594051 -0.099889548 0.6186998 -0.290088656 0.8088989
+2023.553      0.2958536 -0.068569157 0.6602763 -0.261482890 0.8531900
+2023.572      0.2835341 -0.086005975 0.6530741 -0.281628656 0.8486968
+2023.591      0.2904905 -0.084157322 0.6651383 -0.282483887 0.8634648
+2023.611      0.2891028 -0.090644294 0.6688499 -0.291670265 0.8698759
+2023.630      0.2793910 -0.105448025 0.6642299 -0.309169477 0.8679514
+2023.649      0.2939457 -0.095978789 0.6838701 -0.302392333 0.8902837
+2023.668      0.3021063 -0.092898222 0.6971108 -0.302000975 0.9062135
+2023.687      0.3007584 -0.099321600 0.7008384 -0.311111166 0.9126280
+2023.706      0.3328932 -0.072258654 0.7380451 -0.286733108 0.9525196
+2023.726      0.3228567 -0.087364296 0.7330776 -0.304522158 0.9502355
+2023.745      0.3232752 -0.092012839 0.7385633 -0.311853061 0.9584035
+2023.764      0.3055280 -0.114825976 0.7258820 -0.337347927 0.9484039
+2023.783      0.4982398  0.072820320 0.9236592 -0.152383125 1.1488626
+2023.802      0.4648960  0.034410826 0.8953812 -0.193474267 1.1232663
+2023.821      0.4136293 -0.021922645 0.8491812 -0.252489911 1.0797485
+2023.841      0.4292139 -0.011406440 0.8698342 -0.244656761 1.1030846
+2023.860      0.4441470 -0.001544104 0.8898381 -0.237478711 1.1257727
+2023.879      0.4609490  0.010184251 0.9117138 -0.228436210 1.1503343
+2023.898      0.4243595 -0.031482568 0.8802015 -0.272790775 1.1215097
+2023.917      0.4239918 -0.036931667 0.8849153 -0.280929829 1.1289135
+2023.936      0.3687268 -0.097282902 0.8347365 -0.343973533 1.0814271
+2023.956      0.3250314 -0.146069788 0.7961326 -0.395455703 1.0455185
+2023.975      0.3566235 -0.119575053 0.8328221 -0.371659352 1.0849064
+2023.994      0.3618556 -0.119446754 0.8431579 -0.374232823 1.0979440
+2024.013      0.3732328 -0.113180238 0.8596458 -0.370671733 1.1171373
+2024.032      0.3834130 -0.108118136 0.8749441 -0.368318983 1.1351449
+2024.051      0.3637305 -0.132926548 0.8603876 -0.395840933 1.1233020
+2024.070      0.3451098 -0.156681628 0.8469013 -0.422313990 1.1125337
+2024.090      0.3190363 -0.187898395 0.8259710 -0.456253422 1.0943261
+2024.109      0.3221505 -0.189936753 0.8342378 -0.461019376 1.1053204
+2024.128      0.3346328 -0.182616742 0.8518824 -0.456432129 1.1256978
+2024.147      0.3359093 -0.186512803 0.8583314 -0.463066354 1.1348849
+2024.166      0.3500212 -0.177584075 0.8776264 -0.456881416 1.1569237
+2024.185      0.3306096 -0.202189878 0.8634090 -0.484236861 1.1454560
+2024.205      0.3309566 -0.207048536 0.8689617 -0.491851230 1.1537643
+2024.224      0.3168263 -0.226396361 0.8600489 -0.513961047 1.1476136
+2024.243      0.3243680 -0.224084404 0.8728204 -0.514417577 1.1631536
+2024.262      0.3134787 -0.240216208 0.8671735 -0.533324568 1.1602819
+2024.281      0.3004001 -0.258550219 0.8593505 -0.554440668 1.1552410
+2024.300      0.2855697 -0.278649570 0.8497890 -0.577329212 1.1484686
+2024.320      0.2681722 -0.301329822 0.8376741 -0.602805956 1.1391503
+2024.339      0.2742157 -0.300583159 0.8490145 -0.604863278 1.1532946
+2024.358      0.2737819 -0.306328267 0.8538921 -0.613420055 1.1609839
+2024.377      0.2773292 -0.308107249 0.8627656 -0.618018577 1.1726770
+2024.396      0.2872668 -0.303511044 0.8780447 -0.616249970 1.1907837
+2024.415      0.2896387 -0.306496216 0.8857736 -0.622070978 1.2013484
+2024.435      0.2824318 -0.319076066 0.8839396 -0.637495085 1.2023586
+2024.454      0.2523473 -0.354549673 0.8592444 -0.675821547 1.1805162
+2024.473      0.2567732 -0.355529598 0.8690759 -0.679663101 1.1932094
+2024.492      0.2443154 -0.373410029 0.8620408 -0.700414108 1.1890449
+2024.511      0.2587154 -0.364449842 0.8818807 -0.694333617 1.2117645
+2024.530      0.2594051 -0.369217589 0.8880278 -0.701990350 1.2208006
+2024.550      0.2958536 -0.338244443 0.9299516 -0.673915648 1.2656228
+2024.569      0.2835341 -0.356057409 0.9231255 -0.694636683 1.2617048
+2024.588      0.2904905 -0.354612962 0.9355939 -0.696110095 1.2770911
+2024.607      0.2891028 -0.361531406 0.9397370 -0.705956352 1.2841620
+2024.626      0.2793910 -0.376793129 0.9355750 -0.724156003 1.2829379
+2024.645      0.2939457 -0.367807703 0.9556991 -0.718118782 1.3060101
+2024.665      0.3021063 -0.365236104 0.9694487 -0.718505823 1.3227184</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(BSC_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time Series:
+Start = 2022.57563312799 
+End = 2022.67145790554 
+Frequency = 52.1785714285714 
+     Price
+[1,] 0.295
+[2,] 0.305
+[3,] 0.300
+[4,] 0.310
+[5,] 0.305
+[6,] 0.300</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(BSC_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(BSC_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(BSC_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 257</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>bestfit_BSC <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  fit_BSC <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(BSC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(BSC_ts, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_BSC<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_BSC<span class="sc">$</span>aicc)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    bestfit_BSC <span class="ot">&lt;-</span> fit_BSC</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_BSC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: BSC_ts 
+Regression with ARIMA(5,1,0) errors 
+
+Coefficients:
+          ar1      ar2      ar3     ar4      ar5    S1-52    C1-52
+      -0.1014  -0.1788  -0.0156  0.2009  -0.1188  -0.0380  -0.0371
+s.e.   0.0537   0.0500   0.0521  0.0602   0.0688   0.0294   0.0290
+
+sigma^2 = 0.003506:  log likelihood = 532.47
+AIC=-1048.94   AICc=-1048.55   BIC=-1017.38
+
+Training set error measures:
+                        ME       RMSE        MAE        MPE     MAPE      MASE
+Training set -0.0001777032 0.05858181 0.02067218 -0.3772692 5.075631 0.1286609
+                    ACF1
+Training set -0.02156746</code></pre>
+</div>
+</div>
+</section>
+<section id="c.csv" class="level1">
+<h1>C.csv</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/C.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>C_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(C[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">128</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>C_ts <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>C_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(C_ts), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(C_decomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>training_C <span class="ot">&lt;-</span> <span class="fu">subset</span>(C_ts, <span class="at">end=</span><span class="fu">length</span>(C_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>test_C <span class="ot">&lt;-</span> <span class="fu">subset</span>(C_ts, <span class="at">start=</span><span class="fu">length</span>(C_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>fc_training_C<span class="ot">&lt;-</span><span class="fu">forecast</span>(training_C)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>fc_training_C <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">60</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_C)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fc_training_C</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast       Lo 80     Hi 80        Lo 95     Hi 95
+2020.506     13.8002117   4.2271888  23.37323   -0.8404635  28.44089
+2020.525     17.8243041   4.2866827  31.36193   -2.8797012  38.52831
+2020.544     22.5179491   5.9380933  39.09780   -2.8387522  47.87465
+2020.563     23.7563290   4.6117202  42.90094   -5.5228234  53.03548
+2020.582     24.3498422   2.9456260  45.75406   -8.3850815  57.08477
+2020.602     29.4837670   6.0367012  52.93083   -6.3754256  65.34296
+2020.621     24.6484855  -0.6771797  49.97415  -14.0837770  63.38075
+2020.640     18.6865812  -8.3876454  45.76081  -22.7198751  60.09304
+2020.659     15.8877402 -12.8287736  44.60425  -28.0303778  59.80586
+2020.678     12.3743053 -17.8955244  42.64414  -33.9194043  58.66801
+2020.697     10.4746747 -21.2725616  42.22191  -38.0785334  59.02788
+2020.717     12.5338200 -20.6250618  45.69270  -38.1783135  63.24595
+2020.736     17.7245313 -16.7883050  52.23737  -35.0582969  70.50736
+2020.755     14.9226562 -20.8929869  50.73830  -39.8526431  69.69796
+2020.774     13.5965524 -23.4761426  50.66925  -43.1012419  70.29435
+2020.793     13.5921759 -24.6963229  51.88067  -44.9650298  72.14938
+2020.812     10.1066309 -29.3602358  49.57350  -50.2527330  70.46599
+2020.832     13.3073973 -27.3036602  53.91845  -48.8018554  75.41665
+2020.851      9.1355295 -32.5883535  50.85941  -54.6756430  72.94670
+2020.870      6.9203057 -35.8874837  49.72810  -58.5485586  72.38917
+2020.889      3.4661607 -40.3987600  47.33108  -63.6194463  70.55177
+2020.908      1.1404074 -43.7567605  46.03758  -67.5238855  69.80470
+2020.927     -5.3152725 -51.2214824  40.59094  -75.5227620  64.89222
+2020.947     -5.9417786 -52.8353234  40.95177  -77.6592664  65.77571
+2020.966     -6.3982643 -54.2587800  41.46225  -79.5946066  66.79808
+2020.985    -10.4410121 -59.2493453  38.36732  -85.0869161  64.20489
+2021.004    -10.1719728 -59.9100650  39.56612  -86.2398205  65.89587
+2021.023    -11.4346425 -62.0854297  39.21614  -88.8983367  66.02905
+2021.042     -7.2176598 -58.7649843  44.32966  -86.0524896  71.61717
+2021.062     -6.0142702 -58.4428033  46.41426  -86.1967923  74.16825
+2021.081     -4.6418122 -57.9369857  48.65336  -86.1497463  76.86612
+2021.100      0.5766416 -53.5713033  54.72459  -82.2354938  83.38878
+2021.119      0.8986774 -54.0888154  55.88617  -83.1974357  84.99479
+2021.138      4.8568732 -50.9575406  60.67129  -80.5039065  90.21765
+2021.157      4.9901065 -51.6391546  61.61937  -81.6168745  91.59709
+2021.177     15.3932671 -42.0392815  72.82582  -72.4422362 103.22877
+2021.196     16.9492476 -41.2755071  75.17400  -72.0978304 105.99633
+2021.215     17.8942622 -41.1120636  76.90059  -72.3481256 108.13665
+2021.234     14.1062190 -45.6714600  73.88390  -77.3158518 105.52829
+2021.253     13.5937195 -46.9454854  74.13292  -78.9930047 106.18044
+2021.272     12.6296733 -48.6615965  73.92094  -81.1072349 106.36658
+2021.292     10.2088969 -51.8253209  72.24311  -84.6642522 105.08205
+2021.311      7.5971442 -55.1712285  70.36552  -88.3987979 103.59309
+2021.330      6.9795473 -56.5144920  70.47359  -90.1262061 104.08530
+2021.349      5.5787710 -58.6327347  69.79028  -92.6242525 103.78179
+2021.368      8.8546018 -56.0664417  73.77565  -90.4335661 108.14277
+2021.387      7.3945546 -58.2283554  73.01746  -92.9670255 107.75613
+2021.407     11.6786002 -54.6387485  77.99595  -89.7450322 113.10223
+2021.426     10.9803076 -56.0242830  77.98490  -91.4943706 113.45499
+2021.445     13.1398622 -54.5449927  80.82472  -90.3751905 116.65491
+2021.464      8.7400702 -59.6182798  77.09842  -95.8050043 113.28514
+2021.483      9.9999259 -59.0253479  79.02520  -95.5651207 115.56497
+2021.502     13.8002117 -55.8856036  83.48603  -92.7750459 120.37547
+2021.522     17.8243041 -52.5158500  88.16446  -89.7516783 125.40029
+2021.541     22.5179491 -48.4705127  93.50641  -86.0495344 131.08543
+2021.560     23.7563290 -47.8745731  95.38723  -85.7936821 133.30634
+2021.579     24.3498422 -47.9177893  96.61747  -86.1739625 134.87365
+2021.598     29.4837670 -43.4150326 102.38257  -82.0053260 140.97286
+2021.617     24.6484855 -48.8760642  98.17304  -87.7976097 137.09458
+2021.637     18.6865812 -55.4584377  92.83160  -94.7084398 132.08160
+2021.656     15.8877402 -58.8725985  90.64808  -98.4483313 130.22381
+2021.675     12.3743053 -62.9963300  87.74494 -102.8951343 127.64374
+2021.694     10.4746747 -65.5013551  86.45070 -105.7206358 126.66999
+2021.713     12.5338200 -64.0428183  89.11046 -104.5800419 129.64768
+2021.732     17.7245313 -59.4480413  94.89710 -100.3007335 135.74980
+2021.752     14.9226562 -62.8412839  92.68660 -104.0070271 133.85234
+2021.771     13.5965524 -64.7542919  91.94740 -106.2307235 133.42383
+2021.790     13.5921759 -65.3412089  92.52556 -107.1260187 134.31037
+2021.809     10.1066309 -69.4050264  89.61829 -111.4959553 131.70922
+2021.828     13.3073973 -66.7783572  93.39315 -109.1731948 135.78799
+2021.847      9.1355295 -71.5202359  89.79129 -114.2168190 132.48788
+2021.867      6.9203057 -74.3014704  88.14208 -117.2976815 131.13829
+2021.886      3.4661607 -78.3177091  85.25003 -121.6114745 128.54380
+2021.905      1.1404074 -81.2017189  83.48253 -124.7910076 127.07182
+2021.924     -5.3152725 -88.2118960  77.58135 -132.0947178 121.46417
+2021.943     -5.9417786 -89.3892149  77.50566 -133.5636193 121.68006
+2021.962     -6.3982643 -90.3929013  77.59637 -134.8569763 122.06045
+2021.982    -10.4410121 -94.9793080  74.09728 -139.7311786 118.84915
+2022.001    -10.1719728 -95.2504537  74.90651 -140.2882809 119.94434
+2022.020    -11.4346425 -97.0499001  74.18061 -142.3718797 119.50259
+2022.039     -7.2176598 -93.3663496  78.93103 -138.9707112 124.53539
+2022.058     -6.0142702 -92.6931094  80.66457 -138.5781152 126.54957
+2022.077     -4.6418122 -91.8475781  82.56395 -138.0115220 128.72790
+2022.097      0.5766416 -87.1528860  88.30617 -133.5940927 134.74738
+2022.116      0.8986774 -87.3515036  89.14886 -134.0683275 135.86568
+2022.135      4.8568732 -83.9109074  93.62465 -130.9017320 140.61548
+2022.154      4.9901065 -84.2922730  94.27249 -131.5555098 141.53572
+2022.173     15.3932671 -74.4007623 105.18730 -121.9348502 152.72138
+2022.192     16.9492476 -73.3535328 107.25203 -121.1569371 155.05543
+2022.211     17.8942622 -72.9144189 108.70294 -120.9856309 156.77416
+2022.231     14.1062190 -77.2055600 105.41800 -125.5430960 153.75553
+2022.250     13.5937195 -78.2184007 105.40584 -126.8208013 154.00824
+2022.269     12.6296733 -79.6800761 104.93942 -128.5459057 153.80525
+2022.288     10.2088969 -82.5958135 103.01361 -131.7236595 152.14145
+2022.307      7.5971442 -85.6999013 100.89419 -135.0883738 150.28266
+2022.326      6.9795473 -86.8072487 100.76634 -136.4549796 150.41407
+2022.346      5.5787710 -88.6952315  99.85277 -138.6008738 149.75842
+2022.365      8.8546018 -85.9041022 103.61331 -136.0663299 153.77553
+2022.384      7.3945546 -87.8463841 102.63549 -138.2638915 153.05300
+2022.403     11.6786002 -84.0421438 107.39934 -134.7136448 158.07085
+2022.422     10.9803076 -85.2178485 107.17846 -136.1420763 158.10269
+2022.441     13.1398622 -83.5333485 109.81307 -134.7090550 160.98878
+2022.461      8.7400702 -88.4058720 105.88601 -139.8318275 157.31197
+2022.480      9.9999259 -87.6164585 107.61631 -139.2914510 159.29130</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fc_C<span class="ot">&lt;-</span><span class="fu">forecast</span>(C_ts)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>fc_C <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>fc_C</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast       Lo 80     Hi 80      Lo 95     Hi 95
+2020.659      4.2863907   -5.196874  13.76966  -10.21701  18.78979
+2020.678      0.8326334  -12.578056  14.24332  -19.67725  21.34251
+2020.697     -1.0078873  -17.432286  15.41651  -26.12684  24.11106
+2020.717      1.1103680  -17.854736  20.07547  -27.89426  30.11499
+2020.736      6.3588939  -14.844631  27.56242  -26.06910  38.78689
+2020.755      3.6148335  -19.612386  26.84205  -31.90813  39.13780
+2020.774      2.3158224  -22.772383  27.40403  -36.05328  40.68492
+2020.793      2.3385386  -24.481833  29.15891  -38.67968  43.35676
+2020.812     -1.1335703  -29.580830  27.31369  -44.63990  42.37276
+2020.832      2.0806322  -27.905379  32.06664  -43.77902  47.94028
+2020.851     -2.2640462  -33.713612  29.18552  -50.36201  45.83391
+2020.870     -4.0933309  -36.941306  28.75464  -54.32997  46.14331
+2020.889     -7.7554766  -41.944711  26.43376  -60.04340  44.53245
+2020.908    -10.0817939  -45.561620  25.39803  -64.34350  44.17992
+2020.927    -16.5379294  -53.263021  20.18716  -72.70411  39.62825
+2020.947    -17.1648912  -55.094386  20.76460  -75.17305  40.84327
+2020.966    -17.6146814  -56.711496  21.48213  -77.40810  42.17874
+2020.985    -22.1592318  -62.389509  18.07105  -83.68613  39.36767
+2021.004    -20.8133424  -62.146011  20.51933  -84.02620  42.39952
+2021.023    -22.6291380  -65.035550  19.77727  -87.48415  42.22587
+2021.042    -18.4009377  -61.854569  25.05269  -84.85753  48.05566
+2021.062    -17.1863305  -61.662530  27.28987  -85.20681  50.83415
+2021.081    -15.7990104  -61.274791  29.67677  -85.34821  53.75019
+2021.100    -10.5656944  -57.019552  35.88816  -81.61074  60.47935
+2021.119    -10.2279927  -57.639755  37.18377  -82.73803  62.28204
+2021.138     -6.2541310  -54.604824  42.09656  -80.20013  67.69187
+2021.157     -6.0971488  -55.368883  43.17459  -81.45176  69.25747
+2021.177      4.3297607  -45.846110  54.50563  -72.40761  81.06713
+2021.196      5.9165424  -45.147460  56.98054  -72.17911  84.01219
+2021.215      6.8923582  -45.044590  58.82931  -72.53835  86.32307
+2021.234      3.1409823  -49.654481  55.93645  -77.60271  83.88468
+2021.253      2.6651501  -50.975088  56.30539  -79.37052  84.70082
+2021.272      1.7381710  -52.733744  56.21009  -81.56943  85.04578
+2021.292     -0.6455383  -55.936620  54.64554  -85.20595  83.91487
+2021.311     -3.2219967  -59.320286  52.87629  -89.01693  82.57293
+2021.330     -3.9127174  -60.806762  52.98133  -90.92465  83.09922
+2021.349     -5.2732536  -62.952077  52.40557  -93.48540  82.93889
+2021.368     -1.9571828  -60.410249  56.49588  -91.35343  87.43907
+2021.387     -3.3779788  -62.595165  55.83921  -93.94285  87.18689
+2021.407      0.9453180  -59.026254  60.91689  -90.77329  92.66392
+2021.426      0.2885510  -60.428035  61.00514  -92.56945  93.14656
+2021.445      2.4896313  -58.962936  63.94220  -91.49396  96.47322
+2021.464     -1.8677412  -64.047580  60.31210  -96.96360  93.22812
+2021.483     -0.5654660  -63.464167  62.33324  -96.76073  95.62980
+2021.502      1.8514474  -61.757993  65.46089  -95.43080  99.13369
+2021.522      3.6929131  -60.619412  68.00524  -94.66430 102.05013
+2021.541      7.8742924  -57.133319  72.88190  -91.54627 107.29485
+2021.560      8.7354445  -56.960094  74.43098  -91.73721 109.20810
+2021.579      8.1302645  -58.246072  74.50660  -93.38358 109.64411
+2021.598     13.1155364  -53.934686  80.16576  -89.42893 115.66000
+2021.617      8.8077481  -58.909655  76.52515  -94.75708 112.37258
+2021.637      4.9994177  -63.378656  73.37749  -99.57582 109.57466
+2021.656      4.2863907  -64.746031  73.31881 -101.28959 109.86237
+2021.675      0.8326334  -68.847992  70.51326 -105.73469 107.39995
+2021.694     -1.0078873  -71.330741  69.31497 -108.55741 106.54164
+2021.713      1.1103680  -69.848902  72.06964 -107.41247 109.63321
+2021.732      6.3588939  -65.231136  77.94892 -103.12861 115.84640
+2021.752      3.6148335  -68.600446  75.83011 -106.82891 114.05857
+2021.771      2.3158224  -70.519340  75.15099 -109.07595 113.70759
+2021.790      2.3385386  -71.111276  75.78835 -109.99326 114.67034
+2021.809     -1.1335703  -75.192935  72.92579 -114.39759 112.13045
+2021.828      2.0806322  -72.583307  76.74457 -112.10801 116.26927
+2021.847     -2.2640462  -77.527703  72.99961 -117.36988 112.84178
+2021.867     -4.0933309  -79.951965  71.76530 -120.10910 111.92244
+2021.886     -7.7554766  -84.204457  68.69350 -124.67410 109.16315
+2021.905    -10.0817939  -87.116597  66.95301 -127.89636 107.73277
+2021.924    -16.5379294  -94.154134  61.07828 -135.24167 102.16581
+2021.943    -17.1648912  -95.358174  61.02839 -136.75120 102.42142
+2021.962    -17.6146814  -96.380815  61.15145 -138.07709 102.84772
+2021.982    -22.1592318 -101.494080  57.17562 -143.49141  99.17295
+2022.001    -20.8133424 -100.712857  59.08617 -143.00910 101.38242
+2022.020    -22.6291380 -103.089356  57.83108 -145.68242 100.42415
+2022.039    -18.4009377  -99.417979  62.61610 -142.30581 105.50393
+2022.058    -17.1863305  -98.756394  64.38373 -141.93698 107.56432
+2022.077    -15.7990104  -97.918372  66.32035 -141.38974 109.79171
+2022.097    -10.5656944  -93.230704  72.09932 -136.99092 115.85953
+2022.116    -10.2279927  -93.435072  72.97909 -137.48224 117.02625
+2022.135     -6.2541310  -89.999772  77.49151 -134.33204 121.82377
+2022.154     -6.0971488  -90.377910  78.18361 -134.99345 122.79915
+2022.173      4.3297607  -80.482744  89.14227 -125.37977 134.03929
+2022.192      5.9165424  -79.424393  91.25748 -124.60115 136.43424
+2022.211      6.8923582  -78.973756  92.75847 -124.42853 138.21325
+2022.231      3.1409823  -83.247118  89.52908 -128.97822 135.26018
+2022.250      2.6651501  -84.241801  89.57210 -130.24756 135.57786
+2022.269      1.7381710  -85.684551  89.16089 -131.96334 135.43969
+2022.288     -0.6455383  -88.581007  87.28993 -135.13123 133.84016
+2022.307     -3.2219967  -91.667239  85.22325 -138.48732 132.04333
+2022.326     -3.9127174  -92.864812  85.03938 -139.95321 132.12777
+2022.346     -5.2732536  -94.729330  84.18282 -142.08452 131.53801
+2022.365     -1.9571828  -91.914416  88.00005 -139.53490 135.62053
+2022.384     -3.3779788  -93.833593  87.07764 -141.71790 134.96194
+2022.403      0.9453180  -90.005946  91.89658 -138.15264 140.04327
+2022.422      0.2885510  -91.155676  91.73278 -139.56333 140.14043
+2022.441      2.4896313  -89.444916  94.42418 -138.11213 143.09139
+2022.461     -1.8677412  -94.290007  90.55452 -143.21540 139.47992
+2022.480     -0.5654660  -93.472890  92.34196 -142.65511 141.52418
+2022.499      1.8514474  -91.538615  95.24151 -140.97633 144.67922
+2022.518      3.6929131  -90.177306  97.56313 -139.86920 147.25502
+2022.537      7.8742924  -86.473640 102.22222 -136.41842 152.16700
+2022.556      8.7354445  -86.087795 103.55868 -136.28419 153.75507
+2022.576      8.1302645  -87.165910 103.42644 -137.61266 153.87319
+2022.595     13.1155364  -82.651239 108.88231 -133.34711 159.57818
+2022.614      8.8077481  -87.427326 105.04282 -138.37110 155.98659
+2022.633      4.9994177  -91.701688 101.70052 -142.89216 152.89100</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(C_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time Series:
+Start = 2020.54414784394 
+End = 2020.63997262149 
+Frequency = 52.1785714285714 
+     Price
+[1,]     2
+[2,]     2
+[3,]     4
+[4,]     5
+[5,]     3
+[6,]     5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(C_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(C_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(C_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 271</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>bestfit_C <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  fit_C <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(C_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(C_ts, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_C<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_C<span class="sc">$</span>aicc)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    bestfit_C <span class="ot">&lt;-</span> fit_C</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_C)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: C_ts 
+Regression with ARIMA(0,1,0) errors 
+
+Coefficients:
+        drift   S1-52   C1-52    S2-52   C2-52    S3-52    C3-52
+      -0.7703  8.8174  2.9656  -6.0727  2.3676  -3.5533  -2.6220
+s.e.   0.4866  5.7546  5.6826   2.8581  2.8704   1.9190   1.9085
+
+sigma^2 = 66.68:  log likelihood = -954.99
+AIC=1925.97   AICc=1926.51   BIC=1954.94
+
+Training set error measures:
+                      ME     RMSE     MAE       MPE    MAPE      MASE
+Training set -0.01636395 8.045482 5.48895 -1.699864 10.7908 0.1159861
+                   ACF1
+Training set 0.01732033</code></pre>
+</div>
+</div>
+</section>
+<section id="chp.csv" class="level1">
+<h1>CHP.csv</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>CHP <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/CHP.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>CHP_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(CHP[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">128</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>CHP_ts <span class="sc">%&gt;%</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>CHP_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(CHP_ts), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(CHP_decomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>training_CHP <span class="ot">&lt;-</span> <span class="fu">subset</span>(CHP_ts, <span class="at">end=</span><span class="fu">length</span>(CHP_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>test_CHP <span class="ot">&lt;-</span> <span class="fu">subset</span>(CHP_ts, <span class="at">start=</span><span class="fu">length</span>(CHP_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>fc_training_CHP<span class="ot">&lt;-</span><span class="fu">forecast</span>(training_CHP)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>fc_training_CHP <span class="sc">%&gt;%</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">60</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_CHP)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>fc_training_CHP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast       Lo 80    Hi 80       Lo 95     Hi 95
+2021.579    8.376616190  -1.2471478 18.00038   -6.341661  23.09489
+2021.598   11.983913067  -0.3256181 24.29344   -6.841890  30.80972
+2021.617   10.026035608  -4.4802486 24.53232  -12.159412  32.21148
+2021.637   10.127599016  -6.2839824 26.53918  -14.971749  35.22695
+2021.656    9.689977512  -8.4276307 27.80759  -18.018513  37.39847
+2021.675    9.472601476 -10.2036647 29.14887  -20.619651  39.56485
+2021.694    6.630563696 -14.4896440 27.75077  -25.670007  38.93113
+2021.713    5.371868460 -17.0996890 27.84343  -28.995413  39.73915
+2021.732    5.882128896 -17.8639996 29.62826  -30.434441  42.19870
+2021.752    6.445267701 -18.5104199 31.40096  -31.721163  44.61170
+2021.771    3.392031578 -22.7172401 29.50130  -36.538654  43.32272
+2021.790    4.712372029 -22.5016279 31.92637  -36.907849  46.33259
+2021.809    5.643044966 -22.6325543 33.91864  -37.600752  48.88684
+2021.828    6.497581116 -22.8011772 35.79634  -38.311003  51.30617
+2021.847    7.874068003 -22.4133049 38.16144  -38.446472  54.19461
+2021.867    6.200211305 -25.0445112 37.44493  -41.584468  53.98489
+2021.886    4.912640736 -27.2609572 37.08624  -44.292631  54.11791
+2021.905    3.260935780 -29.8154626 36.33733  -47.325050  53.84692
+2021.924    1.132053632 -32.8231500 35.08726  -50.797949  53.06206
+2021.943    4.851250229 -29.9605807 39.66308  -48.388851  58.09135
+2021.962    0.950694070 -34.6971852 36.59857  -53.568033  55.46942
+2021.982   -0.165943926 -36.6307080 36.29882  -55.933988  55.60210
+2022.001   -5.085816335 -42.3495621 32.17793  -62.075797  51.90416
+2022.020   -6.220995001 -44.2669471 31.82496  -64.407258  51.96527
+2022.039   -6.416068140 -45.2284655 32.39633  -65.774508  52.94237
+2022.058  -10.690797814 -50.2547955 28.87320  -71.198711  49.81712
+2022.077   -9.427639679 -49.7292233 30.87394  -71.063593  52.20831
+2022.097  -10.502136410 -51.5280473 30.52377  -73.245853  52.24158
+2022.116  -10.436703026 -52.1743729 31.30097  -74.268961  53.39555
+2022.135   -5.258427043 -47.6959200 37.17907  -70.160972  59.64412
+2022.154   -4.716908297 -47.8428695 38.40905  -70.672374  61.23856
+2022.173   -3.659520091 -47.4631302 40.14409  -70.651361  63.33232
+2022.192   11.878704704 -32.5922294 56.34964  -56.133720  79.89113
+2022.211   -2.642239253 -47.7706306 42.48615  -71.660158  66.37568
+2022.231    0.083927439 -45.6924794 45.86033  -69.925045  70.09290
+2022.250    0.254977587 -46.1603986 46.67035  -70.731215  71.24117
+2022.269    0.966826650 -46.0788413 48.01249  -70.983314  72.91697
+2022.288    0.118491333 -47.5491349 47.78612  -72.782852  73.01983
+2022.307    0.886016380 -47.3955569 49.16759  -72.954278  74.72631
+2022.326   -0.004303671 -48.8921144 48.88351  -74.771758  74.76315
+2022.346    3.166361863 -46.3202602 52.65298  -72.516896  78.84962
+2022.365    1.018010822 -49.0602628 51.09628  -75.570099  77.60612
+2022.384    4.251420247 -46.4115960 54.91444  -73.230977  81.73382
+2022.403    9.320252719 -41.9208337 60.56134  -69.046226  87.68673
+2022.422   10.699466409 -41.1132411 62.51217  -68.541232  89.94016
+2022.441   13.158761074 -39.2193296 65.53685  -66.946616  93.26414
+2022.461   14.520181509 -38.4172542 67.45762  -66.440640  95.48100
+2022.480   14.811929216 -38.6790030 68.30286  -66.995392  96.61925
+2022.499   13.021849109 -41.0169106 67.06061  -69.623302  95.66700
+2022.518   12.146549655 -42.4345393 66.72764  -71.328022  95.62112
+2022.537    8.032846645 -47.0852357 63.15093  -76.262986  92.32868
+2022.556    8.481576996 -47.1683172 64.13147  -76.627592  93.59075
+2022.576    8.376616190 -47.8000555 64.55329  -77.538189  94.29142
+2022.595   11.983913067 -44.7146422 68.68247  -74.729044  98.69687
+2022.614   10.026035608 -47.1896431 67.24171  -77.477794  97.52987
+2022.633   10.127599016 -47.6005710 67.85577  -78.160018  98.41522
+2022.652    9.689977512 -48.5461739 67.92613  -79.374530  98.75449
+2022.671    9.472601476 -49.2671386 68.21234  -80.362079  99.30728
+2022.691    6.630563696 -52.6084841 65.86961  -83.967742  97.22887
+2022.710    5.371868460 -54.3623136 65.10605  -85.983679  96.72742
+2022.729    5.882128896 -54.3431169 66.10737  -86.224436  97.98869
+2022.748    6.445267701 -54.2670700 67.15761  -86.406240  99.29678
+2022.767    3.392031578 -57.8035212 64.58758  -90.198490  96.98255
+2022.786    4.712372029 -56.9626099 66.38735  -89.611373  99.03612
+2022.806    5.643044966 -56.5076680 67.79376  -89.408268 100.69436
+2022.825    6.497581116 -56.1252489 69.12041  -89.275773 102.27093
+2022.844    7.874068003 -55.2173464 70.96548  -88.615924 104.36406
+2022.863    6.200211305 -57.3563327 69.75676  -91.001135 103.40156
+2022.882    4.912640736 -59.1056536 68.93094  -92.994892 102.82017
+2022.901    3.260935780 -61.2158022 67.73767  -95.347726 101.86960
+2022.921    1.132053632 -63.7998912 66.06400  -98.172787 100.43689
+2022.940    4.851250229 -60.5327324 70.23523  -95.144922 104.84742
+2022.959    0.950694070 -64.8822225 66.78361  -99.732063 101.63345
+2022.978   -0.165943926 -66.4447537 66.11287 -101.530636 101.19875
+2022.997   -5.085816335 -71.8075396 61.63591 -107.127886  96.95625
+2023.016   -6.220995001 -73.3827109 60.94072 -108.935976  96.49399
+2023.036   -6.416068140 -74.0149128 61.18278 -109.799580  96.96744
+2023.055  -10.690797814 -78.7239627 57.34237 -114.738545  93.35695
+2023.074   -9.427639679 -77.8923696 59.03709 -114.135408  95.28013
+2023.093  -10.502136410 -79.3957281 58.39146 -115.865792  94.86152
+2023.112  -10.436703026 -79.7565032 58.88310 -116.452189  95.57878
+2023.131   -5.258427043 -75.0018312 64.48498 -111.921759 101.40491
+2023.151   -4.716908297 -74.8813590 65.44754 -112.024176 102.59036
+2023.170   -3.659520091 -74.2425057 66.92347 -111.606881 104.28784
+2023.189   11.878704704 -59.1203487 82.87776  -96.704977 120.46239
+2023.208   -2.642239253 -74.0549364 68.77046 -111.858535 106.57406
+2023.227    0.083927439 -71.7400312 71.90789 -109.761338 109.92919
+2023.246    0.254977587 -71.9779011 72.48786 -110.215677 110.72563
+2023.266    0.966826650 -71.6726700 73.60632 -110.125697 112.05935
+2023.285    0.118491333 -72.9253599 73.16234 -111.592439 111.82942
+2023.304    0.886016380 -72.5599633 74.33200 -111.439916 113.21195
+2023.323   -0.004303671 -73.8502220 73.84161 -112.941890 112.93328
+2023.342    3.166361863 -71.0773407 77.41006 -110.379583 116.71231
+2023.361    1.018010822 -73.6213561 75.65738 -113.133050 115.16907
+2023.381    4.251420247 -70.7815246 79.28437 -110.501566 119.00441
+2023.400    9.320252719 -66.1042164 84.74472 -106.031519 124.67202
+2023.419   10.699466409 -65.1145050 86.51344 -105.247997 126.64693
+2023.438   13.158761074 -63.0427218 89.36024 -103.381350 129.69887
+2023.457   14.520181509 -62.0668521 91.10722 -102.609579 131.64994
+2023.476   14.811929216 -62.1587239 91.78258 -102.904526 132.52838
+2023.496   13.021849109 -64.3305210 90.37422 -105.278392 131.32209
+2023.515   12.146549655 -65.5856630 89.87876 -106.734611 131.02771
+2023.534    8.032846645 -70.0773614 86.14305 -111.426408 127.49210
+2023.553    8.481576996 -70.0048061 86.96796 -111.552988 128.51614</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>fc_CHP<span class="ot">&lt;-</span><span class="fu">forecast</span>(CHP_ts)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>fc_CHP <span class="sc">%&gt;%</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>fc_CHP</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80    Hi 80      Lo 95     Hi 95
+2021.732      1.6749897  -7.850397 11.20038  -12.89283  16.24281
+2021.752      2.2513341  -9.940970 14.44364  -16.39519  20.89785
+2021.771     -0.7891654 -15.161762 13.58343  -22.77016  21.19182
+2021.790      0.5439116 -15.719262 16.80709  -24.32847  25.41629
+2021.809      1.4844937 -16.471288 19.44027  -25.97650  28.94549
+2021.828      2.3489389 -17.153096 21.85097  -27.47685  32.17473
+2021.847      3.7323318 -17.202057 24.66672  -28.28405  35.74872
+2021.867      2.0653810 -20.209445 24.34021  -32.00103  36.13179
+2021.886      0.7835465 -22.755510 24.32260  -35.21633  36.78343
+2021.905     -0.8624225 -25.601186 23.87634  -38.69710  36.97225
+2021.924     -2.8363613 -28.719284 23.04656  -42.42088  36.74815
+2021.943      0.5905253 -26.388077 27.56913  -40.66969  41.85074
+2021.962     -3.1416874 -31.173174 24.88980  -46.01215  39.72877
+2021.982     -4.2509322 -33.297163 24.79530  -48.67331  40.17144
+2022.001     -9.1670009 -39.193702 20.85970  -55.08888  36.75488
+2022.020    -10.2983758 -41.274529 20.67778  -57.67231  37.07556
+2022.039    -10.4905109 -42.387867 21.40685  -59.27331  38.29229
+2022.058    -14.6281971 -47.420888 18.16449  -64.78029  35.52390
+2022.077    -13.6256187 -47.289841 20.03860  -65.11060  37.85937
+2022.097    -14.5652063 -49.078959 19.94855  -67.34944  38.21902
+2022.116    -14.4954328 -49.838302 20.84744  -68.54769  39.55682
+2022.135     -9.3128166 -45.465793 26.84016  -64.60402  45.97839
+2022.154     -8.7609115 -45.706235 28.18441  -65.26391  47.74209
+2022.173     -7.6931370 -45.414168 30.02789  -65.38248  49.99620
+2022.192      7.8603912 -30.620714 46.34150  -50.99138  66.71216
+2022.211     -6.6452494 -45.871704 32.58121  -66.63694  53.34644
+2022.231     -3.9006596 -43.858563 36.05724  -65.01100  57.20968
+2022.250     -3.7111863 -44.387387 36.96501  -65.92007  58.49769
+2022.269     -2.9802231 -44.362255 38.40181  -66.26858  60.30813
+2022.288     -3.8094444 -45.885469 38.26658  -68.15917  60.54028
+2022.307     -3.0223572 -45.781112 39.73640  -68.41623  62.37152
+2022.326     -3.9651317 -47.395886 39.46562  -70.38674  62.45647
+2022.346     -0.7771406 -44.869653 43.31537  -68.21082  66.65654
+2022.365     -2.9081660 -47.652651 41.83632  -71.33895  65.52262
+2022.384      0.3415830 -45.045510 45.72868  -69.07199  69.75515
+2022.403      5.4267550 -40.593974 51.44748  -64.95588  75.80939
+2022.422      6.8220749 -39.823683 53.46783  -64.51646  78.16061
+2022.441      9.2974759 -37.965046 56.56000  -62.98431  81.57927
+2022.461     10.6737588 -37.197582 58.54510  -62.53914  83.88666
+2022.480     10.9803691 -37.492144 59.45288  -63.15194  85.11268
+2022.499      9.2052621 -39.861059 58.27158  -65.83520  84.24572
+2022.518      8.3449357 -41.308091 57.99796  -67.59282  84.28269
+2022.537      4.2460705 -45.986811 54.47895  -72.57849  81.07063
+2022.556      4.7096387 -46.096479 55.51576  -72.99161  82.41089
+2022.576      4.5004769 -46.872482 55.87344  -74.06768  83.06864
+2022.595      7.2199935 -44.713620 59.15361  -72.20561  86.64560
+2022.614      5.7108552 -46.777424 58.19913  -74.56304  85.98475
+2022.633      5.9108896 -47.126255 58.94803  -75.20242  87.02420
+2022.652      5.2390233 -48.341365 58.81941  -76.70511  87.18316
+2022.671      5.4098092 -48.708369 59.52799  -77.35680  88.17642
+2022.691      3.1730515 -51.477626 57.82373  -80.40795  86.75405
+2022.710      1.9409082 -53.237129 57.11895  -82.44662  86.32843
+2022.729      1.6749897 -54.025415 57.37539  -83.51143  86.86141
+2022.748      2.2513341 -53.966584 58.46925  -83.72655  88.22922
+2022.767     -0.7891654 -57.519877 55.94155  -87.55130  85.97297
+2022.786      0.5439116 -56.694999 57.78282  -86.99545  88.08327
+2022.806      1.4844937 -56.258143 59.22713  -86.82525  89.79424
+2022.825      2.3489389 -55.893068 60.59095  -86.72452  91.42240
+2022.844      3.7323318 -55.004800 62.46946  -86.09836  93.56302
+2022.863      2.0653810 -57.162737 61.29350  -88.51621  92.64697
+2022.882      0.7835465 -58.931521 60.49861  -90.54277  92.10986
+2022.901     -0.8624225 -61.060500 59.33565  -92.92744  91.20259
+2022.921     -2.8363613 -63.513604 57.84088  -95.63420  89.96147
+2022.940      0.5905253 -60.562128 61.74318  -92.93439  94.11544
+2022.959     -3.1416874 -64.766084 58.48271  -97.38807  91.10469
+2022.978     -4.2509322 -66.343489 57.84162  -99.21330  90.71144
+2022.997     -9.1670009 -71.724213 53.39021 -104.84000  86.50600
+2023.016    -10.2983758 -73.316818 52.72007 -106.67677  86.08002
+2023.036    -10.4905109 -73.966832 52.98581 -107.56917  86.58815
+2023.055    -14.6281971 -78.559118 49.30272 -112.40210  83.14571
+2023.074    -13.6256187 -78.007929 50.75669 -112.08987  84.83863
+2023.093    -14.5652063 -79.395764 50.26535 -113.71499  84.58458
+2023.112    -14.4954328 -79.771159 50.78029 -114.32604  85.33518
+2023.131     -9.3128166 -75.030696 56.40506 -109.81964  91.19401
+2023.151     -8.7609115 -74.917990 57.39617 -109.93943  92.41761
+2023.170     -7.6931370 -74.286517 58.90024 -109.53892  94.15265
+2023.189      7.8603912 -59.166451 74.88723  -94.64832 110.36910
+2023.208     -6.6452494 -74.102768 60.81227 -109.81262  96.52212
+2023.227     -3.9006596 -71.786123 63.98480 -107.72252  99.92120
+2023.246     -3.7111863 -72.021913 64.59954 -108.18343 100.76105
+2023.266     -2.9802231 -71.713582 65.75314 -108.09882 102.13838
+2023.285     -3.8094444 -72.962853 65.34396 -109.57046 101.95157
+2023.304     -3.0223572 -72.593279 66.54856 -109.42190 103.37719
+2023.323     -3.9651317 -73.951076 66.02081 -110.99940 103.06913
+2023.342     -0.7771406 -71.175661 69.62138 -108.44239 106.88811
+2023.361     -2.9081660 -73.716859 67.90053 -111.20072 105.38438
+2023.381      0.3415830 -70.874920 71.55809 -108.57466 109.25782
+2023.400      5.4267550 -66.195236 77.04875 -104.10963 114.96314
+2023.419      6.8220749 -65.203121 78.84727 -103.33096 116.97511
+2023.438      9.2974759 -63.128680 81.72363 -101.46877 120.06372
+2023.457     10.6737588 -62.151150 83.49867 -100.70233 122.04985
+2023.476     10.9803691 -62.241121 84.20186 -101.00224 122.96297
+2023.496      9.2052621 -64.410673 82.82120 -103.38059 121.79112
+2023.515      8.3449357 -65.663342 82.35321 -104.84096 121.53083
+2023.534      4.2460705 -70.152481 78.64462 -109.53669 118.02884
+2023.553      4.7096387 -70.077150 79.49643 -109.66688 119.08616
+2023.572      4.5004769 -70.672543 79.67350 -110.46674 119.46769
+2023.591      7.2199935 -68.337284 82.77727 -108.33489 122.77488
+2023.611      5.7108552 -70.228736 81.65045 -110.42873 121.85044
+2023.630      5.9108896 -70.409100 82.23088 -110.81046 122.63224
+2023.649      5.2390233 -71.459478 81.93752 -112.06121 122.53926
+2023.668      5.4098092 -71.665344 82.48496 -112.46647 123.28608
+2023.687      3.1730515 -74.276923 80.62303 -115.27646 121.62257
+2023.706      1.9409082 -75.882082 79.76390 -117.07908 120.96090</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(CHP_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time Series:
+Start = 2021.6173853525 
+End = 2021.71321013005 
+Frequency = 52.1785714285714 
+     Price
+[1,]     7
+[2,]     7
+[3,]     4
+[4,]     5
+[5,]     3
+[6,]     2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(CHP_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(CHP_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(CHP_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 313</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>bestfit_CHP <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>  fit_CHP <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(CHP_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(CHP_ts, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_CHP<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_CHP<span class="sc">$</span>aicc)</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>    bestfit_CHP <span class="ot">&lt;-</span> fit_CHP</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_C)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: C_ts 
+Regression with ARIMA(0,1,0) errors 
+
+Coefficients:
+        drift   S1-52   C1-52    S2-52   C2-52    S3-52    C3-52
+      -0.7703  8.8174  2.9656  -6.0727  2.3676  -3.5533  -2.6220
+s.e.   0.4866  5.7546  5.6826   2.8581  2.8704   1.9190   1.9085
+
+sigma^2 = 66.68:  log likelihood = -954.99
+AIC=1925.97   AICc=1926.51   BIC=1954.94
+
+Training set error measures:
+                      ME     RMSE     MAE       MPE    MAPE      MASE
+Training set -0.01636395 8.045482 5.48895 -1.699864 10.7908 0.1159861
+                   ACF1
+Training set 0.01732033</code></pre>
+</div>
+</div>
+</section>
+<section id="cli.csv" class="level1">
+<h1>CLI.csv</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>CLI <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/cloud/project/CSV/CLI.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>CLI_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(CLI[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">128</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>CLI_ts <span class="sc">%&gt;%</span></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>CLI_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(CLI_ts), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(CLI_decomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>training_CLI <span class="ot">&lt;-</span> <span class="fu">subset</span>(CLI_ts, <span class="at">end=</span><span class="fu">length</span>(CLI_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>test_CLI <span class="ot">&lt;-</span> <span class="fu">subset</span>(CLI_ts, <span class="at">start=</span><span class="fu">length</span>(CLI_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>fc_training_CLI<span class="ot">&lt;-</span><span class="fu">forecast</span>(training_CLI)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>fc_training_CLI <span class="sc">%&gt;%</span></span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">60</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_CLI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>fc_training_CLI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast       Lo 80     Hi 80      Lo 95     Hi 95
+2020.717     10.3313866   -3.172189  23.83496  -10.32055  30.98332
+2020.736      6.7083835  -12.347498  25.76426  -22.43507  35.85184
+2020.755      1.8416294  -21.480177  25.16344  -33.82600  37.50925
+2020.774      7.1753260  -19.744680  34.09533  -33.99527  48.34592
+2020.793      7.7518271  -22.339147  37.84280  -38.26835  53.77200
+2020.812      5.3273106  -27.630948  38.28557  -45.07800  55.73262
+2020.832     13.4237735  -22.171547  49.01909  -41.01457  67.86212
+2020.851     13.5785631  -24.471494  51.62862  -44.61398  71.77110
+2020.870     11.4339106  -28.921844  51.78967  -50.28489  73.15271
+2020.889     10.1728747  -32.363780  52.70953  -54.88132  75.22707
+2020.908     16.0581057  -28.552958  60.66917  -52.16863  84.28484
+2020.927     20.8870260  -25.706182  67.48023  -50.37114  92.14519
+2020.947     20.4407897  -28.053613  68.93519  -53.72500  94.60658
+2020.966    -11.3900207  -61.713844  38.93380  -88.35367  65.57362
+2020.985    -14.6745288  -66.763560  37.41450  -94.33783  64.98877
+2021.004    -18.9721560  -72.768506  34.82419 -101.24657  63.30226
+2021.023    -18.6608310  -74.111956  36.79029 -103.46601  66.14435
+2021.042    -19.7083914  -76.766321  37.34954 -106.97096  67.55418
+2021.062    -15.3346395  -73.955347  43.28607 -104.98728  74.31800
+2021.081    -18.8346606  -78.977552  41.30823 -110.81528  73.14595
+2021.100    -12.8200365  -74.447526  48.80745 -107.07115  81.43108
+2021.119    -14.5384611  -77.615616  48.53869 -111.00665  81.92972
+2021.138    -20.6634821  -85.157726  43.83076 -119.29892  77.97195
+2021.157    -14.4010919  -80.281951  51.47977 -115.15717  86.35499
+2021.177    -18.0870917  -85.325977  49.15179 -120.92009  84.74591
+2021.196    -17.8777849  -86.447805  50.69224 -122.74658  86.99101
+2021.215    -15.6107458  -85.486548  54.26506 -122.47656  91.25507
+2021.234    -15.6468554  -86.804482  55.51077 -124.47305  93.17934
+2021.253     -9.5649988  -81.981764  62.85177 -120.31688 101.18689
+2021.272     -7.2432236  -80.897605  66.41116 -119.88788 105.40143
+2021.292     -7.6331088  -82.504652  67.23843 -122.13925 106.87303
+2021.311     -1.1561211  -77.225353  74.91311 -117.49397 115.18173
+2021.330     -4.7557970  -82.004150  72.49256 -122.89696 113.38536
+2021.349      0.7993722  -77.610372  79.20912 -119.11798 120.71673
+2021.368      2.9152161  -76.638967  82.46940 -118.75241 124.58284
+2021.387      4.3565596  -76.325831  85.03895 -119.03651 127.74963
+2021.407      6.9227723  -74.872265  88.71781 -118.17194 132.01749
+2021.426     16.4636770  -66.429074  99.35643 -110.30985 143.23720
+2021.445     20.7040901  -63.272027 104.68021 -107.72630 149.13448
+2021.464     14.0584780  -70.987206  99.10416 -116.00767 144.12463
+2021.483     13.6842518  -72.417713  99.78622 -117.99734 145.36584
+2021.502     14.7257382  -72.419706 101.87118 -118.55172 148.00319
+2021.522     12.2609179  -75.915658 100.43749 -122.59352 147.11535
+2021.541     11.2273995  -77.968388 100.42319 -125.18579 147.64058
+2021.560     15.4936221  -74.709862 105.69711 -122.46070 153.44795
+2021.579     17.9990627  -73.200984 109.19911 -121.47937 157.47750
+2021.598     15.4286179  -76.757220 107.61446 -125.55745 156.41469
+2021.617     16.8263638  -76.334833 109.98756 -125.65139 159.30412
+2021.637     15.6306455  -78.495805 109.75710 -128.32334 159.58463
+2021.656     10.9173095  -84.164596 105.99922 -134.49792 156.33254
+2021.675     10.3535112  -85.674343 106.38137 -136.50842 157.21544
+2021.694      7.9768633  -88.987712 104.94144 -140.31766 156.27138
+2021.713     10.3313866  -87.560947 108.22372 -139.38202 160.04479
+2021.732      6.7083835  -92.102997 105.51976 -144.41058 157.82735
+2021.752      1.8416294  -97.880329 101.56359 -150.66995 154.35320
+2021.771      7.1753260  -93.448971 107.79962 -146.71626 161.06691
+2021.790      7.7518271  -93.766787 109.27044 -147.50750 163.01115
+2021.809      5.3273106  -97.077812 107.73243 -151.28781 161.94243
+2021.828     13.4237735  -89.860248 116.70780 -144.53551 171.38305
+2021.847     13.5785631  -90.576942 117.73407 -145.71354 172.87066
+2021.867     11.4339106  -93.585846 116.45367 -149.17995 172.04777
+2021.886     10.1728747  -95.704079 116.04983 -151.75195 172.09770
+2021.905     16.0581057  -90.669161 122.78537 -147.16716 179.28337
+2021.924     20.8870260  -86.683832 128.45788 -143.62840 185.40246
+2021.943     20.4407897  -87.967095 128.84867 -145.35476 186.23634
+2021.962    -11.3900207 -120.628519  97.84848 -178.45589 155.67585
+2021.982    -14.6745288 -124.737372  95.38831 -183.00112 153.65206
+2022.001    -18.9721560 -129.853217  91.90890 -188.55010 150.60579
+2022.020    -18.6608310 -130.354115  93.03245 -189.48097 152.15931
+2022.039    -19.7083914 -132.208034  92.79125 -191.76175 152.34497
+2022.058    -15.3346395 -128.634903  97.96562 -188.61244 157.94316
+2022.077    -18.8346606 -132.929927  95.26061 -193.32831 155.65899
+2022.097    -12.8200365 -127.704804 102.06473 -188.52113 162.88105
+2022.116    -14.5384611 -130.207341 101.13042 -191.43875 162.36183
+2022.135    -20.6634821 -137.111195  95.78423 -198.75489 157.42793
+2022.154    -14.4010919 -131.622463 102.82028 -193.67571 164.87353
+2022.173    -18.0870917 -136.077049  99.90287 -198.53716 162.36298
+2022.192    -17.8777849 -136.631353 100.87578 -199.49570 163.74013
+2022.211    -15.6107458 -135.123047 103.90156 -198.38904 167.16755
+2022.231    -15.6468554 -135.913102 104.61939 -199.57821 168.28450
+2022.250     -9.5649988 -130.580494 111.45050 -194.64223 175.51223
+2022.269     -7.2432236 -129.003358 114.51691 -193.45928 178.97283
+2022.288     -7.6331088 -130.133355 114.86714 -194.98107 179.71485
+2022.307     -1.1561211 -124.392034 122.07979 -189.62919 187.31694
+2022.326     -4.7557970 -128.723012 119.21142 -194.34729 184.83570
+2022.346      0.7993722 -123.894855 125.49360 -189.90399 191.50274
+2022.365      2.9152161 -122.501810 128.33224 -188.89357 194.72401
+2022.384      4.3565596 -121.779123 130.49224 -188.55132 197.26444
+2022.403      6.9227723 -119.927496 133.77304 -187.07797 200.92352
+2022.422     16.4636770 -111.097174 144.02453 -178.62381 211.55116
+2022.441     20.7040901 -107.563406 148.97159 -175.46412 216.87230
+2022.461     14.0584780 -114.911792 143.02875 -183.18453 211.30149
+2022.480     13.6842518 -115.984984 143.35349 -184.62773 211.99623
+2022.499     14.7257382 -115.638715 145.09019 -184.64949 214.10096
+2022.518     12.2609179 -118.795066 143.31690 -188.17191 212.69375
+2022.537     11.2273995 -120.516484 142.97128 -190.25748 212.71228
+2022.556     15.4936221 -116.934588 147.92183 -187.03785 218.02509
+2022.576     17.9990627 -115.109956 151.10808 -185.57361 221.57174
+2022.595     15.4286179 -118.357745 149.21498 -189.17997 220.03720
+2022.614     16.8263638 -117.633932 151.28666 -188.81291 222.46564
+2022.633     15.6306455 -119.500221 150.76151 -191.03418 222.29547
+2022.652     10.9173095 -124.880817 146.71544 -196.76800 218.60262
+2022.671     10.3535112 -126.108612 146.81563 -198.34730 219.05432
+2022.691      7.9768633 -129.146042 145.09977 -201.73452 217.68825</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>fc_CLI<span class="ot">&lt;-</span><span class="fu">forecast</span>(CLI_ts)</span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>fc_CLI <span class="sc">%&gt;%</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="jbtaberna_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>fc_CLI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast        Lo 80     Hi 80       Lo 95     Hi 95
+2020.870     19.1790513    5.7936355  32.56447   -1.292176  39.65028
+2020.889     17.8962361   -0.9942676  36.78674  -10.994296  46.78677
+2020.908     23.7596879    0.6397201  46.87966  -11.599251  59.11863
+2020.927     28.5662248    1.8788742  55.25358  -12.248556  69.38101
+2020.947     28.0976051   -1.7335273  57.92874  -17.525175  73.72039
+2020.966     -3.7106553  -36.3844711  28.96316  -53.680944  46.25963
+2020.985     -6.9726132  -42.2608552  28.31563  -60.941322  46.99610
+2021.004    -11.2528278  -48.9747285  26.46907  -68.943497  46.43784
+2021.023    -10.9240901  -50.9318840  29.08370  -72.110731  50.26255
+2021.042    -11.9596857  -54.1296436  30.21027  -76.453071  52.53370
+2021.062     -7.5739690  -51.8005122  36.65257  -75.212630  60.06469
+2021.081    -11.6578686  -57.8495227  34.53379  -82.301907  58.98617
+2021.100     -5.0392893  -53.1157979  43.03722  -78.565964  68.48739
+2021.119     -6.8056957  -56.6958998  43.08451  -83.106178  69.49479
+2021.138    -12.8627427  -64.5029813  38.77750  -91.839672  66.11419
+2021.157     -6.6012305  -59.9341098  46.73165  -88.166831  74.96437
+2021.177    -10.2881084  -65.2615364  44.68532  -94.362711  73.78649
+2021.196    -10.0794628  -66.6458801  46.48695  -96.590333  76.43141
+2021.215     -8.6863766  -66.8021348  49.42938  -97.566759  80.19401
+2021.234     -7.8486573  -67.4735105  51.77620  -99.037001  83.33969
+2021.253     -0.7366099  -61.8332947  60.36007  -94.175926  92.70271
+2021.272      2.7044504  -59.8294338  65.23833  -92.932873  98.34177
+2021.292      0.1703320  -63.7684548  64.10912  -97.615604  97.95627
+2021.311      6.6500863  -58.6633903  71.96356  -93.238256 106.53843
+2021.330      3.0510386  -63.6087844  69.71086  -98.896363 104.99844
+2021.349      8.6070113  -59.3724987  76.58652  -95.358678 112.57270
+2021.368     10.7236585  -58.5504027  79.99772  -95.221876 116.66919
+2021.387     12.1713553  -58.3735052  82.71622  -95.717699 120.06041
+2021.407     14.7439211  -57.0492479  86.53709  -95.054256 124.54210
+2021.426     24.2934493  -48.7266910  97.31359  -87.381218 135.96812
+2021.445     28.5424859  -45.6843467 102.76932  -84.977658 142.06263
+2021.464     21.9060148  -53.5082043  97.32023  -93.430080 137.24211
+2021.483     21.5409297  -55.0422684  98.12413  -95.582965 138.66482
+2021.502     22.5916040  -55.1429958 100.32620  -96.293207 141.47642
+2021.522     20.1359715  -58.7332226  99.00517 -100.484052 140.75599
+2021.541     19.1094528  -60.8782435  99.09715 -103.221172 141.44008
+2021.560     23.3826751  -57.7080971 104.47345 -100.634959 147.40031
+2021.579     25.8963072  -56.2827358 108.07535  -99.785693 151.57831
+2021.598     23.3340538  -59.9190355 106.58714 -103.990559 150.65867
+2021.617     24.7396005  -59.5738544 109.05306 -104.206701 153.68590
+2021.637     23.5516828  -61.8089665 108.91233 -106.996165 154.09953
+2021.656     18.8465015  -67.5486500 105.24165 -113.283481 150.97648
+2021.675     18.2908580  -69.1265544 105.70827 -115.402537 151.98425
+2021.694     15.9226457  -72.5052106 104.35050 -119.316090 151.16138
+2021.713     17.5973900  -71.8294938 107.02427 -119.169227 154.36401
+2021.732     14.7164108  -75.6984625 105.13128 -123.561205 152.99403
+2021.752     12.6299690  -78.7622140 104.02215 -127.142313 152.40225
+2021.771     17.9480356  -74.4111159 110.30719 -123.303097 159.19917
+2021.790     18.1248649  -75.1912359 111.44097 -124.589796 160.83953
+2021.809     17.2505547  -77.0127809 111.51389 -126.912776 161.41389
+2021.828     24.0943569  -71.1067892 119.29550 -121.503232 169.69195
+2021.847     24.0122391  -72.1175689 120.14205 -123.005615 171.03009
+2021.867     19.1790513  -77.8705328 116.22864 -129.245479 167.60358
+2021.886     17.8962361  -80.0644884 115.85696 -131.921763 167.71424
+2021.905     23.7596879  -75.1037802 122.62316 -127.438939 174.95831
+2021.924     28.5662248  -71.1918179 128.32427 -124.000536 181.13299
+2021.943     28.0976051  -72.5470613 128.74227 -125.825129 182.02034
+2021.962     -3.7106553 -105.2342025  97.81289 -158.977522 151.55621
+2021.982     -6.9726132 -109.3674980  95.42227 -163.572076 149.62685
+2022.001    -11.2528278 -114.5116976  92.00604 -169.173641 146.66799
+2022.020    -10.9240901 -115.0397757  93.19160 -170.155290 148.30711
+2022.039    -11.9596857 -116.9251931  93.00582 -172.490576 148.57121
+2022.058     -7.5739690 -113.3824731  98.23454 -169.394112 154.24617
+2022.077    -11.6578686 -118.3027059  94.98697 -174.757073 151.44134
+2022.097     -5.0392893 -112.5139518 102.43537 -169.407601 159.32902
+2022.116     -6.8056957 -115.1038253 101.49243 -172.433392 158.82200
+2022.135    -12.8627427 -121.9781250  96.25264 -179.740319 154.01483
+2022.154     -6.6012305 -116.5277897 103.32533 -174.719395 161.51693
+2022.173    -10.2881084 -121.0199024 100.44369 -179.637773 159.06156
+2022.192    -10.0794628 -121.6106781 101.45175 -180.651737 160.49281
+2022.211     -8.6863766 -121.0113238 103.63857 -180.472559 163.09981
+2022.231     -7.8486573 -120.9617668 105.26445 -180.840230 165.14292
+2022.250     -0.7366099 -114.6324276 113.15921 -174.925232 173.45201
+2022.269      2.7044504 -111.9687334 117.37763 -172.673050 178.08195
+2022.288      0.1703320 -115.2749835 115.61565 -176.388042 176.72871
+2022.307      6.6500863 -109.5622308 122.86240 -171.081315 184.38149
+2022.326      3.0510386 -113.9232510 120.02533 -175.845699 181.94778
+2022.346      8.6070113 -109.1243193 126.33834 -171.447521 188.66154
+2022.365     10.7236585 -107.7598761 129.20719 -170.481271 191.92859
+2022.384     12.1713553 -107.0596380 131.40235 -170.176713 194.51942
+2022.403     14.7439211 -105.2298740 134.71772 -168.740165 198.22801
+2022.422     24.2934493  -96.4185771 145.00548 -160.319664 208.90656
+2022.441     28.5424859  -92.9032842 149.98826 -157.192792 214.27776
+2022.461     21.9060148 -100.2690925 144.08112 -164.944688 208.75672
+2022.480     21.5409297 -101.3591868 144.44105 -166.418579 209.50044
+2022.499     22.5916040 -101.0292697 146.21248 -166.470207 211.65342
+2022.518     20.1359715 -104.2014814 144.47342 -170.021753 210.29370
+2022.537     19.1094528 -105.9404731 144.15938 -172.137905 210.35681
+2022.556     23.3826751 -102.3756874 149.14104 -168.948143 215.71349
+2022.576     25.8963072 -100.5665234 152.35914 -167.511902 219.30452
+2022.595     23.3340538 -103.8293423 150.49745 -171.145578 217.81369
+2022.614     24.7396005 -103.1205226 152.59972 -170.805583 220.28478
+2022.633     23.5516828 -105.0013913 152.10476 -173.053278 220.15664
+2022.652     18.8465015 -110.3958082 148.08881 -178.812554 216.50556
+2022.671     18.2908580 -111.6370312 148.21875 -180.416701 216.99842
+2022.691     15.9226457 -114.6872244 146.53252 -183.827913 215.67320
+2022.710     17.5973900 -113.6909185 148.88570 -183.190751 218.38553
+2022.729     14.7164108 -117.2468482 146.67967 -187.103978 216.53680
+2022.748     12.6299690 -120.0048059 145.26474 -190.217415 215.47735
+2022.767     17.9480356 -115.3548724 151.25094 -185.921169 221.81724
+2022.786     18.1248649 -115.8428442 152.09257 -186.761066 223.01080
+2022.806     17.2505547 -117.3786726 151.87978 -188.647081 223.14819
+2022.825     24.0943569 -111.1931541 159.38187 -182.810036 230.99875
+2022.844     24.0122391 -111.9303679 159.95485 -183.894037 231.91852</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(CLI_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Time Series:
+Start = 2020.75496235455 
+End = 2020.8507871321 
+Frequency = 52.1785714285714 
+     Price
+[1,]    25
+[2,]    28
+[3,]    22
+[4,]    26
+[5,]    27
+[6,]    24</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(CLI_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">max</span>(CLI_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which.min</span>(CLI_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 192</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>bestfit_CLI <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>  fit_CLI <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(CLI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(CLI_ts, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_CLI<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_CLI<span class="sc">$</span>aicc)</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>    bestfit_CLI <span class="ot">&lt;-</span> fit_CLI</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
