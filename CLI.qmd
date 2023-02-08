@@ -1,0 +1,247 @@
+---
+title: "Stock Price Forcasting"
+author: "Joshalyl Taberna"
+format: html
+editor: visual
+---
+
+## Background
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)
+```
+
+# BSC.csv
+
+```{r}
+BSC <- read_csv("/cloud/project/CSV/BSC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+BSC_ts <- ts(BSC[,2], freq=365.25/7, start=2015+128/365.25)
+BSC_ts %>%
+  autoplot()
+```
+
+```{r}
+BSC_decomp <- decompose(na.locf(BSC_ts), type="additive")
+autoplot(BSC_decomp)
+```
+
+```{r}
+training_BSC <- subset(BSC_ts, end=length(BSC_ts)-8)
+test_BSC <- subset(BSC_ts, start=length(BSC_ts)-8)
+fc_training_BSC<-forecast(training_BSC)
+fc_training_BSC %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_BSC)
+```
+
+```{r}
+fc_training_BSC
+```
+
+```{r}
+fc_BSC<-forecast(BSC_ts)
+fc_BSC %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_BSC
+```
+
+```{r}
+tail(BSC_ts)
+min(BSC_ts)
+max(BSC_ts)
+which.min(BSC_ts)
+```
+
+```{r}
+bestfit_BSC <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_BSC <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=i), seasonal=FALSE)
+  if(fit_BSC$aicc < bestfit_BSC$aicc)
+    bestfit_BSC <- fit_BSC
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_BSC)
+```
+
+# C.csv
+
+```{r}
+C <- read_csv("/cloud/project/CSV/C.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+C_ts <- ts(C[,2], freq=365.25/7, start=2015+128/365.25)
+C_ts %>%
+  autoplot()
+```
+
+```{r}
+C_decomp <- decompose(na.locf(C_ts), type="additive")
+autoplot(C_decomp)
+```
+
+```{r}
+training_C <- subset(C_ts, end=length(C_ts)-8)
+test_C <- subset(C_ts, start=length(C_ts)-8)
+fc_training_C<-forecast(training_C)
+fc_training_C %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_C)
+```
+
+```{r}
+fc_training_C
+```
+
+```{r}
+fc_C<-forecast(C_ts)
+fc_C %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_C
+```
+
+```{r}
+tail(C_ts)
+min(C_ts)
+max(C_ts)
+which.min(C_ts)
+```
+
+```{r}
+bestfit_C <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_C <- auto.arima(C_ts, xreg=fourier(C_ts, K=i), seasonal=FALSE)
+  if(fit_C$aicc < bestfit_C$aicc)
+    bestfit_C <- fit_C
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_C)
+```
+
+# CHP.csv
+
+```{r}
+CHP <- read_csv("/cloud/project/CSV/CHP.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+CHP_ts <- ts(CHP[,2], freq=365.25/7, start=2015+128/365.25)
+CHP_ts %>%
+  autoplot()
+```
+
+```{r}
+CHP_decomp <- decompose(na.locf(CHP_ts), type="additive")
+autoplot(CHP_decomp)
+```
+
+```{r}
+training_CHP <- subset(CHP_ts, end=length(CHP_ts)-8)
+test_CHP <- subset(CHP_ts, start=length(CHP_ts)-8)
+fc_training_CHP<-forecast(training_CHP)
+fc_training_CHP %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_CHP)
+```
+
+```{r}
+fc_training_CHP
+```
+
+```{r}
+fc_CHP<-forecast(CHP_ts)
+fc_CHP %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_CHP
+```
+
+```{r}
+tail(CHP_ts)
+min(CHP_ts)
+max(CHP_ts)
+which.min(CHP_ts)
+```
+
+```{r}
+bestfit_CHP <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_CHP <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=i), seasonal=FALSE)
+  if(fit_CHP$aicc < bestfit_CHP$aicc)
+    bestfit_CHP <- fit_CHP
+  else break;
+}
+```
+
+# CLI.csv
+
+```{r}
+CLI <- read_csv("/cloud/project/CSV/CLI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+CLI_ts <- ts(CLI[,2], freq=365.25/7, start=2015+128/365.25)
+CLI_ts %>%
+  autoplot()
+```
+
+```{r}
+CLI_decomp <- decompose(na.locf(CLI_ts), type="additive")
+autoplot(CLI_decomp)
+```
+
+```{r}
+training_CLI <- subset(CLI_ts, end=length(CLI_ts)-8)
+test_CLI <- subset(CLI_ts, start=length(CLI_ts)-8)
+fc_training_CLI<-forecast(training_CLI)
+fc_training_CLI %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_CLI)
+```
+
+```{r}
+fc_training_CLI
+```
+
+```{r}
+fc_CLI<-forecast(CLI_ts)
+fc_CLI %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_CLI
+```
+
+```{r}
+tail(CLI_ts)
+min(CLI_ts)
+max(CLI_ts)
+which.min(CLI_ts)
+```
+
+```{r}
+bestfit_CLI <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_CLI <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=i), seasonal=FALSE)
+  if(fit_CLI$aicc < bestfit_CLI$aicc)
+    bestfit_CLI <- fit_CLI
+  else break;
+}
+```

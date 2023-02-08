@@ -74,6 +74,53 @@ for(i in 1:25)
 summary(bestfit_BSC)
 ```
 
+```{r}
+fc_arima_BSC <- forecast(bestfit_BSC, xreg=fourier(BSC_ts, K=1, h=26))
+plot(fc_arima_BSC)
+```
+
+```{r}
+fc_arima_BSC
+```
+
+```{r}
+fit_BSC1 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=1), seasonal=FALSE)
+fit_BSC2 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=2), seasonal=FALSE)
+fit_BSC3 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=3), seasonal=FALSE)
+fit_BSC4 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=4), seasonal=FALSE)
+fit_BSC5 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=5), seasonal=FALSE)
+fit_BSC6 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=6), seasonal=FALSE)
+fit_BSC7 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=7), seasonal=FALSE)
+fit_BSC8 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=8), seasonal=FALSE)
+fit_BSC9 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=9), seasonal=FALSE)
+fit_BSC10 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=10), seasonal=FALSE)
+fit_BSC11 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=11), seasonal=FALSE)
+fit_BSC12 <- auto.arima(BSC_ts, xreg=fourier(BSC_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_BSC1),AIC(fit_BSC2),AIC(fit_BSC3),AIC(fit_BSC4),AIC(fit_BSC5),AIC(fit_BSC6),AIC(fit_BSC7),AIC(fit_BSC8),AIC(fit_BSC9),AIC(fit_BSC10),AIC(fit_BSC11),AIC(fit_BSC12))
+plot(aics)
+```
+
+```{r}
+fc_arima__manual_BSC <- forecast(fit_BSC1, xreg=fourier(BSC_ts, K=1, h=26))
+plot(fc_arima__manual_BSC)
+```
+
+```{r}
+fc_arima__manual_BSC
+```
+
+```{r}
+accuracy(fc_BSC)
+```
+
+```{r}
+accuracy(fc_arima__manual_BSC)
+```
+
+
 # C.csv
 
 ```{r}
@@ -134,6 +181,53 @@ for(i in 1:25)
 summary(bestfit_C)
 ```
 
+```{r}
+fc_arima_C <- forecast(bestfit_C, xreg=fourier(C_ts, K=1, h=26))
+plot(fc_arima_C)
+```
+
+```{r}
+fc_arima_C
+```
+
+```{r}
+fit_C1 <- auto.arima(C_ts, xreg=fourier(C_ts, K=1), seasonal=FALSE)
+fit_C2 <- auto.arima(C_ts, xreg=fourier(C_ts, K=2), seasonal=FALSE)
+fit_C3 <- auto.arima(C_ts, xreg=fourier(C_ts, K=3), seasonal=FALSE)
+fit_C4 <- auto.arima(C_ts, xreg=fourier(C_ts, K=4), seasonal=FALSE)
+fit_C5 <- auto.arima(C_ts, xreg=fourier(C_ts, K=5), seasonal=FALSE)
+fit_C6 <- auto.arima(C_ts, xreg=fourier(C_ts, K=6), seasonal=FALSE)
+fit_C7 <- auto.arima(C_ts, xreg=fourier(C_ts, K=7), seasonal=FALSE)
+fit_C8 <- auto.arima(C_ts, xreg=fourier(C_ts, K=8), seasonal=FALSE)
+fit_C9 <- auto.arima(C_ts, xreg=fourier(C_ts, K=9), seasonal=FALSE)
+fit_C10 <- auto.arima(C_ts, xreg=fourier(C_ts, K=10), seasonal=FALSE)
+fit_C11 <- auto.arima(C_ts, xreg=fourier(C_ts, K=11), seasonal=FALSE)
+fit_C12 <- auto.arima(C_ts, xreg=fourier(C_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_C1),AIC(fit_C2),AIC(fit_C3),AIC(fit_C4),AIC(fit_C5),AIC(fit_C6),AIC(fit_C7),AIC(fit_C8),AIC(fit_C9),AIC(fit_C10),AIC(fit_C11),AIC(fit_C12))
+plot(aics)
+```
+
+```{r}
+fc_arima__manual_C <- forecast(fit_C1, xreg=fourier(C_ts, K=1, h=26))
+plot(fc_arima__manual_C)
+```
+
+```{r}
+fc_arima__manual_C
+```
+
+```{r}
+accuracy(fc_C)
+```
+
+```{r}
+accuracy(fc_arima__manual_C)
+```
+
+
 # CHP.csv
 
 ```{r}
@@ -191,8 +285,55 @@ for(i in 1:25)
 ```
 
 ```{r}
-summary(bestfit_C)
+summary(bestfit_CHP)
 ```
+
+```{r}
+fc_arima_CHP <- forecast(bestfit_CHP, xreg=fourier(CHP_ts, K=1, h=26))
+plot(fc_arima_CHP)
+```
+
+```{r}
+fc_arima_CHP
+```
+
+```{r}
+fit_CHP1 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=1), seasonal=FALSE)
+fit_CHP2 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=2), seasonal=FALSE)
+fit_CHP3 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=3), seasonal=FALSE)
+fit_CHP4 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=4), seasonal=FALSE)
+fit_CHP5 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=5), seasonal=FALSE)
+fit_CHP6 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=6), seasonal=FALSE)
+fit_CHP7 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=7), seasonal=FALSE)
+fit_CHP8 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=8), seasonal=FALSE)
+fit_CHP9 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=9), seasonal=FALSE)
+fit_CHP10 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=10), seasonal=FALSE)
+fit_CHP11 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=11), seasonal=FALSE)
+fit_CHP12 <- auto.arima(CHP_ts, xreg=fourier(CHP_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_CHP1),AIC(fit_CHP2),AIC(fit_CHP3),AIC(fit_CHP4),AIC(fit_CHP5),AIC(fit_CHP6),AIC(fit_CHP7),AIC(fit_CHP8),AIC(fit_CHP9),AIC(fit_CHP10),AIC(fit_CHP11),AIC(fit_CHP12))
+plot(aics)
+```
+
+```{r}
+fc_arima__manual_CHP <- forecast(fit_CHP1, xreg=fourier(CHP_ts, K=1, h=26))
+plot(fc_arima__manual_CHP)
+```
+
+```{r}
+fc_arima__manual_CHP
+```
+
+```{r}
+accuracy(fc_CHP)
+```
+
+```{r}
+accuracy(fc_arima__manual_CHP)
+```
+
 
 # CLI.csv
 
@@ -249,3 +390,54 @@ for(i in 1:25)
   else break;
 }
 ```
+
+```{r}
+summary(bestfit_CLI)
+```
+
+```{r}
+fc_arima_CLI <- forecast(bestfit_CLI, xreg=fourier(CLI_ts, K=1, h=26))
+plot(fc_arima_CLI)
+```
+
+```{r}
+fc_arima_CLI
+```
+
+```{r}
+fit_CLI1 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=1), seasonal=FALSE)
+fit_CLI2 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=2), seasonal=FALSE)
+fit_CLI3 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=3), seasonal=FALSE)
+fit_CLI4 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=4), seasonal=FALSE)
+fit_CLI5 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=5), seasonal=FALSE)
+fit_CLI6 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=6), seasonal=FALSE)
+fit_CLI7 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=7), seasonal=FALSE)
+fit_CLI8 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=8), seasonal=FALSE)
+fit_CLI9 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=9), seasonal=FALSE)
+fit_CLI10 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=10), seasonal=FALSE)
+fit_CLI11 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=11), seasonal=FALSE)
+fit_CLI12 <- auto.arima(CLI_ts, xreg=fourier(CLI_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_CLI1),AIC(fit_CLI2),AIC(fit_CLI3),AIC(fit_CLI4),AIC(fit_CLI5),AIC(fit_CLI6),AIC(fit_CLI7),AIC(fit_CLI8),AIC(fit_CLI9),AIC(fit_CLI10),AIC(fit_CLI11),AIC(fit_CLI12))
+plot(aics)
+```
+
+```{r}
+fc_arima__manual_CLI <- forecast(fit_CLI1, xreg=fourier(CLI_ts, K=1, h=26))
+plot(fc_arima__manual_CLI)
+```
+
+```{r}
+fc_arima__manual_CLI
+```
+
+```{r}
+accuracy(fc_CLI)
+```
+
+```{r}
+accuracy(fc_arima__manual_CLI)
+```
+
