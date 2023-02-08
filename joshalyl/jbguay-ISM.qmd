@@ -16,66 +16,82 @@ library(zoo)
 ```
 
 ```{r}
-IMI <- read_csv("~/RProject/SEC MATH 17/SPP/CSV/IMI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
-IMI_ts <- ts(IMI[,2], freq=365.25/7, start=2015+128/365.25)
-IMI_ts %>%
-  autoplot()
-```
-
-```{r}
-ISM <- read_csv("~/RProject/SEC MATH 17/SPP/CSV/ISM.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
-ISM_ts <- ts(IMI[,2], freq=365.25/7, start=2015+128/365.25)
+ISM_ts <- read_csv("~/RProject/SEC MATH 17/SPP/CSV/ISM.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+ISM_ts <- ts(ISM_ts[,2], freq=365.25/7, start=2015+128/365.25)
 ISM_ts %>%
   autoplot()
 ```
 
 ```{r}
-ISM_decomp <- decompose(na.locf(ISM_ts), type="additive")
-autoplot(ISM_decomp)
+ISM_ts_decomp <- decompose(na.locf(ISM_ts), type="additive")
+autoplot(ISM_ts_decomp)
 ```
 
 ```{r}
-training_ISM <- subset(ISM_ts, end=length(ISM_ts)-8)
-test_ISM <- subset(ISM_ts, start=length(ISM_ts)-8)
-fc_training_ISM <- forecast(training_ISM)
-fc_training_ISM %>%
-  forecast(h=10
+training_ISM_ts <- subset(ISM_ts, end=length(ISM_ts)-8)
+test_ISM_ts <- subset(ISM_ts, start=length(ISM_ts)-8)
+fc_training_ISM_ts <- forecast(training_ISM_ts)
+fc_training_ISM_ts %>%
+  forecast(h=10)
 ```
 
 ```{r}
-fc_training_ISM
+fc_training_ISM_ts
 ```
 
 ```{r}
-fc_ISM<-forecast(ISM_ts)
-fc_ISM %>%
-  forecast(h=100) %>%
-  autoplot()
-```
-
-```{r}
-fc_ISM
-```
-
-```{r}
-tail(ISM_ts)
-min(ISM_ts)
-max(ISM_ts)
-which.min(ISM_ts)
-```
-
-```{r}
-bestfit_ISM<- list(aicc=Inf)
+bestfit_ISM_ts <- list(aicc=Inf)
 for(i in 1:25)
 {
-  fit_ISM <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=i), seasonal=FALSE)
-  if(fit_ISM$aicc < bestfit_ISM$aicc)
-    bestfit_ISM <- fit_ISM
+  fit_ISM_ts <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=i), seasonal=FALSE)
+  if(fit_ISM_ts$aicc < bestfit_ISM_ts$aicc)
+    bestfit_ISM_ts <- fit_ISM_ts
   else break;
 }
-``
 ```
 
 ```{r}
 summary(bestfit_ISM_ts)
+```
+
+```{r}
+fc_arima_ISM_ts <- forecast(bestfit_ISM_ts, xreg=fourier(ISM_ts, K=1, h=26))
+plot(fc_arima_ISM_ts)
+```
+
+```{r}
+fc_arima_ISM_ts
+```
+
+```{r}
+fit_ISM1 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=1), seasonal=FALSE)
+fit_ISM2 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=2), seasonal=FALSE)
+fit_ISM3 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=3), seasonal=FALSE)
+fit_ISM4 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=4), seasonal=FALSE)
+fit_ISM5 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=5), seasonal=FALSE)
+fit_ISM6 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=6), seasonal=FALSE)
+fit_ISM7 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=7), seasonal=FALSE)
+fit_ISM8 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=8), seasonal=FALSE)
+fit_ISM9 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=9), seasonal=FALSE)
+fit_ISM10 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=10), seasonal=FALSE)
+fit_ISM11 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=11), seasonal=FALSE)
+fit_ISM12 <- auto.arima(ISM_ts, xreg=fourier(ISM_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_ISM1),AIC(fit_ISM2),AIC(fit_ISM3),AIC(fit_ISM4),AIC(fit_ISM5),AIC(fit_ISM6),AIC(fit_ISM7),AIC(fit_ISM8),AIC(fit_ISM9),AIC(fit_ISM10),AIC(fit_ISM11),AIC(fit_ISM12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_ISM <- forecast(fit_ISM1, xreg=fourier(ISM_ts, K=1, h=26))
+plot(fc_arima_man_ISM)
+```
+
+```{r}
+fc_arima_man_ISM
+```
+
+```{r}
+accuracy(fc_arima_man_ISM)
 ```
