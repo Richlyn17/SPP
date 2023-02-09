@@ -1,0 +1,118 @@
+---
+title: "SPP for APX"
+author: "Blessing Ildefonso"
+output: html_document
+---
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+```
+
+```{r}
+APX <- read_csv("/cloud/project/CSV/APX.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+apx <- ts(APX[,2], freq=365.25/7, start=2015+198/365.25)
+apx %>%
+  autoplot()
+```
+
+```{r}
+plot(decompose(apx))
+```
+
+```{r}
+training_apx <- subset(apx, end=length(apx)-1)
+test_apx <- subset(apx, start=length(apx)-1)
+fc_training_apx<-forecast(training_apx)
+fc_training_apx %>%
+  forecast(h=26) %>%
+  autoplot() +autolayer(test_apx)
+```
+
+```{r}
+fc_training_apx
+```
+
+```{r}
+fc_apx<-forecast(apx)
+fc_apx %>%
+  forecast(h=26) %>%
+  autoplot()
+```
+
+```{r}
+fc_apx
+```
+
+```{r}
+tail(apx)
+min(apx)
+max(apx)
+which.min(apx)
+```
+
+```{r}
+bestfit_apx <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_apx <- auto.arima(apx, xreg=fourier(apx, K=i), seasonal=FALSE)
+  if(fit_apx$aicc < bestfit_apx$aicc)
+    bestfit_apx <- fit_apx
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_apx)
+```
+
+```{r}
+fc_arima_apx <- forecast(bestfit_apx, xreg=fourier(apx, K=1, h=26))
+plot(fc_arima_apx)
+```
+
+```{r}
+fc_arima_apx
+```
+
+```{r}
+fit_apx1 <- auto.arima(apx, xreg=fourier(apx, K=1), seasonal=FALSE)
+fit_apx2 <- auto.arima(apx, xreg=fourier(apx, K=2), seasonal=FALSE)
+fit_apx3 <- auto.arima(apx, xreg=fourier(apx, K=3), seasonal=FALSE)
+fit_apx4 <- auto.arima(apx, xreg=fourier(apx, K=4), seasonal=FALSE)
+fit_apx5 <- auto.arima(apx, xreg=fourier(apx, K=5), seasonal=FALSE)
+fit_apx6 <- auto.arima(apx, xreg=fourier(apx, K=6), seasonal=FALSE)
+fit_apx7 <- auto.arima(apx, xreg=fourier(apx, K=7), seasonal=FALSE)
+fit_apx8 <- auto.arima(apx, xreg=fourier(apx, K=8), seasonal=FALSE)
+fit_apx9 <- auto.arima(apx, xreg=fourier(apx, K=9), seasonal=FALSE)
+fit_apx10 <- auto.arima(apx, xreg=fourier(apx, K=10), seasonal=FALSE)
+fit_apx11 <- auto.arima(apx, xreg=fourier(apx, K=11), seasonal=FALSE)
+fit_apx12 <- auto.arima(apx, xreg=fourier(apx, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_apx1),AIC(fit_apx2),AIC(fit_apx3),AIC(fit_apx4),AIC(fit_apx5),AIC(fit_apx6),AIC(fit_apx7),AIC(fit_apx8),AIC(fit_apx9),AIC(fit_apx10),AIC(fit_apx11),AIC(fit_apx12))
+plot(aics)
+```
+
+```{r}
+fc_apx2 <- forecast(fit_apx2, xreg=fourier(apx, K=2, h=26))
+plot(fc_apx2)
+```
+
+```{r}
+fc_apx2
+```
+
+```{r}
+accuracy(fc_apx)
+```
+
+```{r}
+accuracy(fc_arima_apx)
+```
+
+```{r}
+accuracy(fc_apx2)
+```
