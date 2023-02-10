@@ -1,0 +1,260 @@
+---
+title: "SPP"
+author: "Ruby Amuahan"
+format: html
+editor: visual
+---
+
+## Background for DMC
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)
+```
+
+```{r}
+DMC <- read_csv("/cloud/project/CSV/DMC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+DMC_ts <- ts(DMC[,2], freq=365.25/7, start=2015+62/365.25)
+DMC_ts %>%
+  autoplot()
+```
+
+```{r}
+td_decomp <- decompose(na.locf(DMC_ts), type="additive")
+autoplot(td_decomp)
+
+```
+
+```{r}
+training_dmc <- subset(DMC_ts, end=length(DMC_ts)-8)
+test_dmc <- subset(DMC_ts, start=length(DMC_ts)-8)
+fc_training_dmc<-forecast(training_dmc)
+fc_training_dmc %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_dmc)
+```
+
+```{r}
+fc_training_dmc
+```
+
+```{r}
+fc_DMC<-forecast(DMC_ts)
+fc_DMC %>%
+  forecast(h=50) %>%
+  autoplot()
+```
+
+```{r}
+fc_DMC
+```
+
+```{r}
+tail(DMC_ts)
+min(DMC_ts)
+max(DMC_ts)
+which.min(DMC_ts)
+```
+
+```{r}
+bestfit_DMC_ts <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_DMC_ts <- auto.arima(DMC_ts, xreg=fourier(DMC_ts, K=i), seasonal=FALSE)
+  if(fit_DMC_ts$aicc < bestfit_DMC_ts$aicc)
+    bestfit_DMC_ts <- fit_DMC_ts
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_DMC_ts)
+```
+
+## BACKGROUND FOR FNI
+
+```{r}
+FNI <- read_csv("/cloud/project/CSV/FNI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+FNI_ts <- ts(FNI[,2], freq=365.25/7, start=2015+62/365.25)
+FNI_ts %>%
+  autoplot()
+```
+
+```{r}
+td_decomp <- decompose(na.locf(FNI_ts), type="additive")
+autoplot(td_decomp)
+```
+
+```{r}
+training_FNI <- subset(FNI_ts, end=length(FNI_ts)-8)
+test_FNI <- subset(FNI_ts, start=length(FNI_ts)-8)
+fc_training_FNI<-forecast(training_FNI)
+fc_training_FNI %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_FNI)
+```
+
+```{r}
+fc_training_FNI
+```
+
+```{r}
+fc_FNI<-forecast(FNI_ts)
+fc_FNI %>%
+  forecast(h=50) %>%
+  autoplot()
+```
+
+```{r}
+fc_FNI
+```
+
+```{r}
+tail(FNI_ts)
+min(FNI_ts)
+max(FNI_ts)
+which.min(FNI_ts)
+```
+
+```{r}
+bestfit_FNI_ts <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_FNI_ts <- auto.arima(FNI_ts, xreg=fourier(FNI_ts, K=i), seasonal=FALSE)
+  if(fit_FNI_ts$aicc < bestfit_FNI_ts$aicc)
+    bestfit_FNI_ts <- fit_FNI_ts
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_FNI_ts)
+```
+
+## BACKGROUND for FOOD
+
+```{r}
+FOOD <- read_csv("/cloud/project/CSV/FOOD.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+FOOD_ts <- ts(FOOD[,2], freq=365.25/7, start=2015+62/365.25)
+FOOD_ts %>%
+  autoplot()
+```
+
+```{r}
+td_decomp <- decompose(na.locf(FOOD_ts), type="additive")
+autoplot(td_decomp)
+
+```
+
+```{r}
+training_FOOD <- subset(FOOD_ts, end=length(FOOD_ts)-8)
+test_FOOD <- subset(FOOD_ts, start=length(FOOD_ts)-8)
+fc_training_FOOD<-forecast(training_FOOD)
+fc_training_FOOD %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_FOOD)
+```
+
+```{r}
+fc_training_FOOD
+```
+
+```{r}
+fc_FOOD<-forecast(FOOD_ts)
+fc_FOOD %>%
+  forecast(h=50) %>%
+  autoplot()
+```
+
+```{r}
+fc_FOOD
+```
+
+```{r}
+tail(FOOD_ts)
+min(FOOD_ts)
+max(FOOD_ts)
+which.min(FOOD_ts)
+```
+
+```{r}
+bestfit_FOOD_ts <- list(aicc=Inf)
+for(i in 1:25)
+```
+
+```{r}
+bestfit_FOOD_ts <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_FOOD_ts <- auto.arima(FOOD_ts, xreg=fourier(FOOD_ts, K=i), seasonal=FALSE)
+  if(fit_FOOD_ts$aicc < bestfit_FOOD_ts$aicc)
+    bestfit_FOOD_ts <- fit_FOOD_ts
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_FOOD_ts)
+```
+
+## BACKGROUND for IDC
+
+```{r}
+IDC <- read_csv("/cloud/project/CSV/IDC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+IDC_ts <- ts(IDC[,2], freq=365.25/7, start=2015+62/365.25)
+IDC_ts %>%
+  autoplot()
+```
+
+```{r}
+td_decomp <- decompose(na.locf(IDC_ts), type="additive")
+autoplot(td_decomp)
+```
+
+```{r}
+training_IDC <- subset(IDC_ts, end=length(IDC_ts)-8)
+test_IDC <- subset(IDC_ts, start=length(IDC_ts)-8)
+fc_training_IDC<-forecast(training_IDC)
+fc_training_IDC %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_IDC)
+```
+
+```{r}
+fc_training_IDC
+```
+
+```{r}
+fc_IDC<-forecast(IDC_ts)
+fc_IDC %>%
+  forecast(h=50) %>%
+  autoplot()
+```
+
+```{r}
+fc_IDC
+```
+
+```{r}
+tail(IDC_ts)
+min(IDC_ts)
+max(IDC_ts)
+which.min(IDC_ts)
+```
+
+```{r}
+bestfit_IDC_ts <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_IDC_ts <- auto.arima(IDC_ts, xreg=fourier(IDC_ts, K=i), seasonal=FALSE)
+  if(fit_IDC_ts$aicc < bestfit_IDC_ts$aicc)
+    bestfit_IDC_ts <- fit_IDC_ts
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_IDC_ts)
+```
