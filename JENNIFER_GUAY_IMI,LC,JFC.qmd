@@ -1,0 +1,306 @@
+---
+title: "forecasting"
+author: "Jennifer Guay"
+format: html
+editor: visual
+---
+
+##forecasting
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo) 
+```
+
+```{r}
+IMI <- read_csv("/Users/Acer/Documents/RProject/SEC MATH 17/SPP/csv/IMI.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+IMI_ts <- ts(IMI[,2], freq=365.25/7, start=2015+128/365.25)
+IMI_ts %>%
+  autoplot()
+```
+
+```{r}
+LC <- read_csv("/Users/Acer/Documents/RProject/SEC MATH 17/SPP/csv/LC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+LC_ts <- ts(LC[,2], freq=365.25/7, start=2015+128/365.25)
+LC_ts %>%
+  autoplot()
+```
+
+```{r}
+JFC <- read_csv("/Users/Acer/Documents/RProject/SEC MATH 17/SPP/csv/JFC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+JFC_ts <- ts(JFC[,2], freq=365.25/7, start=2015+128/365.25)
+JFC_ts %>%
+  autoplot()
+```
+
+```{r}
+IMI_ts_decomp <- decompose(na.locf(IMI_ts), type="additive")
+autoplot(IMI_ts_decomp)
+```
+
+```{r}
+LC_ts_decomp <- decompose(na.locf(LC_ts), type="additive")
+autoplot(LC_ts_decomp)
+```
+
+```{r}
+JFC_ts_decomp <- decompose(na.locf(JFC_ts), type="additive")
+autoplot(JFC_ts_decomp)
+```
+
+```{r}
+training_IMI <- subset(IMI_ts, end=length(IMI_ts)-8)
+test_IMI <- subset(IMI_ts, start=length(IMI_ts)-8)
+fc_training_IMI <- forecast(training_IMI)
+fc_training_IMI %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_IMI)
+```
+
+```{r}
+training_LC <- subset(LC_ts, end=length(LC_ts)-8)
+test_LC <- subset(LC_ts, start=length(LC_ts)-8)
+fc_training_LC <- forecast(training_LC)
+fc_training_LC %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_LC)
+```
+
+```{r}
+training_JFC <- subset(JFC_ts, end=length(JFC_ts)-8)
+test_JFC <- subset(JFC_ts, start=length(JFC_ts)-8)
+fc_training_JFC <- forecast(training_JFC)
+fc_training_JFC %>%
+  forecast(h=10) %>%
+  autoplot() +autolayer(test_JFC)
+```
+
+```{r}
+training_IMI_ts <- subset(IMI_ts, end=length(IMI_ts)-8)
+test_IMI_ts <- subset(IMI_ts, start=length(IMI_ts)-8)
+fc_training_IMI_ts <- forecast(training_IMI_ts)
+fc_training_IMI_ts %>%
+  forecast(h=10)
+```
+
+```{r}
+training_LC_ts <- subset(LC_ts, end=length(LC_ts)-8)
+test_LC_ts <- subset(LC_ts, start=length(LC_ts)-8)
+fc_training_LC_ts <- forecast(training_LC_ts)
+fc_training_LC_ts %>%
+  forecast(h=10)
+```
+
+```{r}
+training_JFC_ts <- subset(JFC_ts, end=length(JFC_ts)-8)
+test_JFC_ts <- subset(JFC_ts, start=length(JFC_ts)-8)
+fc_training_JFC_ts <- forecast(training_JFC_ts)
+fc_training_JFC_ts %>%
+  forecast(h=10)
+```
+
+```{r}
+fc_IMI<-forecast(IMI_ts)
+fc_IMI %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_LC<-forecast(LC_ts)
+fc_LC %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_JFC<-forecast(JFC_ts)
+fc_JFC %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_training_IMI_ts
+```
+
+```{r}
+fc_training_LC_ts
+```
+
+```{r}
+fc_training_JFC_ts
+```
+
+```{r}
+bestfit_IMI_ts <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_IMI_ts <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=i), seasonal=FALSE)
+  if(fit_IMI_ts$aicc < bestfit_IMI_ts$aicc)
+    bestfit_IMI_ts <- fit_IMI_ts
+  else break;
+}
+```
+
+```{r}
+bestfit_LC_ts <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_LC_ts <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=i), seasonal=FALSE)
+  if(fit_LC_ts$aicc < bestfit_LC_ts$aicc)
+    bestfit_LC_ts <- fit_LC_ts
+  else break;
+}
+```
+
+```{r}
+bestfit_JFC_ts <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_JFC_ts <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=i), seasonal=FALSE)
+  if(fit_JFC_ts$aicc < bestfit_JFC_ts$aicc)
+    bestfit_JFC_ts <- fit_JFC_ts
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_IMI_ts)
+```
+
+```{r}
+summary(bestfit_LC_ts)
+```
+
+```{r}
+summary(bestfit_JFC_ts)
+```
+
+```{r}
+fc_arima_IMI_ts <- forecast(bestfit_IMI_ts, xreg=fourier(IMI_ts, K=1, h=26))
+plot(fc_arima_IMI_ts)
+```
+
+```{r}
+fc_arima_LC_ts <- forecast(bestfit_LC_ts, xreg=fourier(LC_ts, K=1, h=26))
+plot(fc_arima_LC_ts)
+```
+
+```{r}
+fc_arima_JFC_ts <- forecast(bestfit_JFC_ts, xreg=fourier(JFC_ts, K=1, h=26))
+plot(fc_arima_JFC_ts)
+```
+
+```{r}
+fc_arima_IMI_ts
+```
+
+```{r}
+fc_arima_LC_ts
+```
+
+```{r}
+fc_arima_JFC_ts
+```
+
+```{r}
+fit_IMI1 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=1), seasonal=FALSE)
+fit_IMI2 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=2), seasonal=FALSE)
+fit_IMI3 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=3), seasonal=FALSE)
+fit_IMI4 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=4), seasonal=FALSE)
+fit_IMI5 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=5), seasonal=FALSE)
+fit_IMI6 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=6), seasonal=FALSE)
+fit_IMI7 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=7), seasonal=FALSE)
+fit_IMI8 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=8), seasonal=FALSE)
+fit_IMI9 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=9), seasonal=FALSE)
+fit_IMI10 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=10), seasonal=FALSE)
+fit_IMI11 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=11), seasonal=FALSE)
+fit_IMI12 <- auto.arima(IMI_ts, xreg=fourier(IMI_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+fit_LC1 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=1), seasonal=FALSE)
+fit_LC2 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=2), seasonal=FALSE)
+fit_LC3 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=3), seasonal=FALSE)
+fit_LC4 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=4), seasonal=FALSE)
+fit_LC5 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=5), seasonal=FALSE)
+fit_LC6 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=6), seasonal=FALSE)
+fit_LC7 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=7), seasonal=FALSE)
+fit_LC8 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=8), seasonal=FALSE)
+fit_LC9 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=9), seasonal=FALSE)
+fit_LC10 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=10), seasonal=FALSE)
+fit_LC11 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=11), seasonal=FALSE)
+fit_LC12 <- auto.arima(LC_ts, xreg=fourier(LC_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+fit_JFC1 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=1), seasonal=FALSE)
+fit_JFC2 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=2), seasonal=FALSE)
+fit_JFC3 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=3), seasonal=FALSE)
+fit_JFC4 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=4), seasonal=FALSE)
+fit_JFC5 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=5), seasonal=FALSE)
+fit_JFC6 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=6), seasonal=FALSE)
+fit_JFC7 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=7), seasonal=FALSE)
+fit_JFC8 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=8), seasonal=FALSE)
+fit_JFC9 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=9), seasonal=FALSE)
+fit_JFC10 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=10), seasonal=FALSE)
+fit_JFC11 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=11), seasonal=FALSE)
+fit_JFC12 <- auto.arima(JFC_ts, xreg=fourier(JFC_ts, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_IMI1),AIC(fit_IMI2),AIC(fit_IMI3),AIC(fit_IMI4),AIC(fit_IMI5),AIC(fit_IMI6),AIC(fit_IMI7),AIC(fit_IMI8),AIC(fit_IMI9),AIC(fit_IMI10),AIC(fit_IMI11),AIC(fit_IMI12))
+plot(aics)
+```
+
+```{r}
+aics<-c(AIC(fit_LC1),AIC(fit_LC2),AIC(fit_LC3),AIC(fit_LC4),AIC(fit_LC5),AIC(fit_LC6),AIC(fit_LC7),AIC(fit_LC8),AIC(fit_LC9),AIC(fit_LC10),AIC(fit_LC11),AIC(fit_LC12))
+plot(aics)
+```
+
+```{r}
+aics<-c(AIC(fit_JFC1),AIC(fit_JFC2),AIC(fit_JFC3),AIC(fit_JFC4),AIC(fit_JFC5),AIC(fit_JFC6),AIC(fit_JFC7),AIC(fit_JFC8),AIC(fit_JFC9),AIC(fit_JFC10),AIC(fit_JFC11),AIC(fit_JFC12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_IMI <- forecast(fit_IMI1, xreg=fourier(IMI_ts, K=1, h=26))
+plot(fc_arima_man_IMI)
+```
+
+```{r}
+fc_arima_man_LC <- forecast(fit_LC1, xreg=fourier(LC_ts, K=1, h=26))
+plot(fc_arima_man_LC)
+```
+
+```{r}
+fc_arima_man_JFC <- forecast(fit_LC1, xreg=fourier(JFC_ts, K=1, h=26))
+plot(fc_arima_man_JFC)
+```
+
+```{r}
+fc_arima_man_IMI
+```
+
+```{r}
+fc_arima_man_LC
+```
+
+```{r}
+fc_arima_man_JFC
+```
+
+```{r}
+accuracy(fc_arima_man_IMI)
+```
+
+```{r}
+accuracy(fc_arima_man_LC)
+```
+
+```{r}
+accuracy(fc_arima_man_JFC)
+```

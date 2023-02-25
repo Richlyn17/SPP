@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jennifer Guay">
+
+<title>forecasting</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="JENNIFER_GUAY_IMI,LC,JFC_files/libs/clipboard/clipboard.min.js"></script>
+<script src="JENNIFER_GUAY_IMI,LC,JFC_files/libs/quarto-html/quarto.js"></script>
+<script src="JENNIFER_GUAY_IMI,LC,JFC_files/libs/quarto-html/popper.min.js"></script>
+<script src="JENNIFER_GUAY_IMI,LC,JFC_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="JENNIFER_GUAY_IMI,LC,JFC_files/libs/quarto-html/anchor.min.js"></script>
+<link href="JENNIFER_GUAY_IMI,LC,JFC_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="JENNIFER_GUAY_IMI,LC,JFC_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="JENNIFER_GUAY_IMI,LC,JFC_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="JENNIFER_GUAY_IMI,LC,JFC_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="JENNIFER_GUAY_IMI,LC,JFC_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">forecasting</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jennifer Guay </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<p>##forecasting</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'zoo'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>IMI <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/Users/Acer/Documents/RProject/SEC MATH 17/SPP/csv/IMI.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>IMI_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(IMI[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">128</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>IMI_ts <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>LC <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/Users/Acer/Documents/RProject/SEC MATH 17/SPP/csv/LC.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>LC_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(LC[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">128</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>LC_ts <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>JFC <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/Users/Acer/Documents/RProject/SEC MATH 17/SPP/csv/JFC.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="at">Week =</span> <span class="fu">col_date</span>(<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, call `problems()` on your data frame for details,
+e.g.:
+  dat &lt;- vroom(...)
+  problems(dat)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>JFC_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(JFC[,<span class="dv">2</span>], <span class="at">freq=</span><span class="fl">365.25</span><span class="sc">/</span><span class="dv">7</span>, <span class="at">start=</span><span class="dv">2015</span><span class="sc">+</span><span class="dv">128</span><span class="sc">/</span><span class="fl">365.25</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>JFC_ts <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>IMI_ts_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(IMI_ts), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(IMI_ts_decomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>LC_ts_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(LC_ts), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(LC_ts_decomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>JFC_ts_decomp <span class="ot">&lt;-</span> <span class="fu">decompose</span>(<span class="fu">na.locf</span>(JFC_ts), <span class="at">type=</span><span class="st">"additive"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(JFC_ts_decomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>training_IMI <span class="ot">&lt;-</span> <span class="fu">subset</span>(IMI_ts, <span class="at">end=</span><span class="fu">length</span>(IMI_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>test_IMI <span class="ot">&lt;-</span> <span class="fu">subset</span>(IMI_ts, <span class="at">start=</span><span class="fu">length</span>(IMI_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>fc_training_IMI <span class="ot">&lt;-</span> <span class="fu">forecast</span>(training_IMI)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>fc_training_IMI <span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_IMI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>training_LC <span class="ot">&lt;-</span> <span class="fu">subset</span>(LC_ts, <span class="at">end=</span><span class="fu">length</span>(LC_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>test_LC <span class="ot">&lt;-</span> <span class="fu">subset</span>(LC_ts, <span class="at">start=</span><span class="fu">length</span>(LC_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>fc_training_LC <span class="ot">&lt;-</span> <span class="fu">forecast</span>(training_LC)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>fc_training_LC <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_LC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>training_JFC <span class="ot">&lt;-</span> <span class="fu">subset</span>(JFC_ts, <span class="at">end=</span><span class="fu">length</span>(JFC_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>test_JFC <span class="ot">&lt;-</span> <span class="fu">subset</span>(JFC_ts, <span class="at">start=</span><span class="fu">length</span>(JFC_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>fc_training_JFC <span class="ot">&lt;-</span> <span class="fu">forecast</span>(training_JFC)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>fc_training_JFC <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span><span class="fu">autolayer</span>(test_JFC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>training_IMI_ts <span class="ot">&lt;-</span> <span class="fu">subset</span>(IMI_ts, <span class="at">end=</span><span class="fu">length</span>(IMI_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>test_IMI_ts <span class="ot">&lt;-</span> <span class="fu">subset</span>(IMI_ts, <span class="at">start=</span><span class="fu">length</span>(IMI_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>fc_training_IMI_ts <span class="ot">&lt;-</span> <span class="fu">forecast</span>(training_IMI_ts)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>fc_training_IMI_ts <span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast    Lo 80    Hi 80    Lo 95    Hi 95
+2022.997       5.266913 4.733175 5.800650 4.450632 6.083193
+2023.016       4.944398 4.260984 5.627813 3.899206 5.989591
+2023.036       5.034436 4.228265 5.840607 3.801504 6.267368
+2023.055       5.534543 4.621611 6.447476 4.138334 6.930753
+2023.074       5.119527 4.110736 6.128319 3.576714 6.662341
+2023.093       5.156885 4.060272 6.253497 3.479761 6.834008
+2023.112       5.079395 3.901201 6.257590 3.277502 6.881288
+2023.131       4.840445 3.585689 6.095202 2.921461 6.759430
+2023.151       4.873227 3.546058 6.200396 2.843497 6.902957
+2023.170       5.478297 4.082218 6.874375 3.343179 7.613414</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>training_LC_ts <span class="ot">&lt;-</span> <span class="fu">subset</span>(LC_ts, <span class="at">end=</span><span class="fu">length</span>(LC_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>test_LC_ts <span class="ot">&lt;-</span> <span class="fu">subset</span>(LC_ts, <span class="at">start=</span><span class="fu">length</span>(LC_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>fc_training_LC_ts <span class="ot">&lt;-</span> <span class="fu">forecast</span>(training_LC_ts)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>fc_training_LC_ts <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80     Hi 80      Lo 95     Hi 95
+2022.576     0.10516068 0.09712920 0.1131922 0.09287759 0.1174438
+2022.595     0.10316377 0.09179631 0.1145312 0.08577874 0.1205488
+2022.614     0.10234362 0.08840960 0.1162776 0.08103337 0.1236539
+2022.633     0.10035270 0.08424930 0.1164561 0.07572468 0.1249807
+2022.652     0.09940654 0.08138692 0.1174262 0.07184791 0.1269652
+2022.671     0.09780985 0.07805334 0.1175664 0.06759487 0.1280248
+2022.691     0.09868766 0.07732976 0.1200456 0.06602358 0.1313517
+2022.710     0.10294664 0.08009435 0.1257989 0.06799708 0.1378962
+2022.729     0.10176193 0.07750245 0.1260214 0.06466025 0.1388636
+2022.748     0.10661496 0.08102107 0.1322088 0.06747249 0.1457574</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>training_JFC_ts <span class="ot">&lt;-</span> <span class="fu">subset</span>(JFC_ts, <span class="at">end=</span><span class="fu">length</span>(JFC_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>test_JFC_ts <span class="ot">&lt;-</span> <span class="fu">subset</span>(JFC_ts, <span class="at">start=</span><span class="fu">length</span>(JFC_ts)<span class="sc">-</span><span class="dv">8</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>fc_training_JFC_ts <span class="ot">&lt;-</span> <span class="fu">forecast</span>(training_JFC_ts)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>fc_training_JFC_ts <span class="sc">%&gt;%</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95
+2022.480       2.318485  -8.56316 13.20013 -14.32355 18.96052
+2022.499       2.195386 -13.14147 17.53224 -21.26031 25.65109
+2022.518       3.853647 -14.90877 22.61606 -24.84099 32.54828
+2022.537       1.669274 -19.98338 23.32192 -31.44560 34.78414
+2022.556       1.617555 -22.58257 25.81768 -35.39335 38.62846
+2022.576       2.010406 -24.49347 28.51428 -38.52377 42.54458
+2022.595       1.290418 -27.33238 29.91321 -42.48437 45.06520
+2022.614       2.258158 -28.33716 32.85347 -44.53334 49.04966
+2022.633       1.526608 -30.92154 33.97476 -48.09855 51.15177
+2022.652       1.721777 -32.47897 35.92253 -50.58376 54.02731</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>fc_IMI<span class="ot">&lt;-</span><span class="fu">forecast</span>(IMI_ts)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>fc_IMI <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>fc_LC<span class="ot">&lt;-</span><span class="fu">forecast</span>(LC_ts)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>fc_LC <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>fc_JFC<span class="ot">&lt;-</span><span class="fu">forecast</span>(JFC_ts)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>fc_JFC <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h=</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fc_training_IMI_ts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80     Hi 80        Lo 95     Hi 95
+2022.997       5.266913 4.73317541  5.800650  4.450631955  6.083193
+2023.016       4.944398 4.26098387  5.627813  3.899206020  5.989591
+2023.036       5.034436 4.22826494  5.840607  3.801503904  6.267368
+2023.055       5.534543 4.62161094  6.447476  4.138333776  6.930753
+2023.074       5.119527 4.11073599  6.128319  3.576714055  6.662341
+2023.093       5.156885 4.06027250  6.253497  3.479761071  6.834008
+2023.112       5.079395 3.90120097  6.257590  3.277502495  6.881288
+2023.131       4.840445 3.58568871  6.095202  2.921460605  6.759430
+2023.151       4.873227 3.54605766  6.200396  2.843496799  6.902957
+2023.170       5.478297 4.08221829  6.874375  3.343179114  7.613414
+2023.189       5.564052 4.10207135  7.026032  3.328145582  7.799958
+2023.208       5.685162 4.15989561  7.210429  3.352468180  8.017857
+2023.227       6.127836 4.54158568  7.714087  3.701875291  8.553797
+2023.246       5.802403 4.15721331  7.447592  3.286302723  8.318502
+2023.266       6.142983 4.44068761  7.845279  3.539546704  8.746420
+2023.285       7.323617 5.56586740  9.081366  4.635371129 10.011862
+2023.304       7.092114 5.28041109  8.903816  4.321353676  9.862874
+2023.323       7.213921 5.34963451  9.078208  4.362740842 10.065101
+2023.342       6.451710 4.53609577  8.367325  3.522030673  9.381390
+2023.361       6.528548 4.56276245  8.494334  3.522138308  9.534958
+2023.381       6.100597 4.08570934  8.115484  3.019092447  9.182101
+2023.400       5.572354 3.50935746  7.635350  2.417273323  8.727434
+2023.419       5.432749 3.32256789  7.542929  2.205505741  8.659991
+2023.438       5.198250 3.04174790  7.354753  1.900164532  8.496336
+2023.457       5.319386 3.11736937  7.521402  1.951692406  8.687079
+2023.476       6.204021 3.95724939  8.450793  2.767880160  9.640163
+2023.496       5.962048 3.67123292  8.252862  2.458548913  9.465546
+2023.515       5.468053 3.13386787  7.802238  1.898224895  9.037881
+2023.534       5.304434 2.92751354  7.681355  1.669247614  8.939621
+2023.553       5.254235 2.83517857  7.673291  1.554607615  8.953862
+2023.572       5.113645 2.65302310  7.574267  1.350448397  8.876842
+2023.591       5.081580 2.57993238  7.583228  1.255639897  8.907521
+2023.611       5.141290 2.59912939  7.683450  1.253390968  9.029189
+2023.630       5.580432 2.99824843  8.162616  1.631322820  9.529542
+2023.649       5.443851 2.82210904  8.065592  1.434242863  9.453458
+2023.668       5.358704 2.69784883  8.019558  1.289277424  9.428130
+2023.687       5.231375 2.53183201  7.930918  1.102780207  9.359970
+2023.706       5.521950 2.78412465  8.259775  1.334807485  9.709092
+2023.726       5.239393 2.46367486  8.015112  0.994298183  9.484489
+2023.745       5.077554 2.26431462  7.890793  0.775075703  9.380032
+2023.764       5.060599 2.21019623  7.911001  0.701284290  9.419913
+2023.783       5.042067 2.15484424  7.929289  0.626440919  9.457693
+2023.802       4.629219 1.70550624  7.552932  0.157786042  9.100653
+2023.821       4.764479 1.80459252  7.724365  0.237723262  9.291235
+2023.841       5.155461 2.15970616  8.151216  0.573849297  9.737073
+2023.860       4.890836 1.85950685  7.922166  0.254817868  9.526855
+2023.879       4.965219 1.89859752  8.031840  0.275226233  9.655212
+2023.898       5.108409 2.00676838  8.210049  0.364859240  9.851958
+2023.917       5.117668 1.98127216  8.254064  0.320964519  9.914371
+2023.936       4.846800 1.67590249  8.017697 -0.002669121  9.696269
+2023.956       4.796223 1.59107019  8.001377 -0.105635447  9.698082
+2023.975       5.065480 1.82630763  8.304652  0.111593535 10.019366
+2023.994       5.266913 1.99395125  8.539874  0.261350115 10.272475
+2024.013       4.944398 1.63786947  8.250928 -0.112501256 10.001298
+2024.032       5.034436 1.69455387  8.374318 -0.073472783 10.142344
+2024.051       5.534543 2.16151645  8.907570  0.375943929 10.693143
+2024.070       5.119527 1.71355711  8.525498 -0.089454678 10.328510
+2024.090       5.156885 1.71816596  8.595603 -0.102181777 10.415951
+2024.109       5.079395 1.60811752  8.550673 -0.229466020 10.388257
+2024.128       4.840445 1.33679180  8.344099 -0.517930413 10.198821
+2024.147       4.873227 1.33737533  8.409078 -0.534391328 10.280845
+2024.166       5.478297 1.91042013  9.046173  0.021700464 10.934893
+2024.185       5.564052 1.96431824  9.163786  0.058734336 11.069370
+2024.205       5.685162 2.05373422  9.316590  0.131372297 11.238952
+2024.224       6.127836 2.46487200  9.790801  0.525815796 11.729857
+2024.243       5.802403 2.10805568  9.496749  0.152386574 11.452419
+2024.262       6.142983 2.41740329  9.868563  0.445200377 11.840766
+2024.281       7.323617 3.56694884 11.080285  1.578289008 13.068944
+2024.300       7.092114 3.30449923 10.879728  1.299457266 12.884770
+2024.320       7.213921 3.39549742 11.032345  1.374146059 13.053696
+2024.339       6.451710 2.60261125 10.300809  0.565021272 12.338399
+2024.358       6.528548 2.64890378 10.408193  0.595144051 12.461952
+2024.377       6.100597 2.19053341 10.010660  0.120670977 12.080522
+2024.396       5.572354 1.63199485  9.512712 -0.453905017 11.598612
+2024.415       5.432749 1.46221449  9.403283 -0.639659259 11.505156
+2024.435       5.198250 1.19765776  9.198843 -0.920127959 11.316628
+2024.454       5.319386 1.28884859  9.349923 -0.844788809 11.483560
+2024.473       6.204021 2.14365083 10.264392 -0.005779480 12.413822
+2024.492       5.962048 1.87195166 10.052143 -0.293214317 12.217309
+2024.511       5.468053 1.34833718  9.587769 -0.832508656 11.768615
+2024.530       5.304434 1.15520140  9.453668 -1.041269903 11.650139
+2024.550       5.254235 1.07558461  9.432885 -1.136459132 11.644929
+2024.569       5.113645 0.90567585  9.321615 -1.321888622 11.549179
+2024.588       5.081580 0.84438687  9.318774 -1.398647907 11.561809
+2024.607       5.141290 0.87496502  9.407615 -1.383490896 11.666070
+2024.626       5.580432 1.28506700  9.875798 -0.988762080 12.149627
+2024.645       5.443851 1.11953307  9.768168 -1.169622387 12.057324
+2024.665       5.358704 1.00551998  9.711887 -1.298916200 12.016323
+2024.684       5.231375 0.84940970  9.613341 -1.470262666 11.933013
+2024.703       5.521950 1.11128480  9.932615 -1.223580295 12.267480
+2024.722       5.239393 0.80010870  9.678678 -1.549906706 12.028694
+2024.741       5.077554 0.60972769  9.545380 -1.755396635 11.910504
+2024.760       5.060599 0.56430742  9.556890 -1.815885428 11.937083
+2024.780       5.042067 0.51738491  9.566749 -1.877837033 11.961971
+2024.799       4.629219 0.07621941  9.182219 -2.333993133 11.592432
+2024.818       4.764479 0.18323219  9.345726 -2.241933378 11.770891
+2024.837       5.155461 0.54603660  9.764886 -1.894045327 12.204967
+2024.856       4.890836 0.25330199  9.528371 -2.201660476 11.983333
+2024.875       4.965219 0.29964040  9.630797 -2.170167657 12.100605
+2024.895       5.108409 0.41485060  9.801967 -2.069768914 12.286586
+2024.914       5.117668 0.39619340  9.839142 -2.103204248 12.338540
+2024.933       4.846800 0.09747008  9.596129 -2.416673175 12.110273
+2024.952       4.796223 0.01909867  9.573348 -2.509758419 12.102205
+2024.971       5.065480 0.26061837  9.870341 -2.282921542 12.413881</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>fc_training_LC_ts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80     Hi 80         Lo 95     Hi 95
+2022.576     0.10516068 0.09712920 0.1131922  0.0928775892 0.1174438
+2022.595     0.10316377 0.09179631 0.1145312  0.0857787396 0.1205488
+2022.614     0.10234362 0.08840960 0.1162776  0.0810333709 0.1236539
+2022.633     0.10035270 0.08424930 0.1164561  0.0757246792 0.1249807
+2022.652     0.09940654 0.08138692 0.1174262  0.0718479106 0.1269652
+2022.671     0.09780985 0.07805334 0.1175664  0.0675948678 0.1280248
+2022.691     0.09868766 0.07732976 0.1200456  0.0660235756 0.1313517
+2022.710     0.10294664 0.08009435 0.1257989  0.0679970771 0.1378962
+2022.729     0.10176193 0.07750245 0.1260214  0.0646602511 0.1388636
+2022.748     0.10661496 0.08102107 0.1322088  0.0674724855 0.1457574
+2022.767     0.10766453 0.08079817 0.1345309  0.0665759760 0.1487531
+2022.786     0.10960286 0.08151752 0.1376882  0.0666500429 0.1525557
+2022.806     0.10904477 0.07978725 0.1383023  0.0642992564 0.1537903
+2022.825     0.11193611 0.08154777 0.1423244  0.0654611612 0.1584111
+2022.844     0.11018682 0.07870456 0.1416691  0.0620388659 0.1583348
+2022.863     0.11102299 0.07847997 0.1435660  0.0612527449 0.1607932
+2022.882     0.11022590 0.07665214 0.1437997  0.0588792632 0.1615725
+2022.901     0.11636804 0.08179085 0.1509452  0.0634867829 0.1692493
+2022.921     0.11702028 0.08146464 0.1525759  0.0626426161 0.1713980
+2022.940     0.11537729 0.07886616 0.1518884  0.0595383408 0.1712162
+2022.959     0.10441522 0.06696981 0.1418606  0.0471474096 0.1616830
+2022.978     0.10503205 0.06667200 0.1433921  0.0463654127 0.1636987
+2022.997     0.10563080 0.06637436 0.1448872  0.0455932521 0.1656683
+2023.016     0.10734694 0.06721113 0.1474827  0.0459645189 0.1687294
+2023.036     0.10454390 0.06354465 0.1455432  0.0418409548 0.1672469
+2023.055     0.10605351 0.06420573 0.1479013  0.0420528555 0.1700542
+2023.074     0.10779843 0.06511615 0.1504807  0.0425215117 0.1730754
+2023.093     0.11167274 0.06816916 0.1551763  0.0451397500 0.1782057
+2023.112     0.11040764 0.06609522 0.1547201  0.0426376401 0.1781776
+2023.131     0.10466166 0.05955219 0.1497711  0.0356726701 0.1736507
+2023.151     0.10258809 0.05669272 0.1484835  0.0323971733 0.1727790
+2023.170     0.10155173 0.05488105 0.1482224  0.0301750780 0.1729284
+2023.189     0.10162519 0.05418925 0.1490611  0.0290781784 0.1741722
+2023.208     0.10628203 0.05809041 0.1544737  0.0325793038 0.1799848
+2023.227     0.10513443 0.05619624 0.1540726  0.0302899251 0.1799789
+2023.246     0.10439016 0.05471411 0.1540662  0.0284171907 0.1803631
+2023.266     0.10862205 0.05821643 0.1590277  0.0315333085 0.1857108
+2023.285     0.10669658 0.05556935 0.1578238  0.0285042242 0.1848889
+2023.304     0.11146039 0.05961915 0.1633016  0.0321760492 0.1907447
+2023.323     0.11295669 0.06040871 0.1655047  0.0325914960 0.1933219
+2023.342     0.11230398 0.05905626 0.1655517  0.0308686197 0.1937393
+2023.361     0.10949614 0.05555538 0.1634369  0.0270008753 0.1919914
+2023.381     0.11083083 0.05620349 0.1654582  0.0272855167 0.1943761
+2023.400     0.11010165 0.05479391 0.1654094  0.0255157604 0.1946875
+2023.419     0.11014052 0.05415835 0.1661227  0.0245231709 0.1957579
+2023.438     0.11073085 0.05407998 0.1673817  0.0240908191 0.1973709
+2023.457     0.10787493 0.05056090 0.1651890  0.0202206789 0.1955292
+2023.476     0.10059583 0.04262397 0.1585677  0.0119355229 0.1892561
+2023.496     0.09823075 0.03960621 0.1568553  0.0085722476 0.1878893
+2023.515     0.09911594 0.03984368 0.1583882  0.0084668445 0.1897650
+2023.534     0.10355085 0.04363569 0.1634660  0.0119185144 0.1951832
+2023.553     0.10300009 0.04244666 0.1635535  0.0103916031 0.1956086
+2023.572     0.10516068 0.04397346 0.1663479  0.0115828978 0.1987385
+2023.591     0.10316377 0.04134710 0.1649804  0.0086233401 0.1977042
+2023.611     0.10234362 0.03990172 0.1647855  0.0068469795 0.1978403
+2023.630     0.10035270 0.03728963 0.1634158  0.0039060605 0.1967993
+2023.649     0.09940654 0.03572625 0.1630868  0.0020159450 0.1967971
+2023.668     0.09780985 0.03351617 0.1621035 -0.0005188562 0.1961386
+2023.687     0.09868766 0.03378429 0.1635910 -0.0005734871 0.1979488
+2023.706     0.10294664 0.03743717 0.1684561  0.0027585492 0.2031347
+2023.726     0.10176193 0.03564986 0.1678740  0.0006522450 0.2028716
+2023.745     0.10661496 0.03990368 0.1733262  0.0045888583 0.2086411
+2023.764     0.10766453 0.04035733 0.1749717  0.0047270497 0.2106020
+2023.783     0.10960286 0.04170294 0.1775028  0.0057588935 0.2134468
+2023.802     0.10904477 0.04055524 0.1775343  0.0042990703 0.2137905
+2023.821     0.11193611 0.04285999 0.1810122  0.0062932954 0.2175789
+2023.841     0.11018682 0.04052704 0.1798466  0.0036513873 0.2167223
+2023.860     0.11102299 0.04078242 0.1812636  0.0035993074 0.2184467
+2023.879     0.11022590 0.03940732 0.1810445  0.0019182285 0.2185336
+2023.898     0.11636804 0.04497416 0.1877619  0.0071805214 0.2255556
+2023.917     0.11702028 0.04505373 0.1889868  0.0069569425 0.2270836
+2023.936     0.11537729 0.04284064 0.1879139  0.0044420537 0.2263125
+2023.956     0.10441522 0.03131097 0.1775195 -0.0073880889 0.2162185
+2023.975     0.10503205 0.03136263 0.1787015 -0.0076356081 0.2176997
+2023.994     0.10563080 0.03139858 0.1798630 -0.0078975818 0.2191592
+2024.013     0.10734694 0.03255424 0.1821396 -0.0070386245 0.2217325
+2024.032     0.10454390 0.02919298 0.1798948 -0.0106953929 0.2197832
+2024.051     0.10605351 0.03014656 0.1819605 -0.0100361554 0.2221432
+2024.070     0.10779843 0.03133759 0.1842593 -0.0091383284 0.2247352
+2024.090     0.11167274 0.03466011 0.1886854 -0.0061079175 0.2294534
+2024.109     0.11040764 0.03284525 0.1879700 -0.0082137933 0.2290291
+2024.128     0.10466166 0.02655151 0.1827718 -0.0147975043 0.2241208
+2024.147     0.10258809 0.02393212 0.1812441 -0.0177058376 0.2228820
+2024.166     0.10155173 0.02235183 0.1807516 -0.0195740600 0.2226775
+2024.185     0.10162519 0.02188321 0.1813672 -0.0203296390 0.2235800
+2024.205     0.10628203 0.02599979 0.1865643 -0.0164990658 0.2290631
+2024.224     0.10513443 0.02431368 0.1859552 -0.0184702434 0.2287391
+2024.243     0.10439016 0.02303263 0.1857477 -0.0200354444 0.2288158
+2024.262     0.10862205 0.02672942 0.1905147 -0.0166219255 0.2338660
+2024.281     0.10669658 0.02427049 0.1891227 -0.0193632435 0.2327564
+2024.300     0.11146039 0.02850246 0.1944183 -0.0154128251 0.2383336
+2024.320     0.11295669 0.02946847 0.1964449 -0.0147275275 0.2406409
+2024.339     0.11230398 0.02828700 0.1963209 -0.0161888943 0.2407968
+2024.358     0.10949614 0.02495191 0.1940404 -0.0198030959 0.2387954
+2024.377     0.11083083 0.02576082 0.1959008 -0.0192725275 0.2409342
+2024.396     0.11010165 0.02450728 0.1956960 -0.0208036443 0.2410069
+2024.415     0.11014052 0.02402319 0.1962579 -0.0215645734 0.2418456
+2024.435     0.11073085 0.02409192 0.1973698 -0.0217719546 0.2432337
+2024.454     0.10787493 0.02071574 0.1950341 -0.0254235414 0.2411734
+2024.473     0.10059583 0.01291770 0.1882740 -0.0334963049 0.2346880
+2024.492     0.09823075 0.01003494 0.1864266 -0.0366531068 0.2331146
+2024.511     0.09911594 0.01040370 0.1878282 -0.0365577273 0.2347896
+2024.530     0.10355085 0.01432341 0.1927783 -0.0329107502 0.2400125
+2024.550     0.10300009 0.01325863 0.1927416 -0.0342476256 0.2402478</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>fc_training_JFC_ts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80     Hi 80      Lo 95     Hi 95
+2022.480       2.318485   -8.56316  13.20013  -14.32355  18.96052
+2022.499       2.195386  -13.14147  17.53224  -21.26031  25.65109
+2022.518       3.853647  -14.90877  22.61606  -24.84099  32.54828
+2022.537       1.669274  -19.98338  23.32192  -31.44560  34.78414
+2022.556       1.617555  -22.58257  25.81768  -35.39335  38.62846
+2022.576       2.010406  -24.49347  28.51428  -38.52377  42.54458
+2022.595       1.290418  -27.33238  29.91321  -42.48437  45.06520
+2022.614       2.258158  -28.33716  32.85347  -44.53334  49.04966
+2022.633       1.526608  -30.92154  33.97476  -48.09855  51.15177
+2022.652       1.721777  -32.47897  35.92253  -50.58376  54.02731
+2022.671       2.844721  -33.02310  38.71254  -52.01037  57.69982
+2022.691       1.478093  -35.98268  38.93886  -55.81321  58.76940
+2022.710       1.982426  -37.00627  40.97112  -57.64564  61.61049
+2022.729       1.456300  -39.00266  41.91526  -60.42034  63.33294
+2022.748       2.368524  -39.50911  44.24616  -61.67779  66.41484
+2022.767       2.382617  -40.86719  45.63242  -63.76225  68.52748
+2022.786       2.071966  -42.50779  46.65172  -66.10689  70.25082
+2022.806       3.207919  -42.66324  49.07908  -66.94597  73.36181
+2022.825       2.313945  -44.81325  49.44114  -69.76088  74.38877
+2022.844       1.573240  -46.77737  49.92385  -72.37264  75.51912
+2022.863       3.143611  -46.40021  52.68744  -72.62713  78.91435
+2022.882       4.672307  -46.03666  55.38128  -72.88037  82.22498
+2022.901       1.889453  -49.95848  53.73739  -77.40513  81.18403
+2022.921       2.081066  -50.88135  55.04348  -78.91796  83.08009
+2022.940       1.395684  -52.65824  55.44961  -81.27266  84.06403
+2022.959       1.555223  -53.56860  56.67905  -82.74939  85.85983
+2022.978       2.200450  -53.97290  58.37380  -83.70927  88.11017
+2022.997       2.362212  -54.84141  59.56583  -85.12317  89.84759
+2023.016       2.392040  -55.82362  60.60770  -86.64113  91.42521
+2023.036       1.536768  -57.67364  60.74717  -89.01773  92.09126
+2023.055       1.634076  -58.55463  61.82279  -90.41661  93.68476
+2023.074       1.683474  -59.46789  62.83484  -91.83947  95.20642
+2023.093       1.390928  -60.70818  63.49003  -93.58146  96.36331
+2023.112       2.662298  -60.37030  65.69489  -93.73774  99.06233
+2023.131       2.919458  -61.03300  66.87192  -94.88739 100.72630
+2023.151       3.215276  -61.64400  68.07455  -95.97843 102.40898
+2023.170       1.594660  -64.15893  67.34825  -98.96678 102.15610
+2023.189       4.795213  -61.84069  71.43112  -97.11561 106.70604
+2023.208       1.760544  -65.74614  69.26723 -101.48203 105.00312
+2023.227       3.092665  -65.27372  71.45905 -101.46469 107.65002
+2023.246       3.552036  -65.66336  72.76743 -102.30378 109.40785
+2023.266       1.765353  -68.28877  71.81948 -105.37318 108.90389
+2023.285       3.612733  -67.27019  74.49566 -104.79335 112.01881
+2023.304       3.035787  -68.66636  74.73794 -106.62319 112.69476
+2023.323       2.881824  -69.63029  75.39394 -108.01589 113.77954
+2023.342       3.651996  -69.66114  76.96513 -108.47077 115.77477
+2023.361       2.292233  -71.81327  76.39773 -111.04235 115.62682
+2023.381       2.952539  -71.93694  77.84202 -111.58104 117.48612
+2023.400       1.314647  -74.35069  76.97998 -114.40550 117.03479
+2023.419       2.324838  -74.10848  78.75816 -114.56984 119.21951
+2023.438       2.444597  -74.74906  79.63826 -115.61292 120.50211
+2023.457       1.009318  -76.93727  78.95590 -118.19970 120.21833
+2023.476       2.318485  -76.37382  81.01079 -118.03101 122.66798
+2023.496       2.195386  -77.23564  81.62642 -119.28389 123.67466
+2023.515       3.853647  -76.30930  84.01659 -118.74499 126.45229
+2023.534       1.669274  -79.21896  82.55751 -122.03860 125.37715
+2023.553       1.617555  -79.98952  83.22463 -123.18970 126.42481
+2023.572       2.010406  -80.30924  84.33005 -123.88663 127.90744
+2023.591       1.290418  -81.73568  84.31652 -125.68705 128.26788
+2023.611       2.258158  -81.46844  85.98475 -125.79062 130.30693
+2023.630       1.526608  -82.89467  85.94788 -127.58459 130.63781
+2023.649       1.721777  -83.38851  86.83206 -128.44317 131.88672
+2023.668       2.844721  -82.94904  88.63848 -128.36551 134.05496
+2023.687       1.478093  -84.99374  87.94993 -130.76917 133.72536
+2023.706       1.982426  -85.16221  89.12706 -131.29379 135.25865
+2023.726       1.456300  -86.35598  89.26858 -132.84099 135.75359
+2023.745       2.368524  -86.10636  90.84341 -132.94214 137.67919
+2023.764       2.382617  -86.74995  91.51519 -133.93388 138.69912
+2023.783       2.071966  -87.71347  91.85740 -135.24300 139.38693
+2023.802       3.207919  -87.22566  93.64150 -135.09831 141.51415
+2023.821       2.313945  -88.76317  93.39107 -136.97649 141.60438
+2023.841       1.573240  -90.14290  93.28938 -138.69449 141.84098
+2023.860       3.143611  -89.20713  95.49435 -138.09466 144.38188
+2023.879       4.672307  -88.30871  97.65332 -137.52988 146.87449
+2023.898       1.889453  -91.71759  95.49649 -141.27016 145.04907
+2023.917       2.081066  -92.14784  96.30997 -142.02961 146.19174
+2023.936       1.395684  -93.45101  96.24238 -143.65982 146.45119
+2023.956       1.555223  -93.90527  97.01571 -144.43900 147.54944
+2023.975       2.200450  -93.86991  98.27081 -144.72649 149.12738
+2023.994       2.362212  -94.31417  99.03859 -145.49156 150.21598
+2024.013       2.392040  -94.88659  99.67067 -146.38279 151.16687
+2024.032       1.536768  -96.34040  99.41394 -148.15345 151.22699
+2024.051       1.634076  -96.83800 100.10615 -148.96597 152.23412
+2024.070       1.683474  -97.37994 100.74688 -149.82094 153.18788
+2024.090       1.390928  -98.26030 101.04216 -151.01248 153.79434
+2024.109       2.662298  -97.57331 102.89791 -150.63484 155.95943
+2024.128       2.919458  -97.89714 103.73605 -151.26622 157.10514
+2024.147       3.215276  -98.17898 104.60953 -151.85386 158.28441
+2024.166       1.594660 -100.37398 103.56330 -154.35292 157.54224
+2024.185       4.795213  -97.74460 107.33503 -152.02590 161.61632
+2024.205       1.760544 -101.34727 104.86836 -155.92926 159.45034
+2024.224       3.092665 -100.58005 106.76538 -155.46107 161.64639
+2024.243       3.552036 -100.68251 107.78658 -155.86094 162.96501
+2024.262       1.765353 -103.02801 106.55872 -158.50227 162.03297
+2024.281       3.612733 -101.73649 108.96195 -157.50500 164.73046
+2024.300       3.035787 -102.86637 108.93795 -158.92759 164.99916
+2024.320       2.881824 -103.57040 109.33405 -159.92281 165.68645
+2024.339       3.651996 -103.34747 110.65146 -159.98956 167.29356
+2024.358       2.292233 -105.25169 109.83615 -162.18200 166.76646
+2024.377       2.952539 -105.13309 111.03817 -162.35017 168.25524
+2024.396       1.314647 -107.30999 109.93929 -164.81240 167.44170
+2024.415       2.324838 -106.83615 111.48583 -164.62249 169.27216
+2024.435       2.444597 -107.25012 112.13931 -165.31899 170.20819
+2024.454       1.009318 -109.21654 111.23517 -167.56658 169.58522</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>bestfit_IMI_ts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  fit_IMI_ts <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_IMI_ts<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_IMI_ts<span class="sc">$</span>aicc)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    bestfit_IMI_ts <span class="ot">&lt;-</span> fit_IMI_ts</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>bestfit_LC_ts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  fit_LC_ts <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_LC_ts<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_LC_ts<span class="sc">$</span>aicc)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    bestfit_LC_ts <span class="ot">&lt;-</span> fit_LC_ts</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>bestfit_JFC_ts <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">aicc=</span><span class="cn">Inf</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  fit_JFC_ts <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span>i), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(fit_JFC_ts<span class="sc">$</span>aicc <span class="sc">&lt;</span> bestfit_JFC_ts<span class="sc">$</span>aicc)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    bestfit_JFC_ts <span class="ot">&lt;-</span> fit_JFC_ts</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">break</span>;</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_IMI_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: IMI_ts 
+Regression with ARIMA(0,1,0) errors 
+
+Coefficients:
+       S1-52   C1-52
+      0.0543  0.3112
+s.e.  0.3996  0.3962
+
+sigma^2 = 0.4676:  log likelihood = -417.16
+AIC=840.32   AICc=840.38   BIC=852.34
+
+Training set error measures:
+                       ME      RMSE       MAE        MPE     MAPE       MASE
+Training set -0.004000441 0.6812353 0.4175804 -0.2810739 4.360244 0.09903161
+                    ACF1
+Training set -0.03529911</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_LC_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: LC_ts 
+Regression with ARIMA(0,1,0) errors 
+
+Coefficients:
+        S1-52   C1-52
+      -0.0078  0.0004
+s.e.   0.0068  0.0067
+
+sigma^2 = 0.0001263:  log likelihood = 1155.92
+AIC=-2305.85   AICc=-2305.79   BIC=-2294
+
+Training set error measures:
+                        ME       RMSE         MAE        MPE     MAPE      MASE
+Training set -0.0002586684 0.01119342 0.005803786 -0.3415256 3.683271 0.1552277
+                   ACF1
+Training set -0.0567413</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bestfit_JFC_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: JFC_ts 
+Regression with ARIMA(3,0,1) errors 
+
+Coefficients:
+         ar1     ar2      ar3     ma1  intercept    S1-52   C1-52
+      0.2581  0.5024  -0.0388  0.7149     4.8902  -1.5555  5.1553
+s.e.  0.5459  0.5736   0.2255  0.5444     4.4462   5.5759  4.5037
+
+sigma^2 = 95.06:  log likelihood = -1388.09
+AIC=2792.18   AICc=2792.57   BIC=2823.7
+
+Training set error measures:
+                    ME     RMSE      MAE MPE MAPE      MASE       ACF1
+Training set -0.516936 9.658926 2.257936 NaN  Inf 0.9804273 -0.1735541</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>fc_arima_IMI_ts <span class="ot">&lt;-</span> <span class="fu">forecast</span>(bestfit_IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_IMI_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>fc_arima_LC_ts <span class="ot">&lt;-</span> <span class="fu">forecast</span>(bestfit_LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_LC_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>fc_arima_JFC_ts <span class="ot">&lt;-</span> <span class="fu">forecast</span>(bestfit_JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_JFC_ts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>fc_arima_IMI_ts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast     Lo 80    Hi 80       Lo 95     Hi 95
+2023.151       4.877242 4.0009275 5.753556  3.53703482  6.217448
+2023.170       4.913295 3.6739997 6.152590  3.01795644  6.808633
+2023.189       4.947638 3.4298176 6.465459  2.62633198  7.268944
+2023.208       4.979774 3.2271454 6.732402  2.29936016  7.660187
+2023.227       5.009236 3.0497382 6.968734  2.01244270  8.006029
+2023.246       5.035599 2.8890764 7.182121  1.75277609  8.318421
+2023.266       5.058480 2.7399707 7.376989  1.51262612  8.604333
+2023.285       5.077548 2.5989575 7.556138  1.28687093  8.868225
+2023.304       5.092527 2.4635848 7.721469  1.07190687  9.113147
+2023.323       5.103200 2.3320516 7.874348  0.86509428  9.341306
+2023.342       5.109412 2.2030075 8.015817  0.66444962  9.554375
+2023.361       5.111074 2.0754333 8.146715  0.46846201  9.753686
+2023.381       5.108161 1.9485661 8.267757  0.27597738  9.940345
+2023.400       5.100716 1.8218491 8.379583  0.08612175 10.115310
+2023.419       5.088846 1.6948964 8.482796 -0.10175213 10.279444
+2023.438       5.072723 1.5674672 8.577980 -0.28810338 10.433550
+2023.457       5.052582 1.4394461 8.665717 -0.47323228 10.578395
+2023.476       5.028712 1.3108264 8.746598 -0.65730341 10.714728
+2023.496       5.001461 1.1816964 8.821225 -0.84036476 10.843286
+2023.515       4.971222 1.0522268 8.890218 -1.02236418 10.964809
+2023.534       4.938435 0.9226593 8.954210 -1.20316389 11.080033
+2023.553       4.903573 0.7932955 9.013850 -1.38255387 11.189699
+2023.572       4.867141 0.6644867 9.069796 -1.56026425 11.294547
+2023.591       4.829668 0.5366234 9.122713 -1.73597714 11.395313
+2023.611       4.791696 0.4101253 9.173266 -1.90933795 11.492729
+2023.630       4.753774 0.2854315 9.222117 -2.07996617 11.587514</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>fc_arima_LC_ts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80     Hi 80      Lo 95     Hi 95
+2022.729      0.1176860 0.10328383 0.1320882 0.09565977 0.1397123
+2022.748      0.1184449 0.09807709 0.1388127 0.08729503 0.1495947
+2022.767      0.1192656 0.09432020 0.1442109 0.08111492 0.1574162
+2022.786      0.1201361 0.09133173 0.1489406 0.07608359 0.1641887
+2022.806      0.1210441 0.08883974 0.1532484 0.07179181 0.1702963
+2022.825      0.1219761 0.08669809 0.1572542 0.06802301 0.1759293
+2022.844      0.1229189 0.08481425 0.1610236 0.06464286 0.1811949
+2022.863      0.1238587 0.08312309 0.1645943 0.06155897 0.1861584
+2022.882      0.1247819 0.08157525 0.1679885 0.05870305 0.1908607
+2022.901      0.1256751 0.08013132 0.1712189 0.05602190 0.1953283
+2022.921      0.1265254 0.07875871 0.1742921 0.05347254 0.1995783
+2022.940      0.1273205 0.07742983 0.1772113 0.05101929 0.2036218
+2022.959      0.1280489 0.07612103 0.1799768 0.04863207 0.2074658
+2022.978      0.1287000 0.07481192 0.1825882 0.04628527 0.2111148
+2022.997      0.1292644 0.07348494 0.1850440 0.04395705 0.2145718
+2023.016      0.1297340 0.07212514 0.1873428 0.04162887 0.2178391
+2023.036      0.1301018 0.07071999 0.1894836 0.03928515 0.2209185
+2023.055      0.1303626 0.06925925 0.1914660 0.03691307 0.2238122
+2023.074      0.1305127 0.06773492 0.1932905 0.03450238 0.2265230
+2023.093      0.1305498 0.06614114 0.1949584 0.03204528 0.2290543
+2023.112      0.1304734 0.06447416 0.1964726 0.02953629 0.2314104
+2023.131      0.1302846 0.06273222 0.1978369 0.02697218 0.2335970
+2023.151      0.1299861 0.06091555 0.1990567 0.02435181 0.2356204
+2023.170      0.1295823 0.05902620 0.2001384 0.02167605 0.2374886
+2023.189      0.1290790 0.05706801 0.2010901 0.01894767 0.2392104
+2023.208      0.1284836 0.05504645 0.2019207 0.01617117 0.2407960</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>fc_arima_JFC_ts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95
+2022.633     -0.3618013 -12.85707 12.13347 -19.47167 18.74807
+2022.652     -0.3772171 -17.81105 17.05662 -27.03997 26.28553
+2022.671     -0.5997175 -20.41360 19.21417 -30.90244 29.70300
+2022.691     -0.6871307 -22.07496 20.70070 -33.39699 32.02273
+2022.710     -0.8400482 -23.14685 21.46675 -34.95535 33.27525
+2022.729     -0.9088071 -23.84022 22.02260 -35.97937 34.16176
+2022.748     -0.9689259 -24.28955 22.35169 -36.63474 34.69688
+2022.767     -0.9573687 -24.54209 22.62735 -37.02708 35.11235
+2022.786     -0.9024225 -24.65676 22.85191 -37.23154 35.42669
+2022.806     -0.7779390 -24.64674 23.09087 -37.28213 35.72625
+2022.825     -0.5953074 -24.53879 23.34817 -37.21370 36.02309
+2022.844     -0.3450186 -24.33866 23.64863 -37.04013 36.35009
+2022.863     -0.0334228 -24.06007 23.99322 -36.77901 36.71216
+2022.882      0.3407422 -23.70800 24.38948 -36.43863 37.12012
+2022.901      0.7717069 -23.29164 24.83505 -36.03001 37.57342
+2022.921      1.2561464 -22.81695 25.32925 -35.56048 38.07278
+2022.940      1.7873972 -22.29217 25.86696 -35.03912 38.61392
+2022.959      2.3593351 -21.72454 26.44321 -34.47378 39.19245
+2022.978      2.9641460 -21.12260 27.05089 -33.87335 39.80164
+2022.997      3.5939665 -20.49468 27.68262 -33.24644 40.43438
+2023.016      4.2400813 -19.84984 28.33000 -32.60227 41.08243
+2023.036      4.8936693 -19.19709 28.98443 -31.94997 41.73731
+2023.055      5.5455727 -18.54575 29.63689 -31.29892 42.39007
+2023.074      6.1866834 -17.90501 30.27838 -30.65839 43.03175
+2023.093      6.8079361 -17.28401 30.89988 -30.03751 43.65338
+2023.112      7.4005456 -16.69156 31.49265 -29.44516 44.24625</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>fit_IMI1 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">1</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>fit_IMI2 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">2</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>fit_IMI3 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">3</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>fit_IMI4 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">4</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>fit_IMI5 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">5</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>fit_IMI6 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">6</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>fit_IMI7 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">7</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>fit_IMI8 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">8</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>fit_IMI9 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">9</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>fit_IMI10 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">10</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>fit_IMI11 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">11</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>fit_IMI12 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(IMI_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">12</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>fit_LC1 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">1</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>fit_LC2 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">2</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>fit_LC3 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">3</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>fit_LC4 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">4</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>fit_LC5 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">5</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>fit_LC6 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">6</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>fit_LC7 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">7</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>fit_LC8 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">8</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>fit_LC9 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">9</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>fit_LC10 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">10</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>fit_LC11 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">11</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>fit_LC12 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(LC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">12</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>fit_JFC1 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">1</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>fit_JFC2 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">2</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>fit_JFC3 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">3</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>fit_JFC4 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">4</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>fit_JFC5 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">5</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>fit_JFC6 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">6</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>fit_JFC7 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">7</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>fit_JFC8 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">8</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>fit_JFC9 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">9</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>fit_JFC10 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">10</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>fit_JFC11 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">11</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>fit_JFC12 <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(JFC_ts, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">12</span>), <span class="at">seasonal=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>aics<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">AIC</span>(fit_IMI1),<span class="fu">AIC</span>(fit_IMI2),<span class="fu">AIC</span>(fit_IMI3),<span class="fu">AIC</span>(fit_IMI4),<span class="fu">AIC</span>(fit_IMI5),<span class="fu">AIC</span>(fit_IMI6),<span class="fu">AIC</span>(fit_IMI7),<span class="fu">AIC</span>(fit_IMI8),<span class="fu">AIC</span>(fit_IMI9),<span class="fu">AIC</span>(fit_IMI10),<span class="fu">AIC</span>(fit_IMI11),<span class="fu">AIC</span>(fit_IMI12))</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-35-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>aics<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">AIC</span>(fit_LC1),<span class="fu">AIC</span>(fit_LC2),<span class="fu">AIC</span>(fit_LC3),<span class="fu">AIC</span>(fit_LC4),<span class="fu">AIC</span>(fit_LC5),<span class="fu">AIC</span>(fit_LC6),<span class="fu">AIC</span>(fit_LC7),<span class="fu">AIC</span>(fit_LC8),<span class="fu">AIC</span>(fit_LC9),<span class="fu">AIC</span>(fit_LC10),<span class="fu">AIC</span>(fit_LC11),<span class="fu">AIC</span>(fit_LC12))</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-36-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>aics<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fu">AIC</span>(fit_JFC1),<span class="fu">AIC</span>(fit_JFC2),<span class="fu">AIC</span>(fit_JFC3),<span class="fu">AIC</span>(fit_JFC4),<span class="fu">AIC</span>(fit_JFC5),<span class="fu">AIC</span>(fit_JFC6),<span class="fu">AIC</span>(fit_JFC7),<span class="fu">AIC</span>(fit_JFC8),<span class="fu">AIC</span>(fit_JFC9),<span class="fu">AIC</span>(fit_JFC10),<span class="fu">AIC</span>(fit_JFC11),<span class="fu">AIC</span>(fit_JFC12))</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(aics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_IMI <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_IMI1, <span class="at">xreg=</span><span class="fu">fourier</span>(IMI_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_man_IMI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_LC <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_LC1, <span class="at">xreg=</span><span class="fu">fourier</span>(LC_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_man_LC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_JFC <span class="ot">&lt;-</span> <span class="fu">forecast</span>(fit_LC1, <span class="at">xreg=</span><span class="fu">fourier</span>(JFC_ts, <span class="at">K=</span><span class="dv">1</span>, <span class="at">h=</span><span class="dv">26</span>))</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fc_arima_man_JFC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="JENNIFER_GUAY_IMI,LC,JFC_files/figure-html/unnamed-chunk-40-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_IMI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast     Lo 80    Hi 80       Lo 95     Hi 95
+2023.151       4.877242 4.0009275 5.753556  3.53703482  6.217448
+2023.170       4.913295 3.6739997 6.152590  3.01795644  6.808633
+2023.189       4.947638 3.4298176 6.465459  2.62633198  7.268944
+2023.208       4.979774 3.2271454 6.732402  2.29936016  7.660187
+2023.227       5.009236 3.0497382 6.968734  2.01244270  8.006029
+2023.246       5.035599 2.8890764 7.182121  1.75277609  8.318421
+2023.266       5.058480 2.7399707 7.376989  1.51262612  8.604333
+2023.285       5.077548 2.5989575 7.556138  1.28687093  8.868225
+2023.304       5.092527 2.4635848 7.721469  1.07190687  9.113147
+2023.323       5.103200 2.3320516 7.874348  0.86509428  9.341306
+2023.342       5.109412 2.2030075 8.015817  0.66444962  9.554375
+2023.361       5.111074 2.0754333 8.146715  0.46846201  9.753686
+2023.381       5.108161 1.9485661 8.267757  0.27597738  9.940345
+2023.400       5.100716 1.8218491 8.379583  0.08612175 10.115310
+2023.419       5.088846 1.6948964 8.482796 -0.10175213 10.279444
+2023.438       5.072723 1.5674672 8.577980 -0.28810338 10.433550
+2023.457       5.052582 1.4394461 8.665717 -0.47323228 10.578395
+2023.476       5.028712 1.3108264 8.746598 -0.65730341 10.714728
+2023.496       5.001461 1.1816964 8.821225 -0.84036476 10.843286
+2023.515       4.971222 1.0522268 8.890218 -1.02236418 10.964809
+2023.534       4.938435 0.9226593 8.954210 -1.20316389 11.080033
+2023.553       4.903573 0.7932955 9.013850 -1.38255387 11.189699
+2023.572       4.867141 0.6644867 9.069796 -1.56026425 11.294547
+2023.591       4.829668 0.5366234 9.122713 -1.73597714 11.395313
+2023.611       4.791696 0.4101253 9.173266 -1.90933795 11.492729
+2023.630       4.753774 0.2854315 9.222117 -2.07996617 11.587514</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_LC</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80     Hi 80      Lo 95     Hi 95
+2022.729      0.1176860 0.10328383 0.1320882 0.09565977 0.1397123
+2022.748      0.1184449 0.09807709 0.1388127 0.08729503 0.1495947
+2022.767      0.1192656 0.09432020 0.1442109 0.08111492 0.1574162
+2022.786      0.1201361 0.09133173 0.1489406 0.07608359 0.1641887
+2022.806      0.1210441 0.08883974 0.1532484 0.07179181 0.1702963
+2022.825      0.1219761 0.08669809 0.1572542 0.06802301 0.1759293
+2022.844      0.1229189 0.08481425 0.1610236 0.06464286 0.1811949
+2022.863      0.1238587 0.08312309 0.1645943 0.06155897 0.1861584
+2022.882      0.1247819 0.08157525 0.1679885 0.05870305 0.1908607
+2022.901      0.1256751 0.08013132 0.1712189 0.05602190 0.1953283
+2022.921      0.1265254 0.07875871 0.1742921 0.05347254 0.1995783
+2022.940      0.1273205 0.07742983 0.1772113 0.05101929 0.2036218
+2022.959      0.1280489 0.07612103 0.1799768 0.04863207 0.2074658
+2022.978      0.1287000 0.07481192 0.1825882 0.04628527 0.2111148
+2022.997      0.1292644 0.07348494 0.1850440 0.04395705 0.2145718
+2023.016      0.1297340 0.07212514 0.1873428 0.04162887 0.2178391
+2023.036      0.1301018 0.07071999 0.1894836 0.03928515 0.2209185
+2023.055      0.1303626 0.06925925 0.1914660 0.03691307 0.2238122
+2023.074      0.1305127 0.06773492 0.1932905 0.03450238 0.2265230
+2023.093      0.1305498 0.06614114 0.1949584 0.03204528 0.2290543
+2023.112      0.1304734 0.06447416 0.1964726 0.02953629 0.2314104
+2023.131      0.1302846 0.06273222 0.1978369 0.02697218 0.2335970
+2023.151      0.1299861 0.06091555 0.1990567 0.02435181 0.2356204
+2023.170      0.1295823 0.05902620 0.2001384 0.02167605 0.2374886
+2023.189      0.1290790 0.05706801 0.2010901 0.01894767 0.2392104
+2023.208      0.1284836 0.05504645 0.2019207 0.01617117 0.2407960</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>fc_arima_man_JFC</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Point Forecast      Lo 80     Hi 80      Lo 95     Hi 95
+2022.729      0.1151639 0.10076168 0.1295661 0.09313762 0.1371902
+2022.748      0.1154719 0.09510415 0.1358397 0.08432209 0.1466218
+2022.767      0.1158849 0.09093952 0.1408302 0.07773425 0.1540355
+2022.786      0.1163967 0.08759229 0.1452011 0.07234415 0.1604492
+2022.806      0.1170000 0.08479569 0.1492043 0.06774775 0.1662522
+2022.825      0.1176860 0.08240798 0.1529641 0.06373291 0.1716392
+2022.844      0.1184449 0.08034023 0.1565495 0.06016884 0.1767209
+2022.863      0.1192656 0.07852996 0.1600011 0.05696584 0.1815653
+2022.882      0.1201361 0.07692952 0.1633428 0.05405732 0.1862150
+2022.901      0.1210441 0.07550028 0.1665878 0.05139086 0.1906973
+2022.921      0.1219761 0.07420943 0.1697429 0.04892325 0.1950290
+2022.940      0.1229189 0.07302819 0.1728096 0.04661765 0.1992202
+2022.959      0.1238587 0.07193079 0.1757866 0.04444182 0.2032755
+2022.978      0.1247819 0.07089375 0.1786700 0.04236710 0.2071966
+2022.997      0.1256751 0.06989559 0.1814546 0.04036770 0.2109825
+2023.016      0.1265254 0.06891660 0.1841343 0.03842033 0.2146305
+2023.036      0.1273205 0.06793872 0.1867024 0.03650388 0.2181372
+2023.055      0.1280489 0.06694554 0.1891523 0.03459936 0.2214985
+2023.074      0.1287000 0.06592228 0.1914778 0.03268973 0.2247103
+2023.093      0.1292644 0.06485582 0.1936731 0.03075995 0.2277689
+2023.112      0.1297340 0.06373476 0.1957332 0.02879689 0.2306710
+2023.131      0.1301018 0.06254947 0.1976541 0.02678942 0.2334142
+2023.151      0.1303626 0.06129208 0.1994332 0.02472834 0.2359969
+2023.170      0.1305127 0.05995657 0.2010688 0.02260642 0.2384190
+2023.189      0.1305498 0.05853874 0.2025608 0.02041840 0.2406811
+2023.208      0.1304734 0.05703623 0.2039105 0.01816096 0.2427858</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_arima_man_IMI)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                       ME      RMSE       MAE        MPE     MAPE       MASE
+Training set -0.004000441 0.6812353 0.4175804 -0.2810739 4.360244 0.09903161
+                    ACF1
+Training set -0.03529911</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_arima_man_LC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        ME       RMSE         MAE        MPE     MAPE      MASE
+Training set -0.0002586684 0.01119342 0.005803786 -0.3415256 3.683271 0.1552277
+                   ACF1
+Training set -0.0567413</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(fc_arima_man_JFC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        ME       RMSE         MAE        MPE     MAPE      MASE
+Training set -0.0002586684 0.01119342 0.005803786 -0.3415256 3.683271 0.1552277
+                   ACF1
+Training set -0.0567413</code></pre>
+</div>
+</div>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
