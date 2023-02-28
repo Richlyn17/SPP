@@ -1,0 +1,491 @@
+------------------------------------------------------------------------
+Title:LPZ,MAC,MAH,MARC
+Author:Jhoy Dupitas
+------------------------------------------------------------------------
+
+```{# (MAH Data)}
+
+library(forecast)
+library(ggplot2)
+library(readr)
+library(zoo)
+```
+
+```{r}
+MAH <- read_csv("/cloud/project/CSV/MAH.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+MAH <- ts(MAH[,2], freq=365.25/7, start=2021+15/365.25)
+MAH %>%
+  autoplot()
+```
+
+```{r}
+MAH_decomp <- decompose(na.locf(MAH), type="additive")
+autoplot(MAH_decomp)
+```
+
+```{r}
+training_MAH <- subset(MAH, end=length(MAH)-8)
+test_MAH <- subset(MAH, start=length(MAH)-8)
+fc_training_MAH <- forecast(training_MAH)
+fc_training_MAH %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_MAH)
+
+```
+
+```{r}
+fc_MAH <-forecast(MAH)
+fc_MAH %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_MAH
+```
+
+```{r}
+tail(MAH)
+min(MAH)
+max(MAH)
+which.min(MAH)
+```
+
+```{r}
+bestfit_MAH <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_MAH <- auto.arima(MAH, xreg=fourier(MAH, K=i), seasonal=FALSE)
+  if(fit_MAH$aicc < bestfit_MAH$aicc)
+    bestfit_MAH <- fit_MAH
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_MAH)
+```
+
+```{r}
+fc_arima_MAH <- forecast(bestfit_MAH, xreg=fourier(MAH, K=1, h=26))
+plot(fc_arima_MAH)
+```
+
+```{r}
+fit_MAH1 <- auto.arima(MAH, xreg=fourier(MAH, K=1), seasonal=FALSE)
+fit_MAH2 <- auto.arima(MAH, xreg=fourier(MAH, K=2), seasonal=FALSE)
+fit_MAH3 <- auto.arima(MAH, xreg=fourier(MAH, K=3), seasonal=FALSE)
+fit_MAH4 <- auto.arima(MAH, xreg=fourier(MAH, K=4), seasonal=FALSE)
+fit_MAH5 <- auto.arima(MAH, xreg=fourier(MAH, K=5), seasonal=FALSE)
+fit_MAH6 <- auto.arima(MAH, xreg=fourier(MAH, K=6), seasonal=FALSE)
+fit_MAH7 <- auto.arima(MAH, xreg=fourier(MAH, K=7), seasonal=FALSE)
+fit_MAH8 <- auto.arima(MAH, xreg=fourier(MAH, K=8), seasonal=FALSE)
+fit_MAH9 <- auto.arima(MAH, xreg=fourier(MAH, K=9), seasonal=FALSE)
+fit_MAH10 <- auto.arima(MAH, xreg=fourier(MAH, K=10), seasonal=FALSE)
+fit_MAH11 <- auto.arima(MAH, xreg=fourier(MAH, K=11), seasonal=FALSE)
+fit_MAH12 <- auto.arima(MAH, xreg=fourier(MAH, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_MAH1),AIC(fit_MAH2),AIC(fit_MAH3),AIC(fit_MAH4),AIC(fit_MAH5),AIC(fit_MAH6),AIC(fit_MAH7),AIC(fit_MAH8),AIC(fit_MAH9),AIC(fit_MAH10),AIC(fit_MAH11),AIC(fit_MAH12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_MAH <- forecast(fit_MAH1, xreg=fourier(MAH, K=1, h=26))
+plot(fc_arima_man_MAH)
+```
+
+```{r}
+fc_arima_man_MAH
+```
+
+```{r}
+accuracy(fc_MAH)
+```
+
+```{r}
+accuracy(fc_arima_MAH)
+```
+
+```{r}
+accuracy(fc_arima_man_MAH)
+```
+
+# (MAC Data)
+
+```{r}
+MAC <- read_csv("/cloud/project/CSV/MAC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+MAC <- ts(MAC[,2], freq=365.25/7, start=2021+15/365.25)
+MAC %>%
+  autoplot()
+```
+
+```{r}
+MAC_decomp <- decompose(na.locf(MAH), type="additive")
+autoplot(MAC_decomp)
+```
+
+```{r}
+training_MAC <- subset(MAC, end=length(MAC)-8)
+test_MAC <- subset(MAC, start=length(MAC)-8)
+fc_training_MAC <- forecast(training_MAC)
+fc_training_MAC %>%
+  forecast(h=60) %>%
+  autoplot() +autolayer(test_MAC)
+```
+
+```{r}
+fc_MAC <-forecast(MAC)
+fc_MAC %>%
+  forecast(h=20) %>%
+  autoplot()
+```
+
+```{r}
+fc_MAC
+```
+
+```{r}
+tail(MAC)
+min(MAC)
+max(MAC)
+which.min(MAC)
+```
+
+```{r}
+bestfit_MAC <- list(aicc=Inf)
+for(i in 1:25)
+{
+  fit_MAC <- auto.arima(MAC, xreg=fourier(MAC, K=i), seasonal=FALSE)
+  if(fit_MAC$aicc < bestfit_MAC$aicc)
+    bestfit_MAC <- fit_MAC
+  else break;
+}
+```
+
+```{r}
+summary(bestfit_MAC)
+```
+
+```{r}
+fc_arima_MAC <- forecast(bestfit_MAC, xreg=fourier(MAC, K=1, h=26))
+plot(fc_arima_MAC)
+```
+
+```{r}
+fit_MAC1 <- auto.arima(MAC, xreg=fourier(MAC, K=1), seasonal=FALSE)
+fit_MAC2 <- auto.arima(MAC, xreg=fourier(MAC, K=2), seasonal=FALSE)
+fit_MAC3 <- auto.arima(MAC, xreg=fourier(MAC, K=3), seasonal=FALSE)
+fit_MAC4 <- auto.arima(MAC, xreg=fourier(MAC, K=4), seasonal=FALSE)
+fit_MAC5 <- auto.arima(MAC, xreg=fourier(MAC, K=5), seasonal=FALSE)
+fit_MAC6 <- auto.arima(MAC, xreg=fourier(MAC, K=6), seasonal=FALSE)
+fit_MAC7 <- auto.arima(MAC, xreg=fourier(MAC, K=7), seasonal=FALSE)
+fit_MAC8 <- auto.arima(MAC, xreg=fourier(MAC, K=8), seasonal=FALSE)
+fit_MAC9 <- auto.arima(MAC, xreg=fourier(MAC, K=9), seasonal=FALSE)
+fit_MAC10 <- auto.arima(MAC, xreg=fourier(MAC, K=10), seasonal=FALSE)
+fit_MAC11 <- auto.arima(MAC, xreg=fourier(MAC, K=11), seasonal=FALSE)
+fit_MAC12 <- auto.arima(MAC, xreg=fourier(MAC, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_MAC1),AIC(fit_MAC2),AIC(fit_MAC3),AIC(fit_MAC4),AIC(fit_MAC5),AIC(fit_MAC6),AIC(fit_MAC7),AIC(fit_MAC8),AIC(fit_MAC9),AIC(fit_MAC10),AIC(fit_MAC11),AIC(fit_MAC12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_MAC <- forecast(fit_MAC1, xreg=fourier(MAC, K=1, h=26))
+plot(fc_arima_man_MAC)
+```
+
+```{r}
+fc_arima_man_MAC
+```
+
+```{r}
+accuracy(fc_MAC)
+```
+
+```{r}
+accuracy(fc_arima_MAC)
+```
+
+```{r}
+accuracy(fc_arima_man_MAC)
+```
+
+# (LPZ Data)
+
+```{r}
+LPZ <- read_csv("/cloud/project/CSV/LPZ.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+
+LPZ <- ts(LPZ[,2], freq=365.25/7, start=2021+15/365.25)
+
+LPZ %>%
+
+  autoplot()
+```
+
+```{r}
+LPZ_decomp <- decompose(na.locf(LPZ), type="additive")
+
+autoplot(LPZ_decomp)
+```
+
+```{r}
+training_LPZ <- subset(LPZ, end=length(LPZ)-8)
+
+test_LPZ <- subset(LPZ, start=length(LPZ)-8)
+
+fc_training_LPZ <- forecast(training_LPZ)
+
+fc_training_LPZ %>%
+
+  forecast(h=60) %>%
+
+  autoplot() +autolayer(test_LPZ)
+```
+
+```{r}
+fc_LPZ <-forecast(LPZ)
+
+fc_LPZ %>%
+
+  forecast(h=20) %>%
+
+  autoplot()
+```
+
+```{r}
+fc_LPZ
+```
+
+```{r}
+tail(LPZ)
+
+min(LPZ)
+
+max(LPZ)
+
+which.min(LPZ)
+```
+
+```{r}
+bestfit_LPZ <- list(aicc=Inf)
+
+for(i in 1:25)
+
+{
+
+  fit_LPZ <- auto.arima(LPZ, xreg=fourier(LPZ, K=i), seasonal=FALSE)
+
+  if(fit_LPZ$aicc < bestfit_LPZ$aicc)
+
+    bestfit_LPZ <- fit_LPZ
+
+  else break;
+
+}
+```
+
+```{r}
+summary(bestfit_LPZ)
+```
+
+```{r}
+fc_arima_LPZ <- forecast(bestfit_LPZ, xreg=fourier(LPZ, K=1, h=26))
+
+plot(fc_arima_LPZ)
+```
+
+```{r}
+fit_LPZ1 <- auto.arima(LPZ, xreg=fourier(LPZ, K=1), seasonal=FALSE)
+
+fit_LPZ2 <- auto.arima(LPZ, xreg=fourier(LPZ, K=2), seasonal=FALSE)
+
+fit_LPZ3 <- auto.arima(LPZ, xreg=fourier(LPZ, K=3), seasonal=FALSE)
+
+fit_LPZ4 <- auto.arima(LPZ, xreg=fourier(LPZ, K=4), seasonal=FALSE)
+
+fit_LPZ5 <- auto.arima(LPZ, xreg=fourier(LPZ, K=5), seasonal=FALSE)
+
+fit_LPZ6 <- auto.arima(LPZ, xreg=fourier(LPZ, K=6), seasonal=FALSE)
+
+fit_LPZ7 <- auto.arima(LPZ, xreg=fourier(LPZ, K=7), seasonal=FALSE)
+
+fit_LPZ8 <- auto.arima(LPZ, xreg=fourier(LPZ, K=8), seasonal=FALSE)
+
+fit_LPZ9 <- auto.arima(LPZ, xreg=fourier(LPZ, K=9), seasonal=FALSE)
+
+fit_LPZ10 <- auto.arima(LPZ, xreg=fourier(LPZ, K=10), seasonal=FALSE)
+
+fit_LPZ11 <- auto.arima(LPZ, xreg=fourier(LPZ, K=11), seasonal=FALSE)
+
+fit_LPZ12 <- auto.arima(LPZ, xreg=fourier(LPZ, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_LPZ1),AIC(fit_LPZ2),AIC(fit_LPZ3),AIC(fit_LPZ4),AIC(fit_LPZ5),AIC(fit_LPZ6),AIC(fit_LPZ7),AIC(fit_LPZ8),AIC(fit_LPZ9),AIC(fit_LPZ10),AIC(fit_LPZ11),AIC(fit_LPZ12))
+plot(aics)
+```
+
+```{r}
+fc_arima_man_LPZ <- forecast(fit_LPZ1, xreg=fourier(LPZ, K=1, h=26))
+
+plot(fc_arima_man_LPZ)
+```
+
+```{r}
+fc_arima_man_LPZ
+```
+
+```{r}
+accuracy(fc_LPZ)
+```
+
+```{r}
+accuracy(fc_arima_LPZ)
+```
+
+```{r}
+accuracy(fc_arima_man_LPZ)
+```
+
+# (MARC Data)
+
+```{r}
+MARC <- read_csv("/cloud/project/CSV/MARC.csv", col_types = cols(Week = col_date(format = "%Y-%m-%d")))
+
+MARC <- ts(MARC[,2], freq=365.25/7, start=2021+15/365.25)
+
+MARC %>%
+
+  autoplot()
+```
+
+```{r}
+MARC_decomp <- decompose(na.locf(MARC), type="additive")
+
+autoplot(MARC_decomp)
+```
+
+```{r}
+training_MARC <- subset(MARC, end=length(MARC)-8)
+
+test_MARC <- subset(MARC, start=length(MARC)-8)
+
+fc_training_MARC <- forecast(training_MARC)
+
+fc_training_MARC %>%
+
+  forecast(h=60) %>%
+
+  autoplot() +autolayer(test_MARC)
+```
+
+```{r}
+fc_MARC <-forecast(MARC)
+
+fc_MARC %>%
+
+  forecast(h=20) %>%
+
+  autoplot()
+```
+
+```{r}
+fc_MARC
+```
+
+```{r}
+tail(MARC)
+
+min(MARC)
+
+max(MARC)
+
+which.min(MARC)
+```
+
+```{r}
+bestfit_MARC <- list(aicc=Inf)
+
+for(i in 1:25)
+
+{
+
+  fit_MARC <- auto.arima(MARC, xreg=fourier(MARC, K=i), seasonal=FALSE)
+
+  if(fit_MARC$aicc < bestfit_MARC$aicc)
+
+    bestfit_MARC <- fit_MARC
+
+  else break;
+
+}
+```
+
+```{r}
+summary(bestfit_MARC)
+```
+
+```{r}
+fc_arima_MARC <- forecast(bestfit_MARC, xreg=fourier(MARC, K=1, h=26))
+
+plot(fc_arima_MARC)
+```
+
+```{r}
+fit_MARC1 <- auto.arima(MARC, xreg=fourier(MARC, K=1), seasonal=FALSE)
+
+fit_MARC2 <- auto.arima(MARC, xreg=fourier(MARC, K=2), seasonal=FALSE)
+
+fit_MARC3 <- auto.arima(MARC, xreg=fourier(MARC, K=3), seasonal=FALSE)
+
+fit_MARC4 <- auto.arima(MARC, xreg=fourier(MARC, K=4), seasonal=FALSE)
+
+fit_MARC5 <- auto.arima(MARC, xreg=fourier(MARC, K=5), seasonal=FALSE)
+
+fit_MARC6 <- auto.arima(MARC, xreg=fourier(MARC, K=6), seasonal=FALSE)
+
+fit_MARC7 <- auto.arima(MARC, xreg=fourier(MARC, K=7), seasonal=FALSE)
+
+fit_MARC8 <- auto.arima(MARC, xreg=fourier(MARC, K=8), seasonal=FALSE)
+
+fit_MARC9 <- auto.arima(MARC, xreg=fourier(MARC, K=9), seasonal=FALSE)
+
+fit_MARC10 <- auto.arima(MARC, xreg=fourier(MARC, K=10), seasonal=FALSE)
+
+fit_MARC11 <- auto.arima(MARC, xreg=fourier(MARC, K=11), seasonal=FALSE)
+
+fit_MARC12 <- auto.arima(MARC, xreg=fourier(MARC, K=12), seasonal=FALSE)
+```
+
+```{r}
+aics<-c(AIC(fit_MARC1),AIC(fit_MARC2),AIC(fit_MARC3),AIC(fit_MARC4),AIC(fit_MARC5),AIC(fit_MARC6),AIC(fit_MARC7),AIC(fit_MARC8),AIC(fit_MARC9),AIC(fit_MARC10),AIC(fit_MARC11),AIC(fit_MARC12))
+
+plot(aics)
+```
+
+```{r}
+fc_arima_man_MARC <- forecast(fit_MARC1, xreg=fourier(MARC, K=1, h=26))
+
+plot(fc_arima_man_MARC)
+```
+
+```{r}
+fc_arima_man_MARC
+```
+
+```{r}
+accuracy(fc_MARC)
+```
+
+```{r}
+accuracy(fc_arima_MARC)
+```
+
+```{r}
+accuracy(fc_arima_man_MARC)
+```
+
